@@ -10,7 +10,7 @@ const Page = () => {
         <AppBar />
         <HeroCard />
       </ClientOnly>
-      <Footer />
+      {/* <Footer /> */}
     </>
   );
 };

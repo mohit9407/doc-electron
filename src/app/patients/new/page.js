@@ -15,6 +15,7 @@ const totalForm = 3;
 const Page = () => {
   const [formStep, setFormStep] = useState(0);
   const [progress, setProgress] = useState(0);
+  const [patientinfo, setpatientinfo] = useState(null);
 
   useEffect(() => {
     const progress = 100 / totalForm;
@@ -41,9 +42,9 @@ const Page = () => {
           </Button>
         </div>
       )}
-      {formStep === 0 && <AddStaffForm setFormStep={setFormStep} />}
-      {formStep === 1 && <AddPatientSecForm setFormStep={setFormStep} />}
-      {formStep === 2 && <AddPatientThirdForm setFormStep={setFormStep} />}
+      {formStep === 0 && <AddStaffForm setpatientinfo={setpatientinfo} patientinfo={patientinfo} setFormStep={setFormStep} />}
+      {formStep === 1 && <AddPatientSecForm setpatientinfo={setpatientinfo} patientinfo={patientinfo} setFormStep={setFormStep} />}
+      {formStep === 2 && <AddPatientThirdForm setpatientinfo={setpatientinfo} patientinfo={patientinfo} setFormStep={setFormStep} />}
     </ClientOnly>
   );
 };
