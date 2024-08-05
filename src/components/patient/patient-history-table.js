@@ -18,32 +18,31 @@ import {
 } from "@/components/ui/table";
 
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import StaffTableActions from "./staff-table-actions";
+import HistoryTableActions from "./history-table-action";
 
 const columns = [
   {
-    accessorKey: "name",
-    header: "Name",
+    accessorKey: "chiefComplaints",
+    header: "Chief Complaints",
   },
   {
-    accessorKey: "mobileNumber",
-    header: "Mobile Number",
+    accessorKey: "displayDate",
+    header: "Date & Time",
   },
   {
     id: "actions",
     header: "Actions",
     cell: ({ row }) => {
-      const staff = row.original;
-      return <StaffTableActions staff={staff} />;
+      const patient = row.original;
+      return <HistoryTableActions patientHistory={patient} />;
     },
   },
 ];
 
-const StaffTable = ({ data }) => {
+const HistoryTable = ({ data }) => {
   const [columnFilters, setColumnFilters] = useState([]);
   const table = useReactTable({
-    data,
+    data: [...data],
     columns,
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
@@ -56,24 +55,6 @@ const StaffTable = ({ data }) => {
 
   return (
     <div>
-      <div className="flex row justify-between py-4">
-        <Input
-          placeholder="Filter Names..."
-          value={table.getColumn("name")?.getFilterValue() ?? ""}
-          onChange={(event) =>
-            table.getColumn("name")?.setFilterValue(event.target.value)
-          }
-          className="max-w-sm mx-2"
-        />
-        <Input
-          placeholder="Filter Mobile Numbers..."
-          value={table.getColumn("mobileNumber")?.getFilterValue() ?? ""}
-          onChange={(event) =>
-            table.getColumn("mobileNumber")?.setFilterValue(event.target.value)
-          }
-          className="max-w-sm mx-2"
-        />
-      </div>
       <div className="rounded-md border">
         <Table>
           <TableHeader>
@@ -143,4 +124,4 @@ const StaffTable = ({ data }) => {
   );
 };
 
-export default StaffTable;
+export default HistoryTable;

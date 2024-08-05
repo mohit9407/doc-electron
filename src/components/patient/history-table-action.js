@@ -1,7 +1,5 @@
 "use client";
 
-import Link from "next/link";
-
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -14,18 +12,18 @@ import {
 } from "../ui/dialog";
 import { toast } from "@/components/ui/use-toast";
 import { useState } from "react";
-import axios from "axios";
 import { useRouter } from "next/navigation";
 import { Sheet, SheetTrigger } from "@/components/ui/sheet";
 
-const StaffTableActions = ({ staff }) => {
+const HistoryTableActions = ({ patientHistory, deleteHandler }) => {
   const [disabled, setDisabled] = useState(false);
   const router = useRouter();
   const moveToTrash = async () => {
     try {
       setDisabled(true);
+      deleteHandler(patientHistory.id);
       toast({
-        title: "Patient moved to trash",
+        title: "Patient history moved to trash",
       });
       router.refresh();
     } catch (error) {
@@ -39,26 +37,9 @@ const StaffTableActions = ({ staff }) => {
     }
   };
 
-  const restore = async () => {
-    try {
-      setDisabled(true);
-      await axios.patch(`/api/staff/${staff.id}/restore`);
-      toast({
-        title: "Staff restored",
-      });
-      router.refresh();
-    } catch (error) {
-      toast({
-        title: error.response ? error.response.data.message : error.message,
+  const restore = async () => {};
 
-        variant: "destructive",
-      });
-    } finally {
-      setDisabled(false);
-    }
-  };
-
-  return staff.isTrashed ? (
+  return patientHistory.isDeleted ? (
     <Dialog>
       <DialogTrigger asChild>
         <Button>Restore</Button>
@@ -67,7 +48,7 @@ const StaffTableActions = ({ staff }) => {
         <DialogHeader>
           <DialogTitle>Are you sure ?</DialogTitle>
         </DialogHeader>
-        <DialogDescription>Restore {staff.name} ?</DialogDescription>
+        <DialogDescription>Restore {patientHistory.name} ?</DialogDescription>
         <DialogFooter>
           <Button disabled={disabled} onClick={restore}>
             Restore
@@ -79,9 +60,12 @@ const StaffTableActions = ({ staff }) => {
     <div className="flex flex-row justify-between max-w-sm w-full">
       <Sheet>
         <SheetTrigger asChild>
-          <Link href={`/patients/edit/${staff.id}`}>
-            <Button className="scale-90">Edit</Button>
-          </Link>
+          <Button
+            className="scale-90"
+            onClick={() => console.log("on Edit Click", patientHistory)}
+          >
+            Edit
+          </Button>
         </SheetTrigger>
       </Sheet>
       <Dialog>
@@ -94,7 +78,9 @@ const StaffTableActions = ({ staff }) => {
           <DialogHeader>
             <DialogTitle>Are you sure?</DialogTitle>
           </DialogHeader>
-          <DialogDescription>Move {staff.name} to trash</DialogDescription>
+          <DialogDescription>
+            Move {patientHistory.chiefComplaints} to trash
+          </DialogDescription>
           <DialogFooter>
             <Button disabled={disabled} onClick={moveToTrash}>
               Move to trash
@@ -106,4 +92,4 @@ const StaffTableActions = ({ staff }) => {
   );
 };
 
-export default StaffTableActions;
+export default HistoryTableActions;

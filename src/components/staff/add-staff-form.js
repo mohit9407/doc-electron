@@ -52,46 +52,37 @@ const AddStaffForm = ({ setFormStep, setpatientinfo, patientinfo }) => {
   const form = useForm({
     resolver,
     defaultValues: {
-      date: patientinfo?.date?? new Date(),
-      name: patientinfo?.name?? '',
-      mobileNumber: patientinfo?.mobileNumber?? '',
-      age: patientinfo?.age?? '',
-      weight: patientinfo?.weight?? '',
-      menstrualHistory: patientinfo?.menstrualHistory?? '',
-      gender: patientinfo?.gender?? '',
-      maritalStatus: patientinfo?.maritalStatus?? '',
+      date: patientinfo?.date ?? new Date(),
+      name: patientinfo?.name ?? "",
+      mobileNumber: patientinfo?.mobileNumber ?? "",
+      age: patientinfo?.age ?? "",
+      weight: patientinfo?.weight ?? "",
+      menstrualHistory: patientinfo?.menstrualHistory ?? "",
+      gender: patientinfo?.gender ?? "",
+      maritalStatus: patientinfo?.maritalStatus ?? "",
     },
   });
 
   useEffect(() => {
     if (patientinfo) {
       setFormSelectVal({
-          maritalStatus: patientinfo.maritalStatus,
-          gender: patientinfo.gender,
-        });
+        maritalStatus: patientinfo.maritalStatus,
+        gender: patientinfo.gender,
+      });
     }
-  },[patientinfo]);
+  }, [patientinfo]);
 
   const onChangeHandler = (field, value) => {
     setFormSelectVal((prevValue) => ({ ...prevValue, [field]: value }));
   };
-  
+
   async function onSubmit(data) {
     try {
-      // const addedUser = await axios.post("/api/patients", data);
-      // if (addedUser.status === 201) {
-        // const addedPatient = addedUser.data.data;
-        form.reset();
-        // setpatientinfo(addedPatient);
-        setpatientinfo(data);
-        setFormStep(1);
-        // toast({
-        //   title: "Patient Added",
-        // });
-        router.refresh();
-      // }
+      setpatientinfo({ ...patientinfo, ...data });
+      setFormStep(1);
+      form.reset();
+      router.refresh();
     } catch (error) {
-      console.log("goted on error; ", error);
       toast({
         title: error.response ? error.response.data.message : error.message,
 
@@ -102,233 +93,233 @@ const AddStaffForm = ({ setFormStep, setpatientinfo, patientinfo }) => {
 
   return (
     <>
-        {"Add Patient"}
-    <Card className="mt-4">
-      <CardContent className="p-4">
-        <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)}>
-            <FormField
-              control={form.control}
-              name="date"
-              render={({ field }) => (
-                <FormItem className="flex flex-col">
-                  <FormLabel>Date</FormLabel>
-                  <Popover>
-                    <PopoverTrigger asChild>
-                      <FormControl>
-                        <Button
+      {"Add Patient"}
+      <Card className="mt-4">
+        <CardContent className="p-4">
+          <Form {...form}>
+            <form onSubmit={form.handleSubmit(onSubmit)}>
+              <FormField
+                control={form.control}
+                name="date"
+                render={({ field }) => (
+                  <FormItem className="flex flex-col">
+                    <FormLabel>Date</FormLabel>
+                    <Popover>
+                      <PopoverTrigger asChild>
+                        <FormControl>
+                          <Button
+                            disabled={form.formState.isSubmitting}
+                            variant={"outline"}
+                            className={cn(
+                              "w-full pl-3 text-left font-normal",
+                              !field.value && "text-muted-foreground"
+                            )}
+                          >
+                            {field.value ? (
+                              format(field.value, "PPP")
+                            ) : (
+                              <span>Date</span>
+                            )}
+                            <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                          </Button>
+                        </FormControl>
+                      </PopoverTrigger>
+                      <PopoverContent className="w-auto p-0" align="start">
+                        <Calendar
                           disabled={form.formState.isSubmitting}
-                          variant={"outline"}
-                          className={cn(
-                            "w-full pl-3 text-left font-normal",
-                            !field.value && "text-muted-foreground"
-                          )}
-                        >
-                          {field.value ? (
-                            format(field.value, "PPP")
-                          ) : (
-                            <span>Date</span>
-                          )}
-                          <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
-                        </Button>
-                      </FormControl>
-                    </PopoverTrigger>
-                    <PopoverContent className="w-auto p-0" align="start">
-                      <Calendar
-                        disabled={form.formState.isSubmitting}
-                        className="w-full"
-                        mode="single"
-                        selected={field.value}
-                        onSelect={field.onChange}
-                        initialFocus
-                      />
-                    </PopoverContent>
-                  </Popover>
-                  <FormDescription>Patient visited Date</FormDescription>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="name"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Name</FormLabel>
-                  <FormControl>
-                    <Input
-                      type="text"
-                      disabled={form.formState.isSubmitting}
-                      placeholder="Name"
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormDescription>Name of the Patient</FormDescription>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            <FormField
-              control={form.control}
-              name="mobileNumber"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Mobile No.</FormLabel>
-                  <FormControl>
-                    <Input
-                      type="number"
-                      disabled={form.formState.isSubmitting}
-                      placeholder="Mobile No."
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormDescription>Patient Mobile Number</FormDescription>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            <FormField
-              control={form.control}
-              name="age"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Age</FormLabel>
-                  <FormControl>
-                    <Input
-                      type="tel"
-                      disabled={form.formState.isSubmitting}
-                      placeholder="Age.."
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormDescription>Age of patient</FormDescription>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="gender"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Sex</FormLabel>
-                  <Select
-                    // onValueChange={field.onChange}
-                    // defaultValue={field.value}
-                    onValueChange={(value) => {
-                      onChangeHandler("gender", value);
-                      field.onChange(value);
-                    }}
-                    value={formSelectVal["gender"] || field.value}
-                  >
-                    <FormControl>
-                      <SelectTrigger>
-                        <SelectValue placeholder="Select Sex" />
-                      </SelectTrigger>
-                    </FormControl>
-                    <SelectContent>
-                      {sexType.map((_genderType) => (
-                        <SelectItem value={_genderType} key={_genderType}>
-                          {_genderType.toLocaleUpperCase()}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                  <FormDescription>Patient Sex(Male, Female)</FormDescription>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="weight"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Weight</FormLabel>
-                  <FormControl>
-                    <Input
-                      type="tel"
-                      disabled={form.formState.isSubmitting}
-                      placeholder="Weight.."
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormDescription>Weight of patient</FormDescription>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="maritalStatus"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Marital Status</FormLabel>
-                  <Select
-                    onValueChange={(value) => {
-                      field.onChange(value);
-                      onChangeHandler("maritalStatus", value);
-                    }}
-                    value={formSelectVal["maritalStatus"] || field.value}
-                  >
-                    <FormControl>
-                      <SelectTrigger>
-                        <SelectValue
-                          value="Select Marital Status"
-                          placeholder="Select Marital Status"
+                          className="w-full"
+                          mode="single"
+                          selected={field.value}
+                          onSelect={field.onChange}
+                          initialFocus
                         />
-                      </SelectTrigger>
+                      </PopoverContent>
+                    </Popover>
+                    <FormDescription>Patient visited Date</FormDescription>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="name"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Name</FormLabel>
+                    <FormControl>
+                      <Input
+                        type="text"
+                        disabled={form.formState.isSubmitting}
+                        placeholder="Name"
+                        {...field}
+                      />
                     </FormControl>
-                    <SelectContent>
-                      {maritalStatus.map((_statusType) => (
-                        <SelectItem value={_statusType} key={_statusType}>
-                          {_statusType.toLocaleUpperCase()}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                  <FormDescription>
-                    Patient Marital Status(Single, Married)
-                  </FormDescription>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="menstrualHistory"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Menstrual History</FormLabel>
-                  <FormControl>
-                    <Textarea
-                      className="resize-none"
-                      placeholder="Menstrual history of patient"
-                      type="text"
-                      disabled={form.formState.isSubmitting}
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormDescription>
-                    Menstrual history of patient
-                  </FormDescription>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <Button
-              disabled={form.formState.isSubmitting}
-              className="w-full my-2"
-              type="submit"
-            >
-              Add Patient
-            </Button>
-          </form>
-        </Form>
-      </CardContent>
-    </Card>
+                    <FormDescription>Name of the Patient</FormDescription>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              <FormField
+                control={form.control}
+                name="mobileNumber"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Mobile No.</FormLabel>
+                    <FormControl>
+                      <Input
+                        type="number"
+                        disabled={form.formState.isSubmitting}
+                        placeholder="Mobile No."
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormDescription>Patient Mobile Number</FormDescription>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              <FormField
+                control={form.control}
+                name="age"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Age</FormLabel>
+                    <FormControl>
+                      <Input
+                        type="tel"
+                        disabled={form.formState.isSubmitting}
+                        placeholder="Age.."
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormDescription>Age of patient</FormDescription>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="gender"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Sex</FormLabel>
+                    <Select
+                      // onValueChange={field.onChange}
+                      // defaultValue={field.value}
+                      onValueChange={(value) => {
+                        onChangeHandler("gender", value);
+                        field.onChange(value);
+                      }}
+                      value={formSelectVal["gender"] || field.value}
+                    >
+                      <FormControl>
+                        <SelectTrigger>
+                          <SelectValue placeholder="Select Sex" />
+                        </SelectTrigger>
+                      </FormControl>
+                      <SelectContent>
+                        {sexType.map((_genderType) => (
+                          <SelectItem value={_genderType} key={_genderType}>
+                            {_genderType.toLocaleUpperCase()}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                    <FormDescription>Patient Sex(Male, Female)</FormDescription>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="weight"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Weight</FormLabel>
+                    <FormControl>
+                      <Input
+                        type="tel"
+                        disabled={form.formState.isSubmitting}
+                        placeholder="Weight.."
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormDescription>Weight of patient</FormDescription>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="maritalStatus"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Marital Status</FormLabel>
+                    <Select
+                      onValueChange={(value) => {
+                        field.onChange(value);
+                        onChangeHandler("maritalStatus", value);
+                      }}
+                      value={formSelectVal["maritalStatus"] || field.value}
+                    >
+                      <FormControl>
+                        <SelectTrigger>
+                          <SelectValue
+                            value="Select Marital Status"
+                            placeholder="Select Marital Status"
+                          />
+                        </SelectTrigger>
+                      </FormControl>
+                      <SelectContent>
+                        {maritalStatus.map((_statusType) => (
+                          <SelectItem value={_statusType} key={_statusType}>
+                            {_statusType.toLocaleUpperCase()}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                    <FormDescription>
+                      Patient Marital Status(Single, Married)
+                    </FormDescription>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="menstrualHistory"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Menstrual History</FormLabel>
+                    <FormControl>
+                      <Textarea
+                        className="resize-none"
+                        placeholder="Menstrual history of patient"
+                        type="text"
+                        disabled={form.formState.isSubmitting}
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormDescription>
+                      Menstrual history of patient
+                    </FormDescription>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <Button
+                disabled={form.formState.isSubmitting}
+                className="w-full my-2"
+                type="submit"
+              >
+                Add Patient
+              </Button>
+            </form>
+          </Form>
+        </CardContent>
+      </Card>
     </>
   );
 };
