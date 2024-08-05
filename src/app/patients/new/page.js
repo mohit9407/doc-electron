@@ -5,11 +5,12 @@ import { Root, Indicator } from "@radix-ui/react-progress";
 import ClientOnly from "@/components/client-only";
 import AddStaffForm from "@/components/staff/add-staff-form";
 import AddPatientSecForm from "@/components/staff/add-patient-sec-form";
+import AddPatientThirdForm from "@/components/staff/add-patient-third-form";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import "./page.css";
 
-const totalForm = 4;
+const totalForm = 3;
 
 const Page = () => {
   const [formStep, setFormStep] = useState(0);
@@ -42,6 +43,7 @@ const Page = () => {
       )}
       {formStep === 0 && <AddStaffForm setFormStep={setFormStep} />}
       {formStep === 1 && <AddPatientSecForm setFormStep={setFormStep} />}
+      {formStep === 2 && <AddPatientThirdForm setFormStep={setFormStep} />}
     </ClientOnly>
   );
 };

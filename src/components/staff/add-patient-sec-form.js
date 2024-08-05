@@ -53,6 +53,8 @@ const AddPatientSecForm = ({ setFormStep }) => {
   }
 
   return (
+    <>
+        {"Add Patient History"}
     <Card className="mt-4">
       <CardContent className="p-4">
         <Form {...form}>
@@ -117,6 +119,48 @@ const AddPatientSecForm = ({ setFormStep }) => {
                 </FormItem>
               )}
             />
+
+            <FormField
+              control={form.control}
+              name="examinationFindings"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Examination Findings</FormLabel>
+                  <FormControl>
+                    <Textarea
+                      className="resize-none"
+                      placeholder="Examination Findings"
+                      type="text"
+                      disabled={form.formState.isSubmitting}
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormDescription>Examination Findings</FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="investigationAdvice"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Investigation Advice</FormLabel>
+                  <FormControl>
+                    <Textarea
+                      className="resize-none"
+                      placeholder="Investigation Advice"
+                      type="text"
+                      disabled={form.formState.isSubmitting}
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormDescription>Investigation Advice</FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
             <Button
               disabled={form.formState.isSubmitting}
               className="w-full my-2"
@@ -128,6 +172,7 @@ const AddPatientSecForm = ({ setFormStep }) => {
         </Form>
       </CardContent>
     </Card>
+    </>
   );
 };
 
