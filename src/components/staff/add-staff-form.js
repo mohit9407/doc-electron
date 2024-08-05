@@ -92,6 +92,8 @@ const AddStaffForm = ({ setFormStep }) => {
   }
 
   return (
+    <>
+        {"Add Patient"}
     <Card className="mt-4">
       <CardContent className="p-4">
         <Form {...form}>
@@ -157,6 +159,27 @@ const AddStaffForm = ({ setFormStep }) => {
                 </FormItem>
               )}
             />
+
+            <FormField
+              control={form.control}
+              name="mobileNumber"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Mobile No.</FormLabel>
+                  <FormControl>
+                    <Input
+                      type="number"
+                      disabled={form.formState.isSubmitting}
+                      placeholder="Mobile No."
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormDescription>Patient Mobile Number</FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
             <FormField
               control={form.control}
               name="age"
@@ -297,6 +320,7 @@ const AddStaffForm = ({ setFormStep }) => {
         </Form>
       </CardContent>
     </Card>
+    </>
   );
 };
 
