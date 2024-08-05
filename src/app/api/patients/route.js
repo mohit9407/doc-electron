@@ -15,7 +15,7 @@ export async function POST(req) {
       // const filePath = path.join(process.cwd(), "src/data", "patients.json");
       const reqData = { id: uuidV4(), ...body };
       const patientRecords = JSON.parse(
-        readFileSync(`C:/Users/admin/Desktop/app.json`, "utf8") || null
+        readFileSync(`/home/fcom4/Desktop/app.json`, "utf8") || null
       );
       let patientObj = {};
       if (!patientRecords || (patientRecords && !patientRecords?.patientInfo)) {
@@ -26,10 +26,7 @@ export async function POST(req) {
         patientObj = { ...patientRecords };
         patientObj.patientInfo.push(reqData);
       }
-      writeFileSync(
-        "C:/Users/admin/Desktop/app.json",
-        JSON.stringify(patientObj)
-      );
+      writeFileSync("/home/fcom4/Desktop/app.json", JSON.stringify(patientObj));
       return NextResponse.json(
         { message: "Patient added successfully!", data: reqData },
         { status: 201 }

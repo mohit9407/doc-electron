@@ -1,5 +1,7 @@
 "use client";
 
+import Link from "next/link";
+
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -30,9 +32,8 @@ const StaffTableActions = ({ staff }) => {
   const moveToTrash = async () => {
     try {
       setDisabled(true);
-      await axios.patch(`/api/staff/${staff.id}/trash`);
       toast({
-        title: "Staff moved to trash",
+        title: "Patient moved to trash",
       });
       router.refresh();
     } catch (error) {
@@ -64,6 +65,7 @@ const StaffTableActions = ({ staff }) => {
       setDisabled(false);
     }
   };
+
   return staff.isTrashed ? (
     <Dialog>
       <DialogTrigger asChild>
@@ -85,16 +87,10 @@ const StaffTableActions = ({ staff }) => {
     <div className="flex flex-row justify-between max-w-sm w-full">
       <Sheet>
         <SheetTrigger asChild>
-          <Button className="scale-90">Edit</Button>
+          <Link href={`patients/edit/123`}>
+            <Button className="scale-90">Edit</Button>
+          </Link>
         </SheetTrigger>
-        <SheetContent side="bottom">
-          <SheetHeader>
-            <SheetTitle>Edit Staff Details</SheetTitle>
-          </SheetHeader>
-          <SheetDescription>
-            <EditStaffForm staff={staff} />
-          </SheetDescription>
-        </SheetContent>
       </Sheet>
       <Dialog>
         <DialogTrigger asChild>
