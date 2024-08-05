@@ -1,8 +1,7 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import axios from "axios";
-import { readFileSync, writeFile } from "fs";
 import { useRouter } from "next/navigation";
 import { format } from "date-fns";
 import { Card, CardContent } from "@/components/ui/card";
@@ -42,7 +41,7 @@ import { staffValidationSchema } from "@/lib/schema/staff/staff-schema";
 import { maritalStatus, sexType } from "@/lib/constants/patient";
 import { cn } from "@/lib/utils";
 
-const AddStaffForm = ({ setFormStep }) => {
+const AddStaffForm = ({ setFormStep, setpatientinfo, patientinfo }) => {
   const [formSelectVal, setFormSelectVal] = useState({
     maritalStatus: "",
     gender: "",
@@ -53,34 +52,44 @@ const AddStaffForm = ({ setFormStep }) => {
   const form = useForm({
     resolver,
     defaultValues: {
-      date: new Date(),
+      date: patientinfo?.date?? new Date(),
+      name: patientinfo?.name?? '',
+      mobileNumber: patientinfo?.mobileNumber?? '',
+      age: patientinfo?.age?? '',
+      weight: patientinfo?.weight?? '',
+      menstrualHistory: patientinfo?.menstrualHistory?? '',
+      gender: patientinfo?.gender?? '',
+      maritalStatus: patientinfo?.maritalStatus?? '',
     },
   });
+
+  useEffect(() => {
+    if (patientinfo) {
+      setFormSelectVal({
+          maritalStatus: patientinfo.maritalStatus,
+          gender: patientinfo.gender,
+        });
+    }
+  },[patientinfo]);
 
   const onChangeHandler = (field, value) => {
     setFormSelectVal((prevValue) => ({ ...prevValue, [field]: value }));
   };
-
+  
   async function onSubmit(data) {
     try {
-      const addedUser = await axios.post("/api/patients", data);
-      if (addedUser.status === 201) {
+      // const addedUser = await axios.post("/api/patients", data);
+      // if (addedUser.status === 201) {
+        // const addedPatient = addedUser.data.data;
         form.reset();
-        form.setValue("date", new Date());
-        form.setValue("name", "");
-        form.setValue("age", "");
-        form.setValue("weight", "");
-        form.setValue("menstrualHistory", "");
-        setFormSelectVal({
-          maritalStatus: "",
-          gender: "",
-        });
+        // setpatientinfo(addedPatient);
+        setpatientinfo(data);
         setFormStep(1);
-        toast({
-          title: "Patient Added",
-        });
+        // toast({
+        //   title: "Patient Added",
+        // });
         router.refresh();
-      }
+      // }
     } catch (error) {
       console.log("goted on error; ", error);
       toast({
@@ -212,7 +221,7 @@ const AddStaffForm = ({ setFormStep }) => {
                       onChangeHandler("gender", value);
                       field.onChange(value);
                     }}
-                    value={formSelectVal["gender"]}
+                    value={formSelectVal["gender"] || field.value}
                   >
                     <FormControl>
                       <SelectTrigger>
@@ -262,7 +271,7 @@ const AddStaffForm = ({ setFormStep }) => {
                       field.onChange(value);
                       onChangeHandler("maritalStatus", value);
                     }}
-                    value={formSelectVal["maritalStatus"]}
+                    value={formSelectVal["maritalStatus"] || field.value}
                   >
                     <FormControl>
                       <SelectTrigger>

@@ -1,6 +1,8 @@
 "use client";
 import { useForm } from "react-hook-form";
-import { useRouter } from "next/navigation";
+import { useRouter, redirect } from "next/navigation";
+import { useEffect, useState } from "react";
+import axios from "axios";
 import { Card, CardContent } from "@/components/ui/card";
 import { yupResolver } from "@hookform/resolvers/yup";
 import {
@@ -19,26 +21,30 @@ import { toast } from "@/components/ui/use-toast";
 import { patientThirdFormValidationSchema } from "@/lib/schema/staff/staff-schema";
 import { Input } from "../ui/input";
 
-const AddPatientThirdForm = ({ setFormStep }) => {
+const AddPatientThirdForm = ({ setFormStep, setpatientinfo, patientinfo }) => {
+  const [isSubmited, setIsSubmitted] = useState(false)
   const router = useRouter();
   const resolver = yupResolver(patientThirdFormValidationSchema);
   const form = useForm({
     resolver,
     defaultValues: {
-      date: new Date(),
+      treatment:  patientinfo?.treatment ?? "",
+      amountChange:  patientinfo?.amountChange ?? "",
     },
   });
 
-  async function onSubmit(data) {
+  const sendDataToApi = async () => {
     try {
-      form.reset();
-      form.setValue("treatment", "");
-
-      setFormStep(3);
-      toast({
-        title: "History Added",
-      });
-      router.refresh();
+      const addedUser = await axios.post("/api/patients", patientinfo);
+      if (addedUser.status === 201) {
+        setIsSubmitted(false)
+        setFormStep(3);
+        setpatientinfo(null)
+        router.refresh();
+        toast({
+          title: "Patient Added",
+        });
+      }
     } catch (error) {
       toast({
         title: error.response ? error.response.data.message : error.message,
@@ -48,9 +54,27 @@ const AddPatientThirdForm = ({ setFormStep }) => {
     }
   }
 
+  async function onSubmit(data) {
+    try {
+      setpatientinfo({patientinfo, ...data});
+      setIsSubmitted(true);
+    } catch (error) {
+      toast({
+        title: error.response ? error.response.data.message : error.message,
+
+        variant: "destructive",
+      });
+    }
+  }
+  useEffect(() => {
+    if (isSubmited && patientinfo?.amountCharges) {
+      sendDataToApi();
+    }
+  },[patientinfo, isSubmited]);
+
   return (
     <>
-      {"Payment History"}
+      {"Payment"}
       <Card className="mt-4">
         <CardContent className="p-4">
           <Form {...form}>
@@ -78,19 +102,19 @@ const AddPatientThirdForm = ({ setFormStep }) => {
 
               <FormField
                 control={form.control}
-                name="amountChange"
+                name="amountCharges"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Amount Change</FormLabel>
+                    <FormLabel>Amount Charges</FormLabel>
                     <FormControl>
                       <Input
                         type="tel"
                         disabled={form.formState.isSubmitting}
-                        placeholder="Amount Change"
+                        placeholder="Amount Charges"
                         {...field}
                       />
                     </FormControl>
-                    <FormDescription>Amount Change</FormDescription>
+                    <FormDescription>Amount Charges</FormDescription>
                     <FormMessage />
                   </FormItem>
                 )}
@@ -101,7 +125,7 @@ const AddPatientThirdForm = ({ setFormStep }) => {
                 className="w-full my-2"
                 type="submit"
               >
-                Add History
+                Complete payment
               </Button>
             </form>
           </Form>

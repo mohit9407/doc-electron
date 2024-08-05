@@ -2,11 +2,10 @@ import * as yup from "yup";
 import { maritalStatus, sexType } from "@/lib/constants/patient";
 
 export const staffValidationSchema = yup.object({
-  date: yup.date().required("Date is required"),
+  date: yup.date().required("Date is required"),  
   name: yup
     .string()
     .required("Name is required")
-    .min(3, "Minimum 3 Characters for name")
     .max(25, "Maximum 25 characters for name"),
 
   mobileNumber: yup
@@ -64,8 +63,8 @@ export const patientSecFormValidationSchema = yup.object({
 });
 
 export const patientThirdFormValidationSchema = yup.object({
-  amountChange: yup
+  amountCharges: yup
   .string()
-  .required("Amount Change is required")
+  .required("Amount Charges is required")
   .max(200, "Maximum 200 Characters"),
 });
