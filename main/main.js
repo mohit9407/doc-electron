@@ -1,7 +1,3 @@
-// const { app, BrowserWindow } = require("electron");
-// const serve = require("electron-serve");
-// const path = require("path");
-
 import { app, BrowserWindow } from "electron";
 import serve from "electron-serve";
 import { fileURLToPath } from "url";

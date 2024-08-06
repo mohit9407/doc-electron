@@ -22,24 +22,24 @@ import { patientThirdFormValidationSchema } from "@/lib/schema/staff/staff-schem
 import { Input } from "../ui/input";
 
 const AddPatientThirdForm = ({ setFormStep, setpatientinfo, patientinfo }) => {
-  const [isSubmited, setIsSubmitted] = useState(false)
+  const [isSubmited, setIsSubmitted] = useState(false);
   const router = useRouter();
   const resolver = yupResolver(patientThirdFormValidationSchema);
   const form = useForm({
     resolver,
     defaultValues: {
-      treatment:  patientinfo?.treatment ?? "",
-      amountChange:  patientinfo?.amountChange ?? "",
+      treatment: patientinfo?.treatment ?? "",
+      amountChange: patientinfo?.amountChange ?? "",
     },
   });
 
   const sendDataToApi = async () => {
     try {
-      const addedUser = await axios.post("/api/patients", patientinfo);
+      const addedUser = await axios.post("/api/patients/new", patientinfo);
       if (addedUser.status === 201) {
-        setIsSubmitted(false)
+        setIsSubmitted(false);
         setFormStep(3);
-        setpatientinfo(null)
+        setpatientinfo(null);
         router.refresh();
         toast({
           title: "Patient Added",
@@ -52,11 +52,11 @@ const AddPatientThirdForm = ({ setFormStep, setpatientinfo, patientinfo }) => {
         variant: "destructive",
       });
     }
-  }
+  };
 
   async function onSubmit(data) {
     try {
-      setpatientinfo({patientinfo, ...data});
+      setpatientinfo({ ...patientinfo, ...data });
       setIsSubmitted(true);
     } catch (error) {
       toast({
@@ -70,7 +70,7 @@ const AddPatientThirdForm = ({ setFormStep, setpatientinfo, patientinfo }) => {
     if (isSubmited && patientinfo?.amountCharges) {
       sendDataToApi();
     }
-  },[patientinfo, isSubmited]);
+  }, [patientinfo, isSubmited]);
 
   return (
     <>
