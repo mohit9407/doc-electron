@@ -137,6 +137,20 @@ const StaffTable = ({ data }) => {
           >
             Next
           </Button>
+
+          <select
+            className="text-xs rounded-md h-8 border border-input bg-background shadow-sm hover:bg-accent hover:text-accent-foreground"
+            value={table.getState().pagination.pageSize}
+            onChange={(e) => {
+              table.setPageSize(Number(e.target.value));
+            }}
+          >
+            {[10, 30, 50, 100].map((pageSize) => (
+              <option key={pageSize} value={pageSize}>
+                Show {pageSize}
+              </option>
+            ))}
+          </select>
         </div>
       </div>
     </div>

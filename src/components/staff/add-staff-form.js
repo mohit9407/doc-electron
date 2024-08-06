@@ -1,7 +1,6 @@
 "use client";
 import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
-import axios from "axios";
 import { useRouter } from "next/navigation";
 import { format } from "date-fns";
 import { Card, CardContent } from "@/components/ui/card";
@@ -206,8 +205,6 @@ const AddStaffForm = ({ setFormStep, setpatientinfo, patientinfo }) => {
                   <FormItem>
                     <FormLabel>Sex</FormLabel>
                     <Select
-                      // onValueChange={field.onChange}
-                      // defaultValue={field.value}
                       onValueChange={(value) => {
                         onChangeHandler("gender", value);
                         field.onChange(value);

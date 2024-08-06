@@ -1,6 +1,6 @@
 "use client";
 import { useForm } from "react-hook-form";
-import { useRouter, redirect } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { Card, CardContent } from "@/components/ui/card";

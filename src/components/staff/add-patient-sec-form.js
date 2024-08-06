@@ -1,9 +1,6 @@
 "use client";
-import axios from "axios";
-import { readFileSync, writeFile } from "fs";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
-import { format } from "date-fns";
 import { Card, CardContent } from "@/components/ui/card";
 import { yupResolver } from "@hookform/resolvers/yup";
 import {
@@ -37,11 +34,9 @@ const AddPatientSecForm = ({ setFormStep, setpatientinfo, patientinfo }) => {
 
   async function onSubmit(data) {
     try {
-      setpatientinfo({...patientinfo, ...data});
+      setpatientinfo({ ...patientinfo, ...data });
       form.reset();
-      // form.setValue("chiefComplaints", "");
-      // form.setValue("allergicHistory", "");
-      // form.setValue("pastTreatmentReceived", "");
+
       setFormStep(2);
       toast({
         title: "History Added",
