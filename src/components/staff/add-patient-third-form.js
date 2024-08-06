@@ -38,12 +38,15 @@ const AddPatientThirdForm = ({ setFormStep, setpatientinfo, patientinfo }) => {
       const addedUser = await axios.post("/api/patients/new", patientinfo);
       if (addedUser.status === 201) {
         setIsSubmitted(false);
-        setFormStep(3);
         setpatientinfo(null);
         router.refresh();
+        setFormStep(3);
         toast({
           title: "Patient Added",
         });
+        setTimeout(() => {
+          router.push("/patients/manage");
+        }, 700);
       }
     } catch (error) {
       toast({

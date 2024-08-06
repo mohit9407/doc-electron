@@ -10,18 +10,22 @@ import {
   DialogDescription,
   DialogFooter,
 } from "../ui/dialog";
+import AddPatientSecForm from "../staff/add-patient-sec-form";
 import { toast } from "@/components/ui/use-toast";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { Sheet, SheetTrigger } from "@/components/ui/sheet";
 
-const HistoryTableActions = ({ patientHistory, deleteHandler }) => {
+const HistoryTableActions = ({
+  patientHistory,
+  deleteHistoryHandler,
+  updatePatientHistory,
+}) => {
   const [disabled, setDisabled] = useState(false);
   const router = useRouter();
   const moveToTrash = async () => {
     try {
       setDisabled(true);
-      deleteHandler(patientHistory.id);
+      deleteHistoryHandler(patientHistory.id);
       toast({
         title: "Patient history moved to trash",
       });
@@ -58,16 +62,18 @@ const HistoryTableActions = ({ patientHistory, deleteHandler }) => {
     </Dialog>
   ) : (
     <div className="flex flex-row justify-between max-w-sm w-full">
-      <Sheet>
-        <SheetTrigger asChild>
-          <Button
-            className="scale-90"
-            onClick={() => console.log("on Edit Click", patientHistory)}
-          >
-            Edit
-          </Button>
-        </SheetTrigger>
-      </Sheet>
+      <Dialog>
+        <DialogTrigger asChild>
+          <Button>Edit</Button>
+        </DialogTrigger>
+        <DialogContent className="overflow-y-scroll max-h-screen">
+          <DialogHeader>Edit Patient History</DialogHeader>
+          <AddPatientSecForm
+            patientinfo={{ ...patientHistory }}
+            updatePatientHistory={updatePatientHistory}
+          />
+        </DialogContent>
+      </Dialog>
       <Dialog>
         <DialogTrigger asChild>
           <Button className="scale-90" variant="destructive">

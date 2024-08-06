@@ -42,9 +42,27 @@ const Page = () => {
           </Button>
         </div>
       )}
-      {formStep === 0 && <AddStaffForm setpatientinfo={setpatientinfo} patientinfo={patientinfo} setFormStep={setFormStep} />}
-      {formStep === 1 && <AddPatientSecForm setpatientinfo={setpatientinfo} patientinfo={patientinfo} setFormStep={setFormStep} />}
-      {formStep === 2 && <AddPatientThirdForm setpatientinfo={setpatientinfo} patientinfo={patientinfo} setFormStep={setFormStep} />}
+      {formStep === 0 && (
+        <AddStaffForm
+          setpatientinfo={setpatientinfo}
+          patientinfo={patientinfo}
+          setFormStep={setFormStep}
+        />
+      )}
+      {formStep === 1 && (
+        <AddPatientSecForm
+          setpatientinfo={setpatientinfo}
+          patientinfo={patientinfo}
+          setFormStep={setFormStep}
+        />
+      )}
+      {formStep === 2 && (
+        <AddPatientThirdForm
+          setpatientinfo={setpatientinfo}
+          patientinfo={patientinfo}
+          setFormStep={setFormStep}
+        />
+      )}
     </ClientOnly>
   );
 };
