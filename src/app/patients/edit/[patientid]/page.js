@@ -4,17 +4,57 @@ import axios from "axios";
 import PatientTabs from "@/components/navbar/patient/patient-tabs";
 import AddStaffForm from "@/components/staff/add-staff-form";
 import EditPatientHistory from "@/components/patient/edit-patient-history";
+import { toast } from "@/components/ui/use-toast";
+
+const getHistoryIndex = (id, patientInfo) => {
+  return patientInfo.historyInfo.findIndex((infoObj) => infoObj.id === id);
+};
 
 const Page = ({ params }) => {
   const [currentTab, setCurrenttab] = useState("general-info");
   const [patientInfo, setPatientInfo] = useState(null);
 
+  const updatepatientInfo = async (patientInfo) => {
+    const updatedPatientInfo = await axios.put(
+      `/api/patients/edit/${params?.patientid}`,
+      patientInfo
+    );
+    if (updatedPatientInfo.status === 200) {
+      setPatientInfo({ ...updatedPatientInfo.data.data });
+      toast({
+        title: "Patient updated successfully!",
+      });
+    }
+  };
+
+  const updatePatientHistory = (id, historyData) => {
+    const historyIndx = getHistoryIndex(id, patientInfo);
+    if (historyIndx !== -1) {
+      let localPatientInfo = { ...patientInfo };
+      localPatientInfo.historyInfo[historyIndx] = {
+        ...localPatientInfo.historyInfo[historyIndx],
+        ...historyData,
+      };
+      updatepatientInfo(localPatientInfo);
+    }
+  };
+
+  const deleteHistoryHandler = (id) => {
+    const historyIndx = getHistoryIndex(id, patientInfo);
+    if (historyIndx !== -1) {
+      let localPatientInfo = { ...patientInfo };
+      localPatientInfo.historyInfo.splice(historyIndx, 1);
+      updatepatientInfo(localPatientInfo);
+    }
+  };
+
   const getPatientInfo = async () => {
     const patientForEdit = await axios.get(
       `/api/patients/edit/${params?.patientid}`
     );
-    if (patientForEdit.status === 200)
+    if (patientForEdit.status === 200) {
       setPatientInfo({ ...patientForEdit.data.data });
+    }
   };
 
   useEffect(() => {
@@ -35,8 +75,9 @@ const Page = ({ params }) => {
       )}
       {currentTab === "history" && (
         <EditPatientHistory
-          setPatientInfo={setPatientInfo}
           patientInfo={patientInfo}
+          deleteHistoryHandler={deleteHistoryHandler}
+          updatePatientHistory={updatePatientHistory}
         />
       )}
     </>

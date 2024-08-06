@@ -1,4 +1,5 @@
 "use client";
+import { v4 as uuidV4 } from "uuid";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
 import { Card, CardContent } from "@/components/ui/card";
@@ -18,7 +19,12 @@ import { toast } from "@/components/ui/use-toast";
 
 import { patientSecFormValidationSchema } from "@/lib/schema/staff/staff-schema";
 
-const AddPatientSecForm = ({ setFormStep, setpatientinfo, patientinfo }) => {
+const AddPatientSecForm = ({
+  setFormStep,
+  setpatientinfo,
+  patientinfo,
+  updatePatientHistory,
+}) => {
   const router = useRouter();
   const resolver = yupResolver(patientSecFormValidationSchema);
   const form = useForm({
@@ -34,18 +40,23 @@ const AddPatientSecForm = ({ setFormStep, setpatientinfo, patientinfo }) => {
 
   async function onSubmit(data) {
     try {
-      setpatientinfo({ ...patientinfo, ...data });
-      form.reset();
-
-      setFormStep(2);
-      toast({
-        title: "History Added",
-      });
-      router.refresh();
+      if (!patientinfo.id) {
+        setpatientinfo({
+          ...patientinfo,
+          historyInfo: [
+            { id: uuidV4(), isDeleted: false, date: new Date(), ...data },
+          ],
+        });
+        setFormStep(2);
+        form.reset();
+        router.refresh();
+        toast({
+          title: "History Added",
+        });
+      } else updatePatientHistory(patientinfo.id, { ...data });
     } catch (error) {
       toast({
         title: error.response ? error.response.data.message : error.message,
-
         variant: "destructive",
       });
     }
@@ -53,7 +64,7 @@ const AddPatientSecForm = ({ setFormStep, setpatientinfo, patientinfo }) => {
 
   return (
     <>
-      {"Add Patient History"}
+      {patientinfo?.id ? "" : "Add Patient History"}
       <Card className="mt-4">
         <CardContent className="p-4">
           <Form {...form}>
@@ -169,7 +180,7 @@ const AddPatientSecForm = ({ setFormStep, setpatientinfo, patientinfo }) => {
                 className="w-full my-2"
                 type="submit"
               >
-                Add History
+                {patientinfo?.id ? "Update" : "Add"} History
               </Button>
             </form>
           </Form>

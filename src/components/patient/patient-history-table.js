@@ -20,29 +20,40 @@ import {
 import { Button } from "@/components/ui/button";
 import HistoryTableActions from "./history-table-action";
 
-const columns = [
-  {
-    accessorKey: "chiefComplaints",
-    header: "Chief Complaints",
-  },
-  {
-    accessorKey: "displayDate",
-    header: "Date & Time",
-  },
-  {
-    id: "actions",
-    header: "Actions",
-    cell: ({ row }) => {
-      const patient = row.original;
-      return <HistoryTableActions patientHistory={patient} />;
-    },
-  },
-];
-
-const HistoryTable = ({ data }) => {
+const HistoryTable = ({
+  data,
+  deleteHistoryHandler,
+  updatePatientHistory,
+}) => {
   const [columnFilters, setColumnFilters] = useState([]);
+
+  const columns = [
+    {
+      accessorKey: "chiefComplaints",
+      header: "Chief Complaints",
+    },
+    {
+      accessorKey: "displayDate",
+      header: "Date & Time",
+    },
+    {
+      id: "actions",
+      header: "Actions",
+      cell: ({ row }) => {
+        const patient = row.original;
+        return (
+          <HistoryTableActions
+            patientHistory={patient}
+            deleteHistoryHandler={deleteHistoryHandler}
+            updatePatientHistory={updatePatientHistory}
+          />
+        );
+      },
+    },
+  ];
+
   const table = useReactTable({
-    data: [...data],
+    data: data || [],
     columns,
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
