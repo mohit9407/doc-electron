@@ -16,15 +16,18 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import {
+  Dialog,
+  DialogHeader,
+  DialogTrigger,
+  DialogContent,
+} from "../ui/dialog";
 
 import { Button } from "@/components/ui/button";
 import HistoryTableActions from "./history-table-action";
+import AddPatientSecForm from "../staff/add-patient-sec-form";
 
-const HistoryTable = ({
-  data,
-  deleteHistoryHandler,
-  updatePatientHistory,
-}) => {
+const HistoryTable = ({ data, deleteHistoryHandler, updatePatientHistory }) => {
   const [columnFilters, setColumnFilters] = useState([]);
 
   const columns = [
@@ -65,7 +68,20 @@ const HistoryTable = ({
   });
 
   return (
-    <div>
+    <div className="flex flex-col">
+      <Dialog>
+        <DialogTrigger asChild>
+          <Button className="ml-auto mb-2">Add Patient History</Button>
+        </DialogTrigger>
+        <DialogContent className="overflow-y-scroll max-h-screen">
+          <DialogHeader>Add Patient History</DialogHeader>
+          <AddPatientSecForm
+            isNewHistory={true}
+            patientinfo={null}
+            updatePatientHistory={updatePatientHistory}
+          />
+        </DialogContent>
+      </Dialog>
       <div className="rounded-md border">
         <Table>
           <TableHeader>
@@ -112,7 +128,7 @@ const HistoryTable = ({
             )}
           </TableBody>
         </Table>
-        <div className="flex items-center justify-end space-x-2 py-4">
+        <div className="flex items-center justify-end space-x-2 py-4 px-2">
           <Button
             variant="outline"
             size="sm"

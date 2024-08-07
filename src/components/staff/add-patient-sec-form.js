@@ -22,6 +22,7 @@ import { patientSecFormValidationSchema } from "@/lib/schema/staff/staff-schema"
 const AddPatientSecForm = ({
   setFormStep,
   setpatientinfo,
+  isNewHistory = false,
   patientinfo,
   updatePatientHistory,
 }) => {
@@ -40,7 +41,7 @@ const AddPatientSecForm = ({
 
   async function onSubmit(data) {
     try {
-      if (!patientinfo.id) {
+      if (!patientinfo?.id && !isNewHistory) {
         setpatientinfo({
           ...patientinfo,
           historyInfo: [
@@ -53,7 +54,17 @@ const AddPatientSecForm = ({
         toast({
           title: "History Added",
         });
-      } else updatePatientHistory(patientinfo.id, { ...data });
+      } else {
+        let newHistoryReqObj = {};
+        if (isNewHistory) {
+          newHistoryReqObj = { id: uuidV4(), isDeleted: false };
+        }
+        updatePatientHistory(!isNewHistory ? patientinfo.id : null, {
+          ...data,
+          date: new Date(),
+          ...newHistoryReqObj,
+        });
+      }
     } catch (error) {
       toast({
         title: error.response ? error.response.data.message : error.message,
@@ -64,7 +75,7 @@ const AddPatientSecForm = ({
 
   return (
     <>
-      {patientinfo?.id ? "" : "Add Patient History"}
+      {patientinfo?.id || isNewHistory ? "" : "Add Patient History"}
       <Card className="mt-4">
         <CardContent className="p-4">
           <Form {...form}>

@@ -4,6 +4,7 @@ import axios from "axios";
 import PatientTabs from "@/components/navbar/patient/patient-tabs";
 import AddStaffForm from "@/components/staff/add-staff-form";
 import EditPatientHistory from "@/components/patient/edit-patient-history";
+import EditPaymentHistory from "@/components/patient/edit-payment-history";
 import { toast } from "@/components/ui/use-toast";
 
 const getHistoryIndex = (id, patientInfo) => {
@@ -29,15 +30,23 @@ const Page = ({ params }) => {
 
   const updatePatientHistory = (id, historyData) => {
     const historyIndx = getHistoryIndex(id, patientInfo);
+    let localPatientInfo = { ...patientInfo };
     if (historyIndx !== -1) {
-      let localPatientInfo = { ...patientInfo };
       localPatientInfo.historyInfo[historyIndx] = {
         ...localPatientInfo.historyInfo[historyIndx],
         ...historyData,
       };
       updatepatientInfo(localPatientInfo);
+    } else if (id === null) {
+      localPatientInfo.historyInfo.push(historyData);
+      updatepatientInfo(localPatientInfo);
     }
   };
+
+  const updatePaymentHistory = (id, paymentData) => {
+  };
+
+  const deletePaymentHandler = () => {};
 
   const deleteHistoryHandler = (id) => {
     const historyIndx = getHistoryIndex(id, patientInfo);
@@ -78,6 +87,13 @@ const Page = ({ params }) => {
           patientInfo={patientInfo}
           deleteHistoryHandler={deleteHistoryHandler}
           updatePatientHistory={updatePatientHistory}
+        />
+      )}
+      {currentTab === "payments" && (
+        <EditPaymentHistory
+          patientInfo={patientInfo}
+          deletePaymentHandler={deletePaymentHandler}
+          updatePaymentHistory={updatePaymentHistory}
         />
       )}
     </>
