@@ -1,12 +1,8 @@
 import React from "react";
 import PaymentTable from "./patient-payment-table";
 
-const EditPaymentHistory = ({
-  patientInfo,
-  deletePaymentHandler,
-  updatePaymentHistory,
-}) => {
-  const paymentWithDateTime = patientInfo?.paymentInfo.map((paymentObj) => {
+const EditPaymentHistory = ({ patientInfo, updatePaymentHistory }) => {
+  const paymentWithDateTime = patientInfo?.paymentInfo?.map((paymentObj) => {
     const localDate = new Date(paymentObj.date);
     const localDateStr = localDate.toLocaleDateString();
     const localTimeStr = localDate.toLocaleTimeString();
@@ -20,7 +16,6 @@ const EditPaymentHistory = ({
     <>
       <PaymentTable
         data={paymentWithDateTime}
-        deletePaymentHandler={deletePaymentHandler}
         updatePaymentHistory={updatePaymentHistory}
       />
     </>

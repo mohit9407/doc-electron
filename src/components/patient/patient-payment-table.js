@@ -27,7 +27,7 @@ import { Button } from "@/components/ui/button";
 import PaymentTableActions from "./payment-table-action";
 import AddPatientThirdForm from "../staff/add-patient-third-form";
 
-const PaymentTable = ({ data, deletePaymentHandler, updatePaymentHistory }) => {
+const PaymentTable = ({ data, updatePaymentHistory }) => {
   const [columnFilters, setColumnFilters] = useState([]);
 
   const columns = [
@@ -47,7 +47,6 @@ const PaymentTable = ({ data, deletePaymentHandler, updatePaymentHistory }) => {
         return (
           <PaymentTableActions
             paymentHistory={paymentHistory}
-            deletePaymentHandler={deletePaymentHandler}
             updatePaymentHistory={updatePaymentHistory}
           />
         );
