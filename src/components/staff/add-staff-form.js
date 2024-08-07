@@ -52,16 +52,11 @@ const AddStaffForm = ({ setFormStep, setpatientinfo, patientinfo }) => {
     resolver,
     defaultValues: {
       date: patientinfo?.date ?? new Date(),
-      name: patientinfo?.name ?? "",
-      mobileNumber: patientinfo?.mobileNumber ?? "",
-      age: patientinfo?.age ?? "",
-      weight: patientinfo?.weight ?? "",
-      menstrualHistory: patientinfo?.menstrualHistory ?? "",
       gender: patientinfo?.gender ?? "",
       maritalStatus: patientinfo?.maritalStatus ?? "",
     },
+    values: patientinfo,
   });
-
   useEffect(() => {
     if (patientinfo) {
       setFormSelectVal({
@@ -107,8 +102,8 @@ const AddStaffForm = ({ setFormStep, setpatientinfo, patientinfo }) => {
                       <PopoverTrigger asChild>
                         <FormControl>
                           <Button
-                            disabled={form.formState.isSubmitting}
                             variant={"outline"}
+                            disabled
                             className={cn(
                               "w-full pl-3 text-left font-normal",
                               !field.value && "text-muted-foreground"
