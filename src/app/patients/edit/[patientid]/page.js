@@ -14,6 +14,7 @@ const getHistoryIndex = (id, patientInfo, info) => {
 const Page = ({ params }) => {
   const [currentTab, setCurrenttab] = useState("general-info");
   const [patientInfo, setPatientInfo] = useState(null);
+  const [invoiceNo, setInvoiceNo] = useState(0);
 
   const updatepatientInfo = async (patientInfo) => {
     const updatedPatientInfo = await axios.put(
@@ -26,6 +27,15 @@ const Page = ({ params }) => {
         title: "Patient updated successfully!",
       });
     }
+  };
+
+  const updateInvoiceNo = async (newInvoiceNo) => {
+    const updatedPatientInfo = await axios.patch(
+      `/api/patients/edit/${params?.patientid}`,
+      { invoiceNo: newInvoiceNo }
+    );
+    if (updatedPatientInfo.status === 200)
+      setInvoiceNo(updatedPatientInfo.data.invoiceNo);
   };
 
   const updatePatientHistory = (id, historyData) => {
@@ -53,8 +63,13 @@ const Page = ({ params }) => {
       };
       updatepatientInfo(localPatientInfo);
     } else if (id === null) {
-      localPatientInfo.paymentInfo.push(paymentData);
+      const newInvoiceNo = invoiceNo + 1;
+      localPatientInfo.paymentInfo.push({
+        ...paymentData,
+        invoiceNo: newInvoiceNo,
+      });
       updatepatientInfo(localPatientInfo);
+      updateInvoiceNo(newInvoiceNo);
     }
   };
 
@@ -69,8 +84,16 @@ const Page = ({ params }) => {
 
   const updatePatientGeneralInfo = (data) => {
     updatepatientInfo(data);
-    setCurrenttab("history")
+    setCurrenttab("history");
   };
+
+  const getInvoiceNo = async () => {
+    setInvoiceNo((await axios.get("/api/patients/new")) ?? 0);
+  };
+
+  useEffect(() => {
+    getInvoiceNo();
+  }, []);
 
   const getPatientInfo = async () => {
     const patientForEdit = await axios.get(

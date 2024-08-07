@@ -18,7 +18,7 @@ const PaymentTableActions = ({ paymentHistory, updatePaymentHistory }) => {
       const { data } = await axios({
         method: "post",
         url: "/api/patients/manage",
-        data: { name: "Test data" },
+        data: { ...patientInfo },
         responseType: "blob",
       });
       // convert the response into an array Buffer
