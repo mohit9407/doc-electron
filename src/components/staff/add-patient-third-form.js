@@ -1,4 +1,5 @@
 "use client";
+import { v4 as uuidV4 } from "uuid";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -65,7 +66,7 @@ const AddPatientThirdForm = ({
 
   async function onSubmit(data) {
     try {
-      if (!patientinfo.id && !isNewPayment) {
+      if (!patientinfo?.id && !isNewPayment) {
         setpatientinfo({ ...patientinfo, ...data });
         setIsSubmitted(true);
       } else {
