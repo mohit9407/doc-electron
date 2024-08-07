@@ -6,7 +6,7 @@ import { readFileSync } from "fs";
 export async function GET() {
   try {
     const patientRecords = JSON.parse(
-      readFileSync(`/home/admin/Desktop/app.json`, "utf8") || null
+      readFileSync(process.env.jsonFilePath, "utf8") || null
     );
     const patientInfo = patientRecords?.patientInfo;
 
