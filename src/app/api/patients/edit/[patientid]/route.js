@@ -6,7 +6,7 @@ import { readFileSync, writeFileSync } from "fs";
 export async function GET(_, { params: { patientid } }) {
   try {
     const patientRecords = JSON.parse(
-      readFileSync(`/home/fcom4/Desktop/app.json`, "utf8") || null
+      readFileSync(process.env.jsonFilePath, "utf8") || null
     );
     const patientInfo = patientRecords?.patientInfo;
     if (patientRecords && patientInfo) {
@@ -27,7 +27,7 @@ export async function PUT(req, { params: { patientid } }) {
   try {
     const body = await req.json();
     const patientRecords = JSON.parse(
-      readFileSync(`/home/fcom4/Desktop/app.json`, "utf8") || null
+      readFileSync(process.env.jsonFilePath, "utf8") || null
     );
     const patientInfo = patientRecords?.patientInfo;
     if (patientRecords && patientInfo) {
@@ -37,7 +37,7 @@ export async function PUT(req, { params: { patientid } }) {
       if (patientIndex !== -1) {
         patientRecords.patientInfo[patientIndex] = body;
         writeFileSync(
-          "/home/fcom4/Desktop/app.json",
+          process.env.jsonFilePath,
           JSON.stringify({ ...patientRecords })
         );
         return NextResponse.json(
