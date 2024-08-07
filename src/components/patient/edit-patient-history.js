@@ -6,7 +6,7 @@ const EditPatientHistory = ({
   deleteHistoryHandler,
   updatePatientHistory,
 }) => {
-  const historyWithDateTime = patientInfo?.historyInfo.map((historyObj) => {
+  const historyWithDateTime = patientInfo?.historyInfo?.map((historyObj) => {
     const localDate = new Date(historyObj.date);
     const localDateStr = localDate.toLocaleDateString();
     const localTimeStr = localDate.toLocaleTimeString();
