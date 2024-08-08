@@ -28,6 +28,7 @@ const AddPatientThirdForm = ({
   patientinfo,
   isNewPayment = false,
   updatePaymentHistory,
+  setInvoiceNo,
   invoiceNo,
 }) => {
   const [isSubmited, setIsSubmitted] = useState(false);
@@ -67,16 +68,19 @@ const AddPatientThirdForm = ({
 
   async function onSubmit(data) {
     try {
+      const commonKeyval = { id: uuidV4(), isDeleted: false };
       if (!patientinfo?.id && !isNewPayment) {
-        setpatientinfo({ ...patientinfo, paymentInfo: [{ ...data }] });
+        const newInvoice = invoiceNo + 1;
+        setpatientinfo({
+          ...patientinfo,
+          paymentInfo: [{ ...data, ...commonKeyval, invoiceNo: newInvoice }],
+        });
         setIsSubmitted(true);
+        setInvoiceNo(newInvoice);
       } else {
         let newPaymentReqObj = {};
         if (isNewPayment) {
-          newPaymentReqObj = {
-            id: uuidV4(),
-            isDeleted: false,
-          };
+          newPaymentReqObj = commonKeyval;
         }
         updatePaymentHistory(!isNewPayment ? patientinfo.id : null, {
           ...data,
