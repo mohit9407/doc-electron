@@ -40,7 +40,12 @@ import { staffValidationSchema } from "@/lib/schema/staff/staff-schema";
 import { maritalStatus, sexType } from "@/lib/constants/patient";
 import { cn } from "@/lib/utils";
 
-const AddStaffForm = ({ setFormStep, setpatientinfo, patientinfo }) => {
+const AddStaffForm = ({
+  setFormStep,
+  setpatientinfo,
+  patientinfo,
+  updatePatientGeneralInfo,
+}) => {
   const [formSelectVal, setFormSelectVal] = useState({
     maritalStatus: "",
     gender: "",
@@ -52,16 +57,11 @@ const AddStaffForm = ({ setFormStep, setpatientinfo, patientinfo }) => {
     resolver,
     defaultValues: {
       date: patientinfo?.date ?? new Date(),
-      name: patientinfo?.name ?? "",
-      mobileNumber: patientinfo?.mobileNumber ?? "",
-      age: patientinfo?.age ?? "",
-      weight: patientinfo?.weight ?? "",
-      menstrualHistory: patientinfo?.menstrualHistory ?? "",
       gender: patientinfo?.gender ?? "",
       maritalStatus: patientinfo?.maritalStatus ?? "",
     },
+    values: patientinfo,
   });
-
   useEffect(() => {
     if (patientinfo) {
       setFormSelectVal({
@@ -77,10 +77,14 @@ const AddStaffForm = ({ setFormStep, setpatientinfo, patientinfo }) => {
 
   async function onSubmit(data) {
     try {
-      setpatientinfo({ ...patientinfo, ...data });
-      setFormStep(1);
-      form.reset();
-      router.refresh();
+      if (!patientinfo?.id) {
+        setpatientinfo({ ...patientinfo, ...data });
+        setFormStep(1);
+        form.reset();
+        router.refresh();
+      } else {
+        updatePatientGeneralInfo(data);
+      }
     } catch (error) {
       toast({
         title: error.response ? error.response.data.message : error.message,
@@ -107,8 +111,8 @@ const AddStaffForm = ({ setFormStep, setpatientinfo, patientinfo }) => {
                       <PopoverTrigger asChild>
                         <FormControl>
                           <Button
-                            disabled={form.formState.isSubmitting}
                             variant={"outline"}
+                            disabled
                             className={cn(
                               "w-full pl-3 text-left font-normal",
                               !field.value && "text-muted-foreground"

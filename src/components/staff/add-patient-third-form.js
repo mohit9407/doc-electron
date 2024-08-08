@@ -67,7 +67,7 @@ const AddPatientThirdForm = ({
   async function onSubmit(data) {
     try {
       if (!patientinfo?.id && !isNewPayment) {
-        setpatientinfo({ ...patientinfo, ...data });
+        setpatientinfo({ ...patientinfo, paymentInfo: [{ ...data }] });
         setIsSubmitted(true);
       } else {
         let newPaymentReqObj = {};
@@ -89,7 +89,7 @@ const AddPatientThirdForm = ({
     }
   }
   useEffect(() => {
-    if (isSubmited && patientinfo?.amountCharges) {
+    if (isSubmited && patientinfo?.paymentInfo?.length > 0) {
       sendDataToApi();
     }
   }, [patientinfo, isSubmited]);

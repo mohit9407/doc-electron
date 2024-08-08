@@ -6,7 +6,7 @@ const Layout = ({ children }) => {
   return (
     <>
       <ClientOnly>
-        <AppBar isBack backHref="/patients/manage" title="Manage Patients" />
+        <AppBar isBack backHref="/patients/manage" title="Edit Patient" />
       </ClientOnly>
       {children}
     </>

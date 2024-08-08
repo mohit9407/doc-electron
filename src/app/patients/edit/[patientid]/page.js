@@ -67,6 +67,11 @@ const Page = ({ params }) => {
     }
   };
 
+  const updatePatientGeneralInfo = (data) => {
+    updatepatientInfo(data);
+    setCurrenttab("history")
+  };
+
   const getPatientInfo = async () => {
     const patientForEdit = await axios.get(
       `/api/patients/edit/${params?.patientid}`
@@ -87,9 +92,8 @@ const Page = ({ params }) => {
       <PatientTabs currentTab={currentTab} setActiveTab={setCurrenttab} />
       {currentTab === "general-info" && (
         <AddStaffForm
-          setpatientinfo={setPatientInfo}
           patientinfo={patientInfo}
-          setFormStep={0}
+          updatePatientGeneralInfo={updatePatientGeneralInfo}
         />
       )}
       {currentTab === "history" && (
