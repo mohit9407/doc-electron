@@ -8,7 +8,7 @@ import handlers from "handlebars";
 export async function GET() {
   try {
     const patientRecords = JSON.parse(
-      readFileSync(`/home/fcom4/Desktop/app.json`, "utf8") || null
+      readFileSync(process.env.jsonFilePath, "utf8") || null
     );
     const patientInfo = patientRecords?.patientInfo;
 
