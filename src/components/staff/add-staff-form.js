@@ -40,7 +40,12 @@ import { staffValidationSchema } from "@/lib/schema/staff/staff-schema";
 import { maritalStatus, sexType } from "@/lib/constants/patient";
 import { cn } from "@/lib/utils";
 
-const AddStaffForm = ({ setFormStep, setpatientinfo, patientinfo }) => {
+const AddStaffForm = ({
+  setFormStep,
+  setpatientinfo,
+  patientinfo,
+  updatePatientGeneralInfo,
+}) => {
   const [formSelectVal, setFormSelectVal] = useState({
     maritalStatus: "",
     gender: "",
@@ -72,10 +77,14 @@ const AddStaffForm = ({ setFormStep, setpatientinfo, patientinfo }) => {
 
   async function onSubmit(data) {
     try {
-      setpatientinfo({ ...patientinfo, ...data });
-      setFormStep(1);
-      form.reset();
-      router.refresh();
+      if (!patientinfo?.id) {
+        setpatientinfo({ ...patientinfo, ...data });
+        setFormStep(1);
+        form.reset();
+        router.refresh();
+      } else {
+        updatePatientGeneralInfo(data);
+      }
     } catch (error) {
       toast({
         title: error.response ? error.response.data.message : error.message,
