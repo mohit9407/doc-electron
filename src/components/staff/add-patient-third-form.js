@@ -28,6 +28,7 @@ const AddPatientThirdForm = ({
   patientinfo,
   isNewPayment = false,
   updatePaymentHistory,
+  invoiceNo,
 }) => {
   const [isSubmited, setIsSubmitted] = useState(false);
   const router = useRouter();
@@ -72,7 +73,10 @@ const AddPatientThirdForm = ({
       } else {
         let newPaymentReqObj = {};
         if (isNewPayment) {
-          newPaymentReqObj = { id: uuidV4(), isDeleted: false };
+          newPaymentReqObj = {
+            id: uuidV4(),
+            isDeleted: false,
+          };
         }
         updatePaymentHistory(!isNewPayment ? patientinfo.id : null, {
           ...data,

@@ -1,5 +1,6 @@
 "use client";
 import React, { useState, useEffect } from "react";
+import axios from "axios";
 import { ArrowLeftIcon } from "@radix-ui/react-icons";
 import { Root, Indicator } from "@radix-ui/react-progress";
 import ClientOnly from "@/components/client-only";
@@ -16,6 +17,15 @@ const Page = () => {
   const [formStep, setFormStep] = useState(0);
   const [progress, setProgress] = useState(0);
   const [patientinfo, setpatientinfo] = useState(null);
+  const [invoiceNo, setInvoiceNo] = useState(0);
+
+  const getInvoiceNo = async () => {
+    setInvoiceNo((await axios.get("/api/patients/new")) ?? 0);
+  };
+
+  useEffect(() => {
+    getInvoiceNo();
+  }, []);
 
   useEffect(() => {
     const progress = 100 / totalForm;
@@ -61,6 +71,7 @@ const Page = () => {
           setpatientinfo={setpatientinfo}
           patientinfo={patientinfo}
           setFormStep={setFormStep}
+          invoiceNo={invoiceNo}
         />
       )}
     </ClientOnly>

@@ -51,3 +51,29 @@ export async function PUT(req, { params: { patientid } }) {
     return NextResponse.json({ message: error.message }, { status: 500 });
   }
 }
+
+export async function PATCH(req) {
+  try {
+    const body = await req.json();
+    const patientRecords = JSON.parse(
+      readFileSync(process.env.jsonFilePath, "utf8") || null
+    );
+    if (patientRecords) {
+      patientRecords.invoiceNo = body.invoiceNo;
+      writeFileSync(
+        process.env.jsonFilePath,
+        JSON.stringify({ ...patientRecords })
+      );
+      return NextResponse.json(
+        { message: "Invoice updated successfully!", invoiceNo: body.invoiceNo },
+        { status: 200 }
+      );
+    }
+    return NextResponse.json(
+      { message: "There is an error while updating invoice no" },
+      { status: 404 }
+    );
+  } catch (error) {
+    return NextResponse.json({ message: error.message }, { status: 500 });
+  }
+}
