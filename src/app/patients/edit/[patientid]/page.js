@@ -88,7 +88,7 @@ const Page = ({ params }) => {
   };
 
   const getInvoiceNo = async () => {
-    setInvoiceNo((await axios.get("/api/patients/new")).data.invoiceNo ?? 0);
+    setInvoiceNo((await axios.get("/api/patients/new"))?.data?.invoiceNo ?? 0);
   };
 
   useEffect(() => {

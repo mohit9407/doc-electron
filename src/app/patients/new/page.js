@@ -20,7 +20,7 @@ const Page = () => {
   const [invoiceNo, setInvoiceNo] = useState(0);
 
   const getInvoiceNo = async () => {
-    setInvoiceNo((await axios.get("/api/patients/new")) ?? 0);
+    setInvoiceNo((await axios.get("/api/patients/new"))?.data?.invoiceNo ?? 0);
   };
 
   useEffect(() => {
@@ -71,6 +71,7 @@ const Page = () => {
           setpatientinfo={setpatientinfo}
           patientinfo={patientinfo}
           setFormStep={setFormStep}
+          setInvoiceNo={setInvoiceNo}
           invoiceNo={invoiceNo}
         />
       )}
