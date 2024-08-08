@@ -4,10 +4,11 @@ import axios from "axios";
 import PatientTabs from "@/components/navbar/patient/patient-tabs";
 import AddStaffForm from "@/components/staff/add-staff-form";
 import EditPatientHistory from "@/components/patient/edit-patient-history";
+import EditPaymentHistory from "@/components/patient/edit-payment-history";
 import { toast } from "@/components/ui/use-toast";
 
-const getHistoryIndex = (id, patientInfo) => {
-  return patientInfo.historyInfo.findIndex((infoObj) => infoObj.id === id);
+const getHistoryIndex = (id, patientInfo, info) => {
+  return patientInfo[info].findIndex((infoObj) => infoObj.id === id);
 };
 
 const Page = ({ params }) => {
@@ -28,19 +29,37 @@ const Page = ({ params }) => {
   };
 
   const updatePatientHistory = (id, historyData) => {
-    const historyIndx = getHistoryIndex(id, patientInfo);
+    const historyIndx = getHistoryIndex(id, patientInfo, "historyInfo");
+    let localPatientInfo = { ...patientInfo };
     if (historyIndx !== -1) {
-      let localPatientInfo = { ...patientInfo };
       localPatientInfo.historyInfo[historyIndx] = {
         ...localPatientInfo.historyInfo[historyIndx],
         ...historyData,
       };
       updatepatientInfo(localPatientInfo);
+    } else if (id === null) {
+      localPatientInfo.historyInfo.push(historyData);
+      updatepatientInfo(localPatientInfo);
+    }
+  };
+
+  const updatePaymentHistory = (id, paymentData) => {
+    const paymentIndx = getHistoryIndex(id, patientInfo, "paymentInfo");
+    let localPatientInfo = { ...patientInfo };
+    if (paymentIndx !== -1) {
+      localPatientInfo.paymentInfo[paymentIndx] = {
+        ...localPatientInfo.paymentInfo[paymentIndx],
+        ...paymentData,
+      };
+      updatepatientInfo(localPatientInfo);
+    } else if (id === null) {
+      localPatientInfo.paymentInfo.push(paymentData);
+      updatepatientInfo(localPatientInfo);
     }
   };
 
   const deleteHistoryHandler = (id) => {
-    const historyIndx = getHistoryIndex(id, patientInfo);
+    const historyIndx = getHistoryIndex(id, patientInfo, "historyInfo");
     if (historyIndx !== -1) {
       let localPatientInfo = { ...patientInfo };
       localPatientInfo.historyInfo.splice(historyIndx, 1);
@@ -78,6 +97,12 @@ const Page = ({ params }) => {
           patientInfo={patientInfo}
           deleteHistoryHandler={deleteHistoryHandler}
           updatePatientHistory={updatePatientHistory}
+        />
+      )}
+      {currentTab === "payments" && (
+        <EditPaymentHistory
+          patientInfo={patientInfo}
+          updatePaymentHistory={updatePaymentHistory}
         />
       )}
     </>

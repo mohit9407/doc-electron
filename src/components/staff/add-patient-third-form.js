@@ -1,4 +1,5 @@
 "use client";
+import { v4 as uuidV4 } from "uuid";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -21,7 +22,13 @@ import { toast } from "@/components/ui/use-toast";
 import { patientThirdFormValidationSchema } from "@/lib/schema/staff/staff-schema";
 import { Input } from "../ui/input";
 
-const AddPatientThirdForm = ({ setFormStep, setpatientinfo, patientinfo }) => {
+const AddPatientThirdForm = ({
+  setFormStep,
+  setpatientinfo,
+  patientinfo,
+  isNewPayment = false,
+  updatePaymentHistory,
+}) => {
   const [isSubmited, setIsSubmitted] = useState(false);
   const router = useRouter();
   const resolver = yupResolver(patientThirdFormValidationSchema);
@@ -29,7 +36,7 @@ const AddPatientThirdForm = ({ setFormStep, setpatientinfo, patientinfo }) => {
     resolver,
     defaultValues: {
       treatment: patientinfo?.treatment ?? "",
-      amountChange: patientinfo?.amountChange ?? "",
+      amountCharges: patientinfo?.amountCharges ?? "",
     },
   });
 
@@ -59,8 +66,20 @@ const AddPatientThirdForm = ({ setFormStep, setpatientinfo, patientinfo }) => {
 
   async function onSubmit(data) {
     try {
-      setpatientinfo({ ...patientinfo, ...data });
-      setIsSubmitted(true);
+      if (!patientinfo?.id && !isNewPayment) {
+        setpatientinfo({ ...patientinfo, ...data });
+        setIsSubmitted(true);
+      } else {
+        let newPaymentReqObj = {};
+        if (isNewPayment) {
+          newPaymentReqObj = { id: uuidV4(), isDeleted: false };
+        }
+        updatePaymentHistory(!isNewPayment ? patientinfo.id : null, {
+          ...data,
+          date: new Date(),
+          ...newPaymentReqObj,
+        });
+      }
     } catch (error) {
       toast({
         title: error.response ? error.response.data.message : error.message,
