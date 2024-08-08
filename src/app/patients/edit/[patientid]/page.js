@@ -30,12 +30,12 @@ const Page = ({ params }) => {
   };
 
   const updateInvoiceNo = async (newInvoiceNo) => {
-    const updatedPatientInfo = await axios.patch(
+    const updatedInvoiceInfo = await axios.patch(
       `/api/patients/edit/${params?.patientid}`,
       { invoiceNo: newInvoiceNo }
     );
-    if (updatedPatientInfo.status === 200)
-      setInvoiceNo(updatedPatientInfo.data.invoiceNo);
+    if (updatedInvoiceInfo.status === 200)
+      setInvoiceNo(updatedInvoiceInfo.data.invoiceNo);
   };
 
   const updatePatientHistory = (id, historyData) => {
@@ -88,7 +88,7 @@ const Page = ({ params }) => {
   };
 
   const getInvoiceNo = async () => {
-    setInvoiceNo((await axios.get("/api/patients/new")) ?? 0);
+    setInvoiceNo((await axios.get("/api/patients/new")).data.invoiceNo ?? 0);
   };
 
   useEffect(() => {

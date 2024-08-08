@@ -41,8 +41,6 @@ const AddPatientThirdForm = ({
     },
   });
 
-  const updateInvoiceNo = () => {};
-
   const sendDataToApi = async () => {
     try {
       const addedUser = await axios.post("/api/patients/new", patientinfo);
