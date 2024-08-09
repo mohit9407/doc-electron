@@ -9,7 +9,11 @@ const Page = () => {
   const [allPatientsList, setAllPatientsList] = useState([]);
 
   const getAllPatient = async () => {
-    setAllPatientsList(await axios.get("/api/patients/manage"));
+    setAllPatientsList(
+      (await axios.get("/api/patients/manage"))?.data?.data
+        ?.filter((patientObj) => !patientObj.isDeleted)
+        .reverse()
+    );
   };
 
   useEffect(() => {
@@ -22,7 +26,7 @@ const Page = () => {
     </ClientOnly>
   ) : (
     <ClientOnly>
-      <StaffTable data={allPatientsList?.data?.data} />
+      <StaffTable data={allPatientsList} />
     </ClientOnly>
   );
 };

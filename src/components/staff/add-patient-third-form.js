@@ -73,6 +73,7 @@ const AddPatientThirdForm = ({
         const newInvoice = invoiceNo + 1;
         setpatientinfo({
           ...patientinfo,
+          isDeleted: false,
           paymentInfo: [{ ...data, ...commonKeyval, invoiceNo: newInvoice }],
         });
         setIsSubmitted(true);

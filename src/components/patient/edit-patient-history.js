@@ -6,20 +6,22 @@ const EditPatientHistory = ({
   deleteHistoryHandler,
   updatePatientHistory,
 }) => {
-  const historyWithDateTime = patientInfo?.historyInfo?.map((historyObj) => {
-    const localDate = new Date(historyObj.date);
-    const localDateStr = localDate.toLocaleDateString();
-    const localTimeStr = localDate.toLocaleTimeString();
-    return {
-      ...historyObj,
-      displayDate: `${localDateStr} ${localTimeStr}`,
-    };
-  });
+  const historyWithDateTime = patientInfo?.historyInfo
+    ?.filter((historyObj) => !historyObj.isDeleted)
+    .map((historyObj) => {
+      const localDate = new Date(historyObj.date);
+      const localDateStr = localDate.toLocaleDateString();
+      const localTimeStr = localDate.toLocaleTimeString();
+      return {
+        ...historyObj,
+        displayDate: `${localDateStr} ${localTimeStr}`,
+      };
+    });
 
   return (
     <>
       <HistoryTable
-        data={historyWithDateTime}
+        data={historyWithDateTime.reverse()}
         deleteHistoryHandler={deleteHistoryHandler}
         updatePatientHistory={updatePatientHistory}
       />
