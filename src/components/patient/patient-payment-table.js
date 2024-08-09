@@ -16,34 +16,46 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import {
+  Dialog,
+  DialogHeader,
+  DialogTrigger,
+  DialogContent,
+} from "../ui/dialog";
 
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import StaffTableActions from "./staff-table-actions";
+import PaymentTableActions from "./payment-table-action";
+import AddPatientThirdForm from "../staff/add-patient-third-form";
 
-const columns = [
-  {
-    accessorKey: "name",
-    header: "Name",
-  },
-  {
-    accessorKey: "mobileNumber",
-    header: "Mobile Number",
-  },
-  {
-    id: "actions",
-    header: "Actions",
-    cell: ({ row }) => {
-      const staff = row.original;
-      return <StaffTableActions staff={staff} />;
-    },
-  },
-];
-
-const StaffTable = ({ data }) => {
+const PaymentTable = ({ data, updatePaymentHistory }) => {
   const [columnFilters, setColumnFilters] = useState([]);
+
+  const columns = [
+    {
+      accessorKey: "amountCharges",
+      header: "Amount Charges",
+    },
+    {
+      accessorKey: "displayDate",
+      header: "Date & Time",
+    },
+    {
+      id: "actions",
+      header: "Actions",
+      cell: ({ row }) => {
+        const paymentHistory = row.original;
+        return (
+          <PaymentTableActions
+            paymentHistory={paymentHistory}
+            updatePaymentHistory={updatePaymentHistory}
+          />
+        );
+      },
+    },
+  ];
+
   const table = useReactTable({
-    data,
+    data: data || [],
     columns,
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
@@ -55,25 +67,20 @@ const StaffTable = ({ data }) => {
   });
 
   return (
-    <div>
-      <div className="flex row justify-between py-4">
-        <Input
-          placeholder="Filter Names..."
-          value={table.getColumn("name")?.getFilterValue() ?? ""}
-          onChange={(event) =>
-            table.getColumn("name")?.setFilterValue(event.target.value)
-          }
-          className="max-w-sm mx-2"
-        />
-        <Input
-          placeholder="Filter Mobile Numbers..."
-          value={table.getColumn("mobileNumber")?.getFilterValue() ?? ""}
-          onChange={(event) =>
-            table.getColumn("mobileNumber")?.setFilterValue(event.target.value)
-          }
-          className="max-w-sm mx-2"
-        />
-      </div>
+    <div className="flex flex-col">
+      <Dialog>
+        <DialogTrigger asChild>
+          <Button className="ml-auto mb-2">Add Payment History</Button>
+        </DialogTrigger>
+        <DialogContent className="overflow-y-scroll max-h-screen">
+          <DialogHeader>Add Payment History</DialogHeader>
+          <AddPatientThirdForm
+            isNewPayment={true}
+            patientinfo={null}
+            updatePaymentHistory={updatePaymentHistory}
+          />
+        </DialogContent>
+      </Dialog>
       <div className="rounded-md border">
         <Table>
           <TableHeader>
@@ -137,24 +144,10 @@ const StaffTable = ({ data }) => {
           >
             Next
           </Button>
-
-          <select
-            className="text-xs rounded-md h-8 border border-input bg-background shadow-sm hover:bg-accent hover:text-accent-foreground"
-            value={table.getState().pagination.pageSize}
-            onChange={(e) => {
-              table.setPageSize(Number(e.target.value));
-            }}
-          >
-            {[10, 30, 50, 100].map((pageSize) => (
-              <option key={pageSize} value={pageSize}>
-                Show {pageSize}
-              </option>
-            ))}
-          </select>
         </div>
       </div>
     </div>
   );
 };
 
-export default StaffTable;
+export default PaymentTable;

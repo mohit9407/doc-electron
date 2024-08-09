@@ -1,7 +1,5 @@
 "use client";
 
-import Link from "next/link";
-
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -12,20 +10,24 @@ import {
   DialogDescription,
   DialogFooter,
 } from "../ui/dialog";
+import AddPatientSecForm from "../staff/add-patient-sec-form";
 import { toast } from "@/components/ui/use-toast";
 import { useState } from "react";
-import axios from "axios";
 import { useRouter } from "next/navigation";
-import { Sheet, SheetTrigger } from "@/components/ui/sheet";
 
-const StaffTableActions = ({ staff }) => {
+const HistoryTableActions = ({
+  patientHistory,
+  deleteHistoryHandler,
+  updatePatientHistory,
+}) => {
   const [disabled, setDisabled] = useState(false);
   const router = useRouter();
   const moveToTrash = async () => {
     try {
       setDisabled(true);
+      deleteHistoryHandler(patientHistory.id);
       toast({
-        title: "Patient moved to trash",
+        title: "Patient history moved to trash",
       });
       router.refresh();
     } catch (error) {
@@ -39,26 +41,9 @@ const StaffTableActions = ({ staff }) => {
     }
   };
 
-  const restore = async () => {
-    try {
-      setDisabled(true);
-      await axios.patch(`/api/staff/${staff.id}/restore`);
-      toast({
-        title: "Staff restored",
-      });
-      router.refresh();
-    } catch (error) {
-      toast({
-        title: error.response ? error.response.data.message : error.message,
+  const restore = async () => {};
 
-        variant: "destructive",
-      });
-    } finally {
-      setDisabled(false);
-    }
-  };
-
-  return staff.isTrashed ? (
+  return patientHistory.isDeleted ? (
     <Dialog>
       <DialogTrigger asChild>
         <Button>Restore</Button>
@@ -67,7 +52,7 @@ const StaffTableActions = ({ staff }) => {
         <DialogHeader>
           <DialogTitle>Are you sure ?</DialogTitle>
         </DialogHeader>
-        <DialogDescription>Restore {staff.name} ?</DialogDescription>
+        <DialogDescription>Restore {patientHistory.name} ?</DialogDescription>
         <DialogFooter>
           <Button disabled={disabled} onClick={restore}>
             Restore
@@ -77,13 +62,18 @@ const StaffTableActions = ({ staff }) => {
     </Dialog>
   ) : (
     <div className="flex flex-row justify-between max-w-sm w-full">
-      <Sheet>
-        <SheetTrigger asChild>
-          <Link href={`/patients/edit/${staff.id}`}>
-            <Button className="scale-90">Edit</Button>
-          </Link>
-        </SheetTrigger>
-      </Sheet>
+      <Dialog>
+        <DialogTrigger asChild>
+          <Button>Edit</Button>
+        </DialogTrigger>
+        <DialogContent className="overflow-y-scroll max-h-screen">
+          <DialogHeader>Edit Patient History</DialogHeader>
+          <AddPatientSecForm
+            patientinfo={{ ...patientHistory }}
+            updatePatientHistory={updatePatientHistory}
+          />
+        </DialogContent>
+      </Dialog>
       <Dialog>
         <DialogTrigger asChild>
           <Button className="scale-90" variant="destructive">
@@ -94,7 +84,9 @@ const StaffTableActions = ({ staff }) => {
           <DialogHeader>
             <DialogTitle>Are you sure?</DialogTitle>
           </DialogHeader>
-          <DialogDescription>Move {staff.name} to trash</DialogDescription>
+          <DialogDescription>
+            Move {patientHistory.chiefComplaints} to trash
+          </DialogDescription>
           <DialogFooter>
             <Button disabled={disabled} onClick={moveToTrash}>
               Move to trash
@@ -106,4 +98,4 @@ const StaffTableActions = ({ staff }) => {
   );
 };
 
-export default StaffTableActions;
+export default HistoryTableActions;
