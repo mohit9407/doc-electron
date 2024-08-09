@@ -96,7 +96,7 @@ const AddStaffForm = ({
 
   return (
     <>
-      {"Add Patient"}
+      {patientinfo?.id ? "Edit Patient" : "Add Patient"}
       <Card className="mt-4">
         <CardContent className="p-4">
           <Form {...form}>
@@ -315,7 +315,7 @@ const AddStaffForm = ({
                 className="w-full my-2"
                 type="submit"
               >
-                Add Patient
+                {patientinfo?.id ? "Edit Patient" : "Add Patient"}
               </Button>
             </form>
           </Form>
