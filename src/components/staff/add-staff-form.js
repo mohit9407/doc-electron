@@ -191,7 +191,7 @@ const AddStaffForm = ({
                     <FormLabel>Age</FormLabel>
                     <FormControl>
                       <Input
-                        type="tel"
+                        type="number"
                         disabled={form.formState.isSubmitting}
                         placeholder="Age.."
                         {...field}
@@ -241,7 +241,7 @@ const AddStaffForm = ({
                     <FormLabel>Weight</FormLabel>
                     <FormControl>
                       <Input
-                        type="tel"
+                        type="number"
                         disabled={form.formState.isSubmitting}
                         placeholder="Weight.."
                         {...field}

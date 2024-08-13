@@ -64,7 +64,7 @@ const TableCell = forwardRef(({ className, ...props }, ref) => (
   <td
     ref={ref}
     className={cn(
-      "p-2 align-middle [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px]",
+      "p-2 align-middle [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px] text-ellipsis overflow-hidden whitespace-nowrap max-w-[100px]",
       className
     )}
     {...props}

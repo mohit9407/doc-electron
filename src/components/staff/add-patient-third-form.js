@@ -139,7 +139,7 @@ const AddPatientThirdForm = ({
                     <FormLabel>Amount Charges</FormLabel>
                     <FormControl>
                       <Input
-                        type="tel"
+                        type="number"
                         disabled={form.formState.isSubmitting}
                         placeholder="Amount Charges"
                         {...field}
