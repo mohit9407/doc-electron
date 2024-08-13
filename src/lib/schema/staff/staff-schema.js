@@ -65,7 +65,6 @@ export const patientThirdFormValidationSchema = yup.object({
     .test("Should be an float or integer", "Invalid value", (value) =>
       (value + "").match(/^\d*\.?\d+$/)
     )
-    .required("Amount Charges is required")
-    .max(200, "Maximum 200 Characters"),
+    .required("Amount Charges is required"),
   treatment: yup.string().trim().max(200, "Maximum 200 Characters"),
 });
