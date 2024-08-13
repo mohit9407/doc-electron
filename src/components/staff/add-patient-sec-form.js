@@ -31,16 +31,24 @@ const AddPatientSecForm = ({
 
   const form = useForm({
     resolver,
-    defaultValues: patientinfo?.historyInfo && {
-      chiefComplaints: patientinfo?.historyInfo[0].chiefComplaints ?? "",
-      allergicHistory: patientinfo?.historyInfo[0].allergicHistory ?? "",
-      pastTreatmentReceived:
-        patientinfo?.historyInfo[0].pastTreatmentReceived ?? "",
-      examinationFindings:
-        patientinfo?.historyInfo[0].examinationFindings ?? "",
-      investigationAdvice:
-        patientinfo?.historyInfo[0].investigationAdvice ?? "",
-    },
+    defaultValues: patientinfo?.historyInfo
+      ? {
+          chiefComplaints: patientinfo?.historyInfo[0].chiefComplaints ?? "",
+          allergicHistory: patientinfo?.historyInfo[0].allergicHistory ?? "",
+          pastTreatmentReceived:
+            patientinfo?.historyInfo[0].pastTreatmentReceived ?? "",
+          examinationFindings:
+            patientinfo?.historyInfo[0].examinationFindings ?? "",
+          investigationAdvice:
+            patientinfo?.historyInfo[0].investigationAdvice ?? "",
+        }
+      : {
+          chiefComplaints: patientinfo?.chiefComplaints ?? "",
+          allergicHistory: patientinfo?.allergicHistory ?? "",
+          pastTreatmentReceived: patientinfo?.pastTreatmentReceived ?? "",
+          examinationFindings: patientinfo?.examinationFindings ?? "",
+          investigationAdvice: patientinfo?.investigationAdvice ?? "",
+        },
   });
 
   async function onSubmit(data) {
