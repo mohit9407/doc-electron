@@ -5,6 +5,7 @@ export const staffValidationSchema = yup.object({
   date: yup.date().required("Date is required"),
   name: yup
     .string()
+    .trim()
     .required("Name is required")
     .max(25, "Maximum 25 characters for name"),
 
@@ -39,27 +40,32 @@ export const staffValidationSchema = yup.object({
     .string()
     .required("Marital Status is required")
     .oneOf(maritalStatus, "Marital Status is not valid"),
-  menstrualHistory: yup
-    .string()
-    .max(200, "Maximum 200 Characters"),
+  menstrualHistory: yup.string().trim().max(200, "Maximum 200 Characters"),
 });
 
 export const patientSecFormValidationSchema = yup.object({
   chiefComplaints: yup
     .string()
+    .trim()
     .required("Chief Complaints is required")
     .max(200, "Maximum 200 Characters"),
-  allergicHistory: yup.string().max(200, "Maximum 200 Characters"),
-  pastTreatmentReceived: yup.string().max(200, "Maximum 200 Characters"),
+  allergicHistory: yup.string().trim().max(200, "Maximum 200 Characters"),
+  pastTreatmentReceived: yup.string().trim().max(200, "Maximum 200 Characters"),
 
-  examinationFindings: yup.string().max(200, "Maximum 200 Characters"),
+  examinationFindings: yup.string().trim().max(200, "Maximum 200 Characters"),
 
-  investigationAdvice: yup.string().max(200, "Maximum 200 Characters"),
+  investigationAdvice: yup.string().trim().max(200, "Maximum 200 Characters"),
 });
 
 export const patientThirdFormValidationSchema = yup.object({
   amountCharges: yup
-    .string()
+    .number()
+    .transform((value) => (Number.isNaN(value) ? null : value))
+    .nullable()
+    .test("Should be an float or integer", "Invalid value", (value) =>
+      (value + "").match(/^\d*\.?\d+$/)
+    )
     .required("Amount Charges is required")
     .max(200, "Maximum 200 Characters"),
+  treatment: yup.string().trim().max(200, "Maximum 200 Characters"),
 });
