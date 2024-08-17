@@ -1,11 +1,11 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
+import { Button } from "../../components/ui/button";
 import { ArrowLeftIcon } from "@radix-ui/react-icons";
-import { cn } from "@/lib/utils";
+import { cn } from "../../lib/utils";
 import { usePathname } from "next/navigation";
-import ThemeToggle from "@/components/theme-toggle";
-import DynamicLink from "@/components/dynamic-link";
+import ThemeToggle from "../../components/theme-toggle";
+import DynamicLink from "../../components/dynamic-link";
 
 const AppBar = ({
   title = "Dashboard",

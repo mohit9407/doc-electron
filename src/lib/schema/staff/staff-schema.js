@@ -1,5 +1,5 @@
 import * as yup from "yup";
-import { maritalStatus, sexType } from "@/lib/constants/patient";
+import { maritalStatus, sexType } from "../../../lib/constants/patient";
 
 export const staffValidationSchema = yup.object({
   date: yup.date().required("Date is required"),

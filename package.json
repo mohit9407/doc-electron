@@ -2,15 +2,18 @@
   "name": "electron-nextjs-project",
   "version": "0.1.0",
   "private": true,
-  "main": "main/main.js",
+  "main": "backend/index.js",
   "author": "RBFraphael",
   "description": "Electron + NextJS example project",
-  "type": "module",
+  
   "scripts": {
-    "dev": "concurrently -n \"NEXT,ELECTRON\" -c \"yellow,blue\" --kill-others \"next dev\" \"electron .\"",
-    "build": "next build && electron-builder",
+    "dev": "electron . --dev",
     "start": "next start",
-    "lint": "next lint"
+    "build": "npm run build:src",
+    "build:frontend": "next build src",
+    "postinstall": "electron-builder install-app-deps",
+    "lint": "next lint",
+    "dist": "npm run build && electron-builder"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.9.0",
@@ -28,10 +31,12 @@
     "@tanstack/react-table": "^8.19.3",
     "@uploadthing/react": "^6.7.2",
     "@vercel/analytics": "^1.3.1",
+    "app-root-path": "^3.1.0",
     "axios": "^1.7.2",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
     "date-fns": "^3.6.0",
+    "electron-log": "^5.1.7",
     "electron-serve": "^2.0.0",
     "fs": "^0.0.1-security",
     "handlebars": "^4.7.8",
