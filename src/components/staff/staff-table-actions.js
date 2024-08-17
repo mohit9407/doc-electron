@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 
-import { Button } from "@/components/ui/button";
+import { Button } from "../../components/ui/button";
 import {
   Dialog,
   DialogHeader,
@@ -12,11 +12,11 @@ import {
   DialogDescription,
   DialogFooter,
 } from "../ui/dialog";
-import { toast } from "@/components/ui/use-toast";
+import { toast } from "../../components/ui/use-toast";
 import { useState } from "react";
 import axios from "axios";
 import { useRouter } from "next/navigation";
-import { Sheet, SheetTrigger } from "@/components/ui/sheet";
+import { Sheet, SheetTrigger } from "../../components/ui/sheet";
 
 const StaffTableActions = ({ staff, deletePatient = () => {} }) => {
   const [disabled, setDisabled] = useState(false);

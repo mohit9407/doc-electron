@@ -1,7 +1,7 @@
 "use client";
 
-import DynamicLink from "@/components/dynamic-link";
-import { cn } from "@/lib/utils";
+import DynamicLink from "../../../components/dynamic-link";
+import { cn } from "../../../lib/utils";
 import { usePathname } from "next/navigation";
 
 const StaffTabs = () => {

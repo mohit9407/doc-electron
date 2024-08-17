@@ -15,7 +15,7 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table";
+} from "../../components/ui/table";
 import {
   Dialog,
   DialogHeader,
@@ -23,7 +23,7 @@ import {
   DialogContent,
 } from "../ui/dialog";
 
-import { Button } from "@/components/ui/button";
+import { Button } from "../../components/ui/button";
 import PaymentTableActions from "./payment-table-action";
 import AddPatientThirdForm from "../staff/add-patient-third-form";
 
