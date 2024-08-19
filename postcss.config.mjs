@@ -1,6 +1,6 @@
 /** @type {import('postcss-load-config').Config} */
 const config = {
-  content: ["./frontend/**/*.{js,jsx}"],
+  content: ["./src/**/*.{js,jsx}"],
   plugins: {
     tailwindcss: {},
   },

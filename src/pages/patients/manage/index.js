@@ -11,14 +11,15 @@ import StaffTabs from "../../../components/navbar/staff/staff-tabs";
 const Page = () => {
   const pathname = usePathname();
   const [allPatientsList, setAllPatientsList] = useState([]);
-  console.log('global??????', global.api)
+
   const getAllPatient = async () => {
     try {
-      // setAllPatientsList(
-      //   (await axios.get("/api/patients/manage"))?.data?.data
-      //     ?.filter((patientObj) => !patientObj.isDeleted)
-      //     .reverse()
-      // );
+      const data = await global.api.sendSync("getAllPatients");
+      setAllPatientsList(
+        data?.data?.data
+          ?.filter((patientObj) => !patientObj.isDeleted)
+          .reverse()
+      );
     } catch (error) {
       console.log(error);
     }

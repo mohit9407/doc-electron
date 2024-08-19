@@ -13,7 +13,7 @@ import AddPatientThirdForm from "../staff/add-patient-third-form";
 const PaymentTableActions = ({ paymentHistory, updatePaymentHistory }) => {
   const generateInvoice = (e) => {
     e.preventDefault();
-    // send a post request with the name to our API endpoint
+    // send a post request with the name to our API endpoint for generate PDF
     const fetchData = async () => {
       const { data } = await axios({
         method: "post",

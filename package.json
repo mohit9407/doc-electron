@@ -2,18 +2,18 @@
   "name": "electron-nextjs-project",
   "version": "0.1.0",
   "private": true,
-  "main": "backend/index.js",
+  "main": "dist/index.js",
   "author": "RBFraphael",
   "description": "Electron + NextJS example project",
-  
   "scripts": {
     "dev": "electron . --dev",
     "start": "next start",
-    "build": "npm run build:src",
+    "build": "yarn build:frontend && yarn build:backend",
     "build:frontend": "next build src",
+    "build:backend": "tsc -p backend-ts",
     "postinstall": "electron-builder install-app-deps",
     "lint": "next lint",
-    "dist": "npm run build && electron-builder"
+    "dist": "yarn build && electron-builder"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.9.0",
@@ -43,18 +43,20 @@
     "next": "14.2.5",
     "next-themes": "^0.3.0",
     "node-fetch": "^2.6.1",
-    "puppeteer": "^5.5.0",
+    "puppeteer": "^23.1.0",
     "react": "^18",
     "react-day-picker": "^9.0.6",
     "react-dom": "^18",
     "react-hook-form": "^7.52.1",
     "tailwind-merge": "^2.4.0",
+    "typescript": "^5.5.4",
     "uploadthing": "^6.13.2",
     "url": "^0.11.4",
     "uuid": "^10.0.0",
     "yup": "^1.4.0"
   },
   "devDependencies": {
+    "@types/uuid": "^10.0.0",
     "concurrently": "^8.2.2",
     "electron": "^31.3.1",
     "electron-builder": "^24.13.3",
