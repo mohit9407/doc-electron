@@ -6,7 +6,6 @@ import { ThemeProvider } from "../providers/theme-provider";
 import { Toaster } from "../components/ui/toaster";
 
 const Page = () => {
-  console.log('global??????', global.api)
   return (
     <>
       <ClientOnly>
