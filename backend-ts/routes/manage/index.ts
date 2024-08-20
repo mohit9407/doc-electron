@@ -6,7 +6,6 @@ import path from "node:path";
 export function getAllPatients(): any {
   return new Promise((resolve, reject) => {
     try {
-      console.log('__dirname', __dirname, path.join(__dirname, '..', '..', "patients.json"))
       const patientRecords = JSON.parse(
         readFileSync(path.join(__dirname, '..', '..', "patients.json") || '', "utf8") || '{}'
       );
