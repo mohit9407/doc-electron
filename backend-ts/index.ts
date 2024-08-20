@@ -7,6 +7,7 @@ import { getAllPatients, generateInvoice } from "./routes/manage";
 import { getPatientInfo, putPatientData, patchPatientData } from "./routes/edit";
 import { getAllPayments } from "./routes/payments";
 import { ipcMain } from "electron";
+import { getAllTrashs } from "./routes/trash";
 
 /**
  * Creates a new BrowserWindow with the specified dimensions and web preferences.
@@ -181,3 +182,20 @@ ipcMain.on("getAllPayments", (event) => {
       };
     });
 });
+
+ipcMain.on("getAllTrashs", (event) => {
+  getAllTrashs()
+    .then((data: any) => {
+      event.returnValue = {
+        error: false,
+        data,
+      };
+    })
+    .catch((error: any) => {
+      event.returnValue = {
+        error: true,
+        data: error,
+      };
+    });
+});
+

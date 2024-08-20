@@ -69,7 +69,7 @@ const AddPatientThirdForm = ({
 
   async function onSubmit(data) {
     try {
-      const commonKeyval = { id: uuidV4(), isDeleted: false };
+      const commonKeyval = { id: uuidV4(), isDeleted: false, date: new Date() };
       if (!patientinfo?.id && !isNewPayment) {
         const newInvoice = invoiceNo + 1;
         setpatientinfo({
@@ -93,7 +93,6 @@ const AddPatientThirdForm = ({
     } catch (error) {
       toast({
         title: error.response ? error.response.data.message : error.message,
-
         variant: "destructive",
       });
     }

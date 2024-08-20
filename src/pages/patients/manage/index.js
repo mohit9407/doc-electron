@@ -1,6 +1,6 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { usePathname } from 'next/navigation'
+import { usePathname } from "next/navigation";
 import ClientOnly from "../../../components/client-only";
 import ErrorContainer from "../../../components/error-container";
 import StaffTable from "../../../components/staff/staff-table";
@@ -24,6 +24,36 @@ const Page = () => {
     }
   };
 
+  const updatepatientInfo = async (patientInfo) => {
+    const { data: updatedPatientInfo } = await global.api.sendSync(
+      "putPatientData",
+      patientInfo,
+      {
+        patientid: params?.patientid,
+      }
+    );
+    if (updatedPatientInfo.status === 200) {
+      toast({
+        title: "Patient deleted successfully!",
+      });
+      getAllPatient();
+      return true;
+    }
+  };
+
+  const deletePatient = (patientId) => {
+    let localAllPatientsList = [...allPatientsList];
+    const idOfPatient = localAllPatientsList.findIndex(
+      (patientObj) => patientObj.id === patientId
+    );
+    if (idOfPatient !== -1)
+      localAllPatientsList[idOfPatient] = {
+        ...localAllPatientsList[idOfPatient],
+        isDeleted: true,
+      };
+    return updatepatientInfo(localAllPatientsList[idOfPatient], patientId);
+  };
+
   useEffect(() => {
     getAllPatient();
   }, []);
@@ -42,7 +72,7 @@ const Page = () => {
         </ClientOnly>
       ) : (
         <ClientOnly>
-          <StaffTable data={allPatientsList} />
+          <StaffTable data={allPatientsList} deletePatient={deletePatient} />
         </ClientOnly>
       )}
     </>
