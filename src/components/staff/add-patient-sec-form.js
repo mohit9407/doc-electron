@@ -52,7 +52,6 @@ const AddPatientSecForm = ({
         });
         setFormStep(2);
         form.reset();
-        // router.refresh();
         toast({
           title: "History Added",
         });
@@ -77,7 +76,7 @@ const AddPatientSecForm = ({
 
   return (
     <>
-      {patientinfo?.id || isNewHistory ? "" : "Add Patient History"}
+      {patientinfo?.id || isNewHistory ? "" : "Add Patient History222"}
       <Card className="mt-4">
         <CardContent className="p-4">
           <Form {...form}>
@@ -193,7 +192,7 @@ const AddPatientSecForm = ({
                 className="w-full my-2"
                 type="submit"
               >
-                {patientinfo?.id ? "Update" : "Add"} History
+                {patientinfo?.id ? "Update" : "Add"} History333
               </Button>
             </form>
           </Form>
