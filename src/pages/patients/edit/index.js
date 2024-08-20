@@ -1,5 +1,7 @@
 "use client";
 import { useState, useEffect } from "react";
+import { useRouter } from 'next/router'
+
 import PatientTabs from "../../../components/navbar/patient/patient-tabs";
 import AddStaffForm from "../../../components/staff/add-staff-form";
 import EditPatientHistory from "../../../components/patient/edit-patient-history";
@@ -13,11 +15,12 @@ const getHistoryIndex = (id, patientInfo, info) => {
 };
 
 const Page = () => {
+  const router = useRouter()
   const [currentTab, setCurrenttab] = useState("general-info");
   const [patientInfo, setPatientInfo] = useState(null);
   const [invoiceNo, setInvoiceNo] = useState(0);
 
-  const params = { patientid: window.location.search.split("=")[1] };
+  const params = router.query;
 
   const updatepatientInfo = async (patientInfo) => {
     const { data: updatedPatientInfo } = await global.api.sendSync(
