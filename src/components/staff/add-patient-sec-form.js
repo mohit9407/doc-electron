@@ -54,6 +54,8 @@ const AddPatientSecForm = ({
   async function onSubmit(data) {
     try {
       if (!patientinfo?.id && !isNewHistory) {
+        router.refresh();
+        form.reset();
         setpatientinfo({
           ...patientinfo,
           historyInfo: [
