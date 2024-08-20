@@ -35,7 +35,7 @@ const EditStaffForm = ({ staff }) => {
       toast({
         title: "Staff Updated. You may close this sheet",
       });
-      router.refresh();
+      // router.refresh();
     } catch (error) {
       toast({
         title: error.response ? error.response.data.message : error.message,

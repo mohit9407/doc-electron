@@ -64,7 +64,7 @@ const AddPatientSecForm = ({
         });
         setFormStep(2);
         form.reset();
-        router.refresh();
+        // router.refresh();
         toast({
           title: "History Added",
         });

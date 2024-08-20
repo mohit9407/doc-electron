@@ -42,7 +42,7 @@ const StaffTableActions = ({ staff, deletePatient = () => {} }) => {
       toast({
         title: "Staff restored",
       });
-      router.refresh();
+      // router.refresh();
     } catch (error) {
       toast({
         title: error.response ? error.response.data.message : error.message,
@@ -75,7 +75,7 @@ const StaffTableActions = ({ staff, deletePatient = () => {} }) => {
     <div className="flex flex-row justify-between max-w-sm w-full">
       <Sheet>
         <SheetTrigger asChild>
-          <Link href={`/patients/edit/${staff.id}`}>
+          <Link href={`/patients/edit?patientid=${staff.id}`}>
             <Button className="scale-90">Edit</Button>
           </Link>
         </SheetTrigger>
