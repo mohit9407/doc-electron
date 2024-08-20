@@ -20,7 +20,7 @@ const Page = () => {
   const params = { patientid: window.location.search.split("=")[1] };
 
   const updatepatientInfo = async (patientInfo) => {
-    const {data:updatedPatientInfo} = await global.api.sendSync(
+    const { data: updatedPatientInfo } = await global.api.sendSync(
       "putPatientData",
       patientInfo,
       {
@@ -30,7 +30,7 @@ const Page = () => {
     if (updatedPatientInfo.status === 200) {
       setPatientInfo({ ...updatedPatientInfo.data });
       toast({
-        title: "Patient updated successfully!",
+        title: "Patient history updated successfully!",
       });
     }
   };
@@ -39,7 +39,7 @@ const Page = () => {
     const updatedInvoiceInfo = await global.api.sendSync("patchPatientData", {
       invoiceNo: newInvoiceNo,
     });
-    
+
     if (updatedInvoiceInfo.status === 200)
       setInvoiceNo(updatedInvoiceInfo.data.invoiceNo);
   };

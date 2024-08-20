@@ -88,7 +88,7 @@ const AddPatientSecForm = ({
 
   return (
     <>
-      {patientinfo?.id || isNewHistory ? "" : "Add Patient History222"}
+      {patientinfo?.id || isNewHistory ? "" : "Add Patient History"}
       <Card className="mt-4">
         <CardContent className="p-4">
           <Form {...form}>
@@ -204,7 +204,7 @@ const AddPatientSecForm = ({
                 className="w-full my-2"
                 type="submit"
               >
-                {patientinfo?.id ? "Update" : "Add"} History333
+                {patientinfo?.id ? "Update" : "Add"} History
               </Button>
             </form>
           </Form>
