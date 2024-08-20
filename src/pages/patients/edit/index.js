@@ -14,20 +14,19 @@ const Page = () => {
   const [currentTab, setCurrenttab] = useState("general-info");
   const [patientInfo, setPatientInfo] = useState(null);
   const [invoiceNo, setInvoiceNo] = useState(0);
-
-  const params = { patientid: 123 };
+console.log('patientInfo???', patientInfo)
+  const params = { patientid: window.location.search.split("=")[1] };
 
   const updatepatientInfo = async (patientInfo) => {
-    const updatedPatientInfo = await global.api.sendSync(
+    const {data:updatedPatientInfo} = await global.api.sendSync(
       "putPatientData",
-      patientinfo,
+      patientInfo,
       {
         patientid: params?.patientid,
       }
     );
-    debugger;
     if (updatedPatientInfo.status === 200) {
-      setPatientInfo({ ...updatedPatientInfo.data.data });
+      setPatientInfo({ ...updatedPatientInfo.data });
       toast({
         title: "Patient updated successfully!",
       });
@@ -94,12 +93,7 @@ const Page = () => {
 
   const getInvoiceNo = async () => {
     const updatedInvoiceInfo = await global.api.sendSync("getInvoiceNo");
-    debugger
-
-    console.log('updatedInvoiceInfo---->>>>', updatedInvoiceInfo);
-
-    setInvoiceNo(await global.api.sendSync("getInvoiceNo")?.data?.invoiceNo ?? 0);
-
+    setInvoiceNo(updatedInvoiceInfo?.data?.invoiceNo ?? 0);
   };
 
   useEffect(() => {
@@ -107,12 +101,15 @@ const Page = () => {
   }, []);
 
   const getPatientInfo = async () => {
-    const patientForEdit = await global.api.sendSync("getPatientInfo", {
-      patientid: params?.patientid,
-    });
-    debuuger;
+    const { data: patientForEdit } = await global.api.sendSync(
+      "getPatientInfo",
+      {
+        patientid: params?.patientid,
+      }
+    );
+    debugger
     if (patientForEdit.status === 200) {
-      setPatientInfo({ ...patientForEdit.data.data });
+      setPatientInfo({ ...patientForEdit.data });
     }
   };
 

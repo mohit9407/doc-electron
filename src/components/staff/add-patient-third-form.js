@@ -43,12 +43,14 @@ const AddPatientThirdForm = ({
 
   const sendDataToApi = async () => {
     try {
-      const addedUser = await global.api.sendSync("addPatient", patientinfo);
-
+      const { data: addedUser } = await global.api.sendSync(
+        "addPatient",
+        patientinfo
+      );
       if (addedUser.status === 201) {
         setIsSubmitted(false);
         setpatientinfo(null);
-        router.refresh();
+        // router.refresh();
         setFormStep(3);
         toast({
           title: "Patient Added",

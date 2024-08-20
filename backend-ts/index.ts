@@ -30,6 +30,8 @@ function createWindow(): void {
     ? win.loadURL("http://localhost:4444/")
     : win.loadFile(join(__dirname, "..", "src", "out", "index.html"));
 
+    win.webContents.openDevTools();
+
   isDev && win.webContents.openDevTools();
   isDev && win.maximize();
 }
@@ -132,8 +134,8 @@ ipcMain.on("getPatientInfo", (event, { patientid }: any) => {
     });
 });
 
-ipcMain.on("putPatientData", (event, patientData: any, { patientid }: any) => {
-  putPatientData(patientData, { patientid })
+ipcMain.on("putPatientData", (event, patientData: any) => {
+  putPatientData(patientData, { patientid: patientData?.id })
     .then((data: any) => {
       event.returnValue = {
         error: false,
