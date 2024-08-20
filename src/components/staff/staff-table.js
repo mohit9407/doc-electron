@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { usePathname } from "next/navigation";
 import {
   flexRender,
   getCoreRowModel,
@@ -21,27 +22,33 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import StaffTableActions from "./staff-table-actions";
 
-const columns = [
-  {
-    accessorKey: "name",
-    header: "Name",
-  },
-  {
-    accessorKey: "mobileNumber",
-    header: "Mobile Number",
-  },
-  {
-    id: "actions",
-    header: "Actions",
-    cell: ({ row }) => {
-      const staff = row.original;
-      return <StaffTableActions staff={staff} />;
-    },
-  },
-];
-
-const StaffTable = ({ data }) => {
+const StaffTable = ({ data, deletePatient }) => {
   const [columnFilters, setColumnFilters] = useState([]);
+  const pathName = usePathname();
+
+  const columns = [
+    {
+      accessorKey: "name",
+      header: "Name",
+    },
+    {
+      accessorKey: "mobileNumber",
+      header: "Mobile Number",
+    },
+  ];
+
+  if (!pathName.includes("/trash"))
+    columns.push({
+      id: "actions",
+      header: "Actions",
+      cell: ({ row }) => {
+        const staff = row.original;
+        return (
+          <StaffTableActions staff={staff} deletePatient={deletePatient} />
+        );
+      },
+    });
+
   const table = useReactTable({
     data,
     columns,

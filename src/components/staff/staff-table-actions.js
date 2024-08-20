@@ -18,15 +18,13 @@ import axios from "axios";
 import { useRouter } from "next/navigation";
 import { Sheet, SheetTrigger } from "@/components/ui/sheet";
 
-const StaffTableActions = ({ staff }) => {
+const StaffTableActions = ({ staff, deletePatient = () => {} }) => {
   const [disabled, setDisabled] = useState(false);
   const router = useRouter();
   const moveToTrash = async () => {
     try {
       setDisabled(true);
-      toast({
-        title: "Patient moved to trash",
-      });
+      await deletePatient(staff.id);
       router.refresh();
     } catch (error) {
       toast({
