@@ -10,7 +10,9 @@ export async function GET() {
     const patientRecords = JSON.parse(
       readFileSync(process.env.jsonFilePath, "utf8") || null
     );
-    const patientInfo = patientRecords?.patientInfo;
+    const patientInfo = patientRecords?.patientInfo?.filter(
+      (patientObj) => !patientObj.isDeleted
+    );
 
     if (patientInfo?.length) {
       return NextResponse.json(
