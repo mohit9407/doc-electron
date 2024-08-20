@@ -17,7 +17,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Sheet, SheetTrigger } from "../../components/ui/sheet";
 
-const StaffTableActions = ({ staff }) => {
+const StaffTableActions = ({ staff, deletePatient = () => {} }) => {
   const [disabled, setDisabled] = useState(false);
   const router = useRouter();
   const moveToTrash = async () => {
@@ -26,7 +26,7 @@ const StaffTableActions = ({ staff }) => {
       toast({
         title: "Patient moved to trash",
       });
-      // router.refresh();
+      router.refresh();
     } catch (error) {
       toast({
         title: error.response ? error.response.data.message : error.message,
