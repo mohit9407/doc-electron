@@ -5,6 +5,8 @@ import AddStaffForm from "../../../components/staff/add-staff-form";
 import EditPatientHistory from "../../../components/patient/edit-patient-history";
 import EditPaymentHistory from "../../../components/patient/edit-payment-history";
 import { toast } from "../../../components/ui/use-toast";
+import ClientOnly from "../../../components/client-only";
+import AppBar from "../../../components/navbar/app-bar";
 
 const getHistoryIndex = (id, patientInfo, info) => {
   return patientInfo[info].findIndex((infoObj) => infoObj.id === id);
@@ -18,7 +20,7 @@ const Page = () => {
   const params = { patientid: window.location.search.split("=")[1] };
 
   const updatepatientInfo = async (patientInfo) => {
-    const {data:updatedPatientInfo} = await global.api.sendSync(
+    const { data: updatedPatientInfo } = await global.api.sendSync(
       "putPatientData",
       patientInfo,
       {
@@ -28,7 +30,7 @@ const Page = () => {
     if (updatedPatientInfo.status === 200) {
       setPatientInfo({ ...updatedPatientInfo.data });
       toast({
-        title: "Patient updated successfully!",
+        title: "Patient history updated successfully!",
       });
     }
   };
@@ -37,7 +39,7 @@ const Page = () => {
     const updatedInvoiceInfo = await global.api.sendSync("patchPatientData", {
       invoiceNo: newInvoiceNo,
     });
-    
+
     if (updatedInvoiceInfo.status === 200)
       setInvoiceNo(updatedInvoiceInfo.data.invoiceNo);
   };
@@ -120,6 +122,9 @@ const Page = () => {
 
   return (
     <>
+      <ClientOnly>
+        <AppBar isBack backHref="/patients/manage" title="Edit Patient" />
+      </ClientOnly>
       <PatientTabs currentTab={currentTab} setActiveTab={setCurrenttab} />
       {currentTab === "general-info" && (
         <AddStaffForm

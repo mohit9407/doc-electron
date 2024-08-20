@@ -6,7 +6,7 @@ export function getAllPayments(): any {
     try {
       const patientRecords = JSON.parse(
         readFileSync(
-          path.join(__dirname, "..", "patients.json") || "",
+          path.join(__dirname, "..", "..", "patients.json") || "",
           "utf8"
         ) || '{}'
       );
