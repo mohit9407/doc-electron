@@ -9,7 +9,9 @@ export function getAllPatients(): any {
       const patientRecords = JSON.parse(
         readFileSync(path.join(__dirname, '..', '..', "patients.json") || '', "utf8") || '{}'
       );
-      const patientInfo = patientRecords?.patientInfo;
+      const patientInfo = patientRecords?.patientInfo?.filter(
+        (patientObj: any) => !patientObj.isDeleted
+      );
 
       if (patientInfo?.length) {
         return resolve({

@@ -10,9 +10,9 @@ const Page = () => {
 
   const getAllPatient = async () => {
     try {
-      setAllPatientsList(
-        (await axios.get("/api/patients/trash"))?.data?.data.reverse()
-      );
+      const data = await global.api.sendSync("getAllTrashs");
+
+      setAllPatientsList(data?.data?.data?.reverse());
     } catch (e) {
       console.log("error: ", e?.message);
       setAllPatientsList([]);
