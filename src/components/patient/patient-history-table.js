@@ -29,6 +29,12 @@ import AddPatientSecForm from "../staff/add-patient-sec-form";
 
 const HistoryTable = ({ data, deleteHistoryHandler, updatePatientHistory }) => {
   const [columnFilters, setColumnFilters] = useState([]);
+  const [isOpen, setIsOpen] = useState(false);
+
+  const updatePatientHistoryHandler = (id, historyData) => {
+    updatePatientHistory(id, historyData);
+    setIsOpen(false);
+  };
 
   const columns = [
     {
@@ -69,16 +75,23 @@ const HistoryTable = ({ data, deleteHistoryHandler, updatePatientHistory }) => {
 
   return (
     <div className="flex flex-col">
-      <Dialog>
+      <Dialog
+        open={isOpen}
+        onOpenChange={(isModalOpen) =>
+          !isModalOpen && isOpen && setIsOpen(false)
+        }
+      >
         <DialogTrigger asChild>
-          <Button className="ml-auto mb-2">Add Patient History</Button>
+          <Button onClick={() => setIsOpen(true)} className="ml-auto mb-2">
+            Add Patient History
+          </Button>
         </DialogTrigger>
         <DialogContent className="overflow-y-scroll max-h-screen">
           <DialogHeader>Add Patient History</DialogHeader>
           <AddPatientSecForm
             isNewHistory={true}
             patientinfo={null}
-            updatePatientHistory={updatePatientHistory}
+            updatePatientHistory={updatePatientHistoryHandler}
           />
         </DialogContent>
       </Dialog>
