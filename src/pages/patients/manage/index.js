@@ -1,7 +1,6 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import { usePathname } from 'next/navigation'
-import axios from "axios";
 import ClientOnly from "../../../components/client-only";
 import ErrorContainer from "../../../components/error-container";
 import StaffTable from "../../../components/staff/staff-table";

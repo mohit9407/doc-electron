@@ -14,7 +14,6 @@ import {
 } from "../ui/dialog";
 import { toast } from "../../components/ui/use-toast";
 import { useState } from "react";
-import axios from "axios";
 import { useRouter } from "next/navigation";
 import { Sheet, SheetTrigger } from "../../components/ui/sheet";
 
@@ -42,7 +41,6 @@ const StaffTableActions = ({ staff }) => {
   const restore = async () => {
     try {
       setDisabled(true);
-      await axios.patch(`/api/staff/${staff.id}/restore`);
       toast({
         title: "Staff restored",
       });

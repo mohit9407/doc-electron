@@ -1,6 +1,5 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import axios from "axios";
 import { ArrowLeftIcon } from "@radix-ui/react-icons";
 import { Root, Indicator } from "@radix-ui/react-progress";
 import ClientOnly from "../../../components/client-only";
@@ -19,7 +18,12 @@ const Page = () => {
   const [invoiceNo, setInvoiceNo] = useState(0);
 
   const getInvoiceNo = async () => {
-    // setInvoiceNo((await axios.get("/api/patients/new"))?.data?.invoiceNo ?? 0);
+    const updatedInvoiceInfo = await global.api.sendSync("getInvoiceNo");
+    debugger
+
+    console.log('updatedInvoiceInfo---->>>>', updatedInvoiceInfo);
+
+    setInvoiceNo(await global.api.sendSync("getInvoiceNo")?.data?.invoiceNo ?? 0);
   };
 
   useEffect(() => {
