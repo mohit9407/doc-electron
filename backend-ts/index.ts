@@ -5,6 +5,7 @@ import { prepareNext } from "./utils/prepareNext";
 import { addPatient, getInvoiceNo } from "./routes";
 import { getAllPatients, generateInvoice } from "./routes/manage";
 import { getPatientInfo, putPatientData, patchPatientData } from "./routes/edit";
+import { getAllPayments } from "./routes/payments";
 import { ipcMain } from "electron";
 
 /**
@@ -28,9 +29,6 @@ function createWindow(): void {
   isDev
     ? win.loadURL("http://localhost:4444/")
     : win.loadFile(join(__dirname, "..", "src", "out", "index.html"));
-
-    // console.log('\n\n\n\n\n\nprocess.env>>>>>>>\n\n', process.env);
-    process.env
 
   isDev && win.webContents.openDevTools();
   isDev && win.maximize();
@@ -152,6 +150,22 @@ ipcMain.on("putPatientData", (event, patientData: any, { patientid }: any) => {
 
 ipcMain.on("patchPatientData", (event, patientData: any) => {
   patchPatientData(patientData)
+    .then((data: any) => {
+      event.returnValue = {
+        error: false,
+        data,
+      };
+    })
+    .catch((error: any) => {
+      event.returnValue = {
+        error: true,
+        data: error,
+      };
+    });
+});
+
+ipcMain.on("getAllPayments", (event) => {
+  getAllPayments()
     .then((data: any) => {
       event.returnValue = {
         error: false,

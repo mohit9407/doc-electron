@@ -1,11 +1,11 @@
 "use client";
 import { useState, useEffect } from "react";
 import axios from "axios";
-import PatientTabs from "../../../../components/navbar/patient/patient-tabs";
-import AddStaffForm from "../../../../components/staff/add-staff-form";
-import EditPatientHistory from "../../../../components/patient/edit-patient-history";
-import EditPaymentHistory from "../../../../components/patient/edit-payment-history";
-import { toast } from "../../../../components/ui/use-toast";
+import PatientTabs from "../../../components/navbar/patient/patient-tabs";
+import AddStaffForm from "../../../components/staff/add-staff-form";
+import EditPatientHistory from "../../../components/patient/edit-patient-history";
+import EditPaymentHistory from "../../../components/patient/edit-payment-history";
+import { toast } from "../../../components/ui/use-toast";
 
 const getHistoryIndex = (id, patientInfo, info) => {
   return patientInfo[info].findIndex((infoObj) => infoObj.id === id);
