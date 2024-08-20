@@ -11,10 +11,12 @@ const getHistoryIndex = (id, patientInfo, info) => {
   return patientInfo[info].findIndex((infoObj) => infoObj.id === id);
 };
 
-const Page = ({ params }) => {
+const Page = () => {
   const [currentTab, setCurrenttab] = useState("general-info");
   const [patientInfo, setPatientInfo] = useState(null);
   const [invoiceNo, setInvoiceNo] = useState(0);
+
+  const params = { patientid: 123 }
 
   const updatepatientInfo = async (patientInfo) => {
     const updatedPatientInfo = await axios.put(
