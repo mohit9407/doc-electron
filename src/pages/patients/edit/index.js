@@ -1,6 +1,5 @@
 "use client";
 import { useState, useEffect } from "react";
-import axios from "axios";
 import PatientTabs from "../../../components/navbar/patient/patient-tabs";
 import AddStaffForm from "../../../components/staff/add-staff-form";
 import EditPatientHistory from "../../../components/patient/edit-patient-history";
@@ -16,13 +15,17 @@ const Page = () => {
   const [patientInfo, setPatientInfo] = useState(null);
   const [invoiceNo, setInvoiceNo] = useState(0);
 
-  const params = { patientid: 123 }
+  const params = { patientid: 123 };
 
   const updatepatientInfo = async (patientInfo) => {
-    const updatedPatientInfo = await axios.put(
-      `/api/patients/edit/${params?.patientid}`,
-      patientInfo
+    const updatedPatientInfo = await global.api.sendSync(
+      "putPatientData",
+      patientinfo,
+      {
+        patientid: params?.patientid,
+      }
     );
+    debugger;
     if (updatedPatientInfo.status === 200) {
       setPatientInfo({ ...updatedPatientInfo.data.data });
       toast({
@@ -32,10 +35,10 @@ const Page = () => {
   };
 
   const updateInvoiceNo = async (newInvoiceNo) => {
-    const updatedInvoiceInfo = await axios.patch(
-      `/api/patients/edit/${params?.patientid}`,
-      { invoiceNo: newInvoiceNo }
-    );
+    const updatedInvoiceInfo = await global.api.sendSync("patchPatientData", {
+      invoiceNo: newInvoiceNo,
+    });
+    debugger;
     if (updatedInvoiceInfo.status === 200)
       setInvoiceNo(updatedInvoiceInfo.data.invoiceNo);
   };
@@ -90,7 +93,13 @@ const Page = () => {
   };
 
   const getInvoiceNo = async () => {
-    setInvoiceNo((await axios.get("/api/patients/new"))?.data?.invoiceNo ?? 0);
+    const updatedInvoiceInfo = await global.api.sendSync("getInvoiceNo");
+    debugger
+
+    console.log('updatedInvoiceInfo---->>>>', updatedInvoiceInfo);
+
+    setInvoiceNo(await global.api.sendSync("getInvoiceNo")?.data?.invoiceNo ?? 0);
+
   };
 
   useEffect(() => {
@@ -98,9 +107,10 @@ const Page = () => {
   }, []);
 
   const getPatientInfo = async () => {
-    const patientForEdit = await axios.get(
-      `/api/patients/edit/${params?.patientid}`
-    );
+    const patientForEdit = await global.api.sendSync("getPatientInfo", {
+      patientid: params?.patientid,
+    });
+    debuuger;
     if (patientForEdit.status === 200) {
       setPatientInfo({ ...patientForEdit.data.data });
     }

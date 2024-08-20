@@ -14,7 +14,6 @@ import {
 import { Input } from "../../components/ui/input";
 import { Button } from "../../components/ui/button";
 import { toast } from "../../components/ui/use-toast";
-import axios from "axios";
 import { useRouter } from "next/navigation";
 import { staffValidationSchema } from "../../lib/schema/staff/staff-schema";
 
@@ -31,7 +30,6 @@ const EditStaffForm = ({ staff }) => {
 
   async function onSubmit(data) {
     try {
-      await axios.patch(`/api/staff/${staff.id}/edit`, data);
       form.setValue("mobile", data.mobile);
       form.setValue("name", data.name);
       toast({

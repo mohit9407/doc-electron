@@ -1,7 +1,6 @@
 "use client";
 
 import { Button } from "../../components/ui/button";
-import axios from "axios";
 import {
   Dialog,
   DialogHeader,
@@ -15,12 +14,14 @@ const PaymentTableActions = ({ paymentHistory, updatePaymentHistory }) => {
     e.preventDefault();
     // send a post request with the name to our API endpoint for generate PDF
     const fetchData = async () => {
-      const { data } = await axios({
-        method: "post",
-        url: "/api/patients/manage",
-        data: { ...patientInfo },
-        responseType: "blob",
-      });
+      // const { data } = await axios({
+      //   method: "post",
+      //   url: "/api/patients/manage",
+      //   data: { ...patientInfo },
+      //   responseType: "blob",
+      // });
+      const { data } = await global.api.sendSync("generateInvoice", { ...patientInfo });
+      debugger
       // convert the response into an array Buffer
       return data.arrayBuffer();
     };
