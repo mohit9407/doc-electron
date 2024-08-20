@@ -1,9 +1,9 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import ClientOnly from "@/components/client-only";
-import ErrorContainer from "@/components/error-container";
-import StaffTable from "@/components/staff/staff-table";
+import ClientOnly from "../../../components/client-only";
+import ErrorContainer from "../../../components/error-container";
+import StaffTable from "../../../components/staff/staff-table";
 
 const Page = () => {
   const [allPatientsList, setAllPatientsList] = useState([]);
