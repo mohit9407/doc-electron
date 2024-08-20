@@ -21,7 +21,6 @@ const PaymentTableActions = ({ paymentHistory, updatePaymentHistory }) => {
       //   responseType: "blob",
       // });
       const { data } = await global.api.sendSync("generateInvoice", { ...patientInfo });
-      debugger
       // convert the response into an array Buffer
       return data.arrayBuffer();
     };

@@ -14,7 +14,7 @@ const Page = () => {
   const [currentTab, setCurrenttab] = useState("general-info");
   const [patientInfo, setPatientInfo] = useState(null);
   const [invoiceNo, setInvoiceNo] = useState(0);
-console.log('patientInfo???', patientInfo)
+
   const params = { patientid: window.location.search.split("=")[1] };
 
   const updatepatientInfo = async (patientInfo) => {
@@ -37,7 +37,7 @@ console.log('patientInfo???', patientInfo)
     const updatedInvoiceInfo = await global.api.sendSync("patchPatientData", {
       invoiceNo: newInvoiceNo,
     });
-    debugger;
+    
     if (updatedInvoiceInfo.status === 200)
       setInvoiceNo(updatedInvoiceInfo.data.invoiceNo);
   };
@@ -107,7 +107,6 @@ console.log('patientInfo???', patientInfo)
         patientid: params?.patientid,
       }
     );
-    debugger
     if (patientForEdit.status === 200) {
       setPatientInfo({ ...patientForEdit.data });
     }
