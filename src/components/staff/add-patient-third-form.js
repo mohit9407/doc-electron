@@ -93,7 +93,6 @@ const AddPatientThirdForm = ({
     } catch (error) {
       toast({
         title: error.response ? error.response.data.message : error.message,
-
         variant: "destructive",
       });
     }

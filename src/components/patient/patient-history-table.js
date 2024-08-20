@@ -87,7 +87,7 @@ const HistoryTable = ({ data, deleteHistoryHandler, updatePatientHistory }) => {
           </Button>
         </DialogTrigger>
         <DialogContent className="overflow-y-scroll max-h-screen">
-          <DialogHeader>Add Patient History444</DialogHeader>
+          <DialogHeader>Add Patient History</DialogHeader>
           <AddPatientSecForm
             isNewHistory={true}
             patientinfo={null}
