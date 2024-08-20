@@ -2,7 +2,7 @@
   "name": "electron-nextjs-project",
   "version": "0.1.0",
   "private": true,
-  "main": "dist/index.js",
+  "main": "backend-dist/index.js",
   "author": "RBFraphael",
   "description": "Electron + NextJS example project",
   "scripts": {
