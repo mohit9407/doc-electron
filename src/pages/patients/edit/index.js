@@ -5,6 +5,8 @@ import AddStaffForm from "../../../components/staff/add-staff-form";
 import EditPatientHistory from "../../../components/patient/edit-patient-history";
 import EditPaymentHistory from "../../../components/patient/edit-payment-history";
 import { toast } from "../../../components/ui/use-toast";
+import ClientOnly from "../../../components/client-only";
+import AppBar from "../../../components/navbar/app-bar";
 
 const getHistoryIndex = (id, patientInfo, info) => {
   return patientInfo[info].findIndex((infoObj) => infoObj.id === id);
@@ -120,6 +122,9 @@ const Page = () => {
 
   return (
     <>
+      <ClientOnly>
+        <AppBar isBack backHref="/patients/manage" title="Edit Patient" />
+      </ClientOnly>
       <PatientTabs currentTab={currentTab} setActiveTab={setCurrenttab} />
       {currentTab === "general-info" && (
         <AddStaffForm
