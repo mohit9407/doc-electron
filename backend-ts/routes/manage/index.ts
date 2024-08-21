@@ -32,16 +32,22 @@ export function getAllPatients(): any {
 export function generateInvoice(patientData: any): any {
   return new Promise(async (resolve, reject) => {
     try {
-      const { name } = patientData;
+      const { name, mobileNumber, age, paymentHistory: { invoiceNo, date, treatment, amountCharges } } = patientData;
       const customerName = name || "John Doe";
+      const localDate = new Date(date);
+
+      // Format the date using toLocaleDateString
+      let formattedDate:any = Intl.DateTimeFormat('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+      formattedDate = formattedDate.format(localDate);
+
       // read our invoice-template.html file using node fs module
       const file = readFileSync(
-        "./invoice-template.html",
+        path.join(__dirname, "invoice-template.html") || '',
         "utf8"
       );
       // compile the file with handlebars and inject the customerName variable
       const template = handlers.compile(`${file}`);
-      const html = template({ customerName });
+      const html = template({ customerName, invoiceNo, date: formattedDate, mobileNumber, age, treatment, amountCharges });
       // simulate a chrome browser with puppeteer and navigate to a new page
       const browser = await puppeteer.launch();
       const page = await browser.newPage();

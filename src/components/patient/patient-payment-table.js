@@ -28,6 +28,7 @@ import PaymentTableActions from "./payment-table-action";
 import AddPatientThirdForm from "../staff/add-patient-third-form";
 
 const PaymentTable = ({
+  patientInfo,
   isOpenAddpayment,
   setIsOpenAddpayment = () => {},
   data,
@@ -57,6 +58,7 @@ const PaymentTable = ({
         const paymentHistory = row.original;
         return (
           <PaymentTableActions
+            patientInfo={patientInfo}
             paymentHistory={paymentHistory}
             updatePaymentHistory={updatePaymentHistory}
           />
