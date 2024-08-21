@@ -27,7 +27,7 @@ import { Button } from "../../components/ui/button";
 import PaymentTableActions from "./payment-table-action";
 import AddPatientThirdForm from "../staff/add-patient-third-form";
 
-const PaymentTable = ({ data, updatePaymentHistory }) => {
+const PaymentTable = ({ patientInfo, data, updatePaymentHistory }) => {
   const [columnFilters, setColumnFilters] = useState([]);
   const [isOpen, setIsOpen] = useState(false);
 
@@ -52,6 +52,7 @@ const PaymentTable = ({ data, updatePaymentHistory }) => {
         const paymentHistory = row.original;
         return (
           <PaymentTableActions
+            patientInfo={patientInfo}
             paymentHistory={paymentHistory}
             updatePaymentHistory={updatePaymentHistory}
           />
