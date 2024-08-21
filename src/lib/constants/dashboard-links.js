@@ -34,6 +34,11 @@ export const dashboardLinks = [
     description: "Manage Patients",
     href: "/patients/manage",
   },
+  {
+    title: "Payment",
+    description: "Payment History",
+    href: "/patients/payment-info",
+  },
   // {
   //   title: "Expenditure Types",
   //   description: "Manage Expenditure Types",
