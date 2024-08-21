@@ -15,10 +15,10 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table";
+} from "../../components/ui/table";
 
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
+import { Button } from "../../components/ui/button";
+import { Input } from "../../components/ui/input";
 import PaymentsTableActions from "./payments-table-actions";
 
 const columns = [
@@ -43,6 +43,7 @@ const columns = [
     header: "Actions",
     cell: ({ row }) => {
       const staff = row.original;
+
       return <PaymentsTableActions staff={staff} />;
     },
   },
