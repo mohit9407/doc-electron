@@ -9,8 +9,6 @@ import {
   FormLabel,
   FormMessage,
 } from "../../components/ui/form";
-import { Textarea } from "../ui/textarea";
-import { Input } from "../ui/input";
 
 const ViewPaymentHistory = ({ staff }) => {
   const form = useForm({});
@@ -21,76 +19,49 @@ const ViewPaymentHistory = ({ staff }) => {
         <CardContent className="p-4">
           <Form {...form}>
             <form>
+              <div className="flex flex-col gap-[14px]">
               <FormField
                 name="name"
                 render={() => (
                   <FormItem>
                     <FormLabel>Name</FormLabel>
-                    <Textarea
-                      className="resize-none"
-                      type="text"
-                      readOnly
-                      value={staff.name}
-                    />
-                    <FormDescription>Name</FormDescription>
-                    <FormMessage />
+                    <FormDescription>{staff.name}</FormDescription>
                   </FormItem>
                 )}
               />
-
               <FormField
                 name="amountCharges"
                 render={() => (
                   <FormItem>
                     <FormLabel>Age</FormLabel>
-                    <Input
-                      type="number"
-                      readOnly
-                      value={staff.patientInfo.age}
-                    />
-                    <FormDescription>Age</FormDescription>
-                    <FormMessage />
+                    <FormDescription>{staff.patientInfo.age}</FormDescription>
                   </FormItem>
                 )}
               />
-
               <FormField
                 name="mobileNumber"
                 render={() => (
                   <FormItem>
                     <FormLabel>Mobile Number</FormLabel>
-                    <Textarea
-                      className="resize-none"
-                      type="text"
-                      readOnly
-                      value={staff.mobileNumber}
-                    />
-                    <FormDescription>Mobile Number</FormDescription>
-                    <FormMessage />
+                    <FormDescription>{staff.mobileNumber}</FormDescription>
                   </FormItem>
                 )}
               />
-
               <FormField
                 name="amountCharges"
                 render={() => (
                   <FormItem>
                     <FormLabel>Amount Charges</FormLabel>
-                    <Input type="number" readOnly value={staff.amountCharges} />
-                    <FormDescription>Amount Charges</FormDescription>
-                    <FormMessage />
+                    <FormDescription>{staff.amountCharges}</FormDescription>
                   </FormItem>
                 )}
               />
-
               <FormField
                 name="date"
                 render={() => (
                   <FormItem>
                     <FormLabel>Date</FormLabel>
-                    <Input readOnly value={staff.date} />
-                    <FormDescription> Date</FormDescription>
-                    <FormMessage />
+                    <FormDescription> {staff.date}</FormDescription>
                   </FormItem>
                 )}
               />
@@ -99,17 +70,11 @@ const ViewPaymentHistory = ({ staff }) => {
                 render={() => (
                   <FormItem>
                     <FormLabel>Treatment</FormLabel>
-                    <Textarea
-                      className="resize-none"
-                      type="text"
-                      readOnly
-                      value={staff.treatment}
-                    />
-                    <FormDescription>Treatment</FormDescription>
-                    <FormMessage />
+                    <FormDescription>{staff.treatment}</FormDescription>
                   </FormItem>
                 )}
               />
+              </div>
             </form>
           </Form>
         </CardContent>
