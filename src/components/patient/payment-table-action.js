@@ -9,7 +9,11 @@ import {
 } from "../ui/dialog";
 import AddPatientThirdForm from "../staff/add-patient-third-form";
 
-const PaymentTableActions = ({ paymentHistory, updatePaymentHistory }) => {
+const PaymentTableActions = ({
+  patientInfo,
+  paymentHistory,
+  updatePaymentHistory,
+}) => {
   const generateInvoice = (e) => {
     e.preventDefault();
     // send a post request with the name to our API endpoint for generate PDF
@@ -20,9 +24,12 @@ const PaymentTableActions = ({ paymentHistory, updatePaymentHistory }) => {
       //   data: { ...patientInfo },
       //   responseType: "blob",
       // });
-      const { data } = await global.api.sendSync("generateInvoice", { ...patientInfo });
+      const { data } = await global.api.sendSync("generateInvoice", {
+        ...patientInfo,
+        paymentHistory,
+      });
       // convert the response into an array Buffer
-      return data.arrayBuffer();
+      return data;
     };
 
     // convert the buffer into an object URL

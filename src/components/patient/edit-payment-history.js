@@ -17,6 +17,7 @@ const EditPaymentHistory = ({ patientInfo, updatePaymentHistory }) => {
   return (
     <>
       <PaymentTable
+        patientInfo={patientInfo}
         data={paymentWithDateTime.reverse()}
         updatePaymentHistory={updatePaymentHistory}
       />
