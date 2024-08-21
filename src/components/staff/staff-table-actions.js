@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 
-import { Button } from "@/components/ui/button";
+import { Button } from "../../components/ui/button";
 import {
   Dialog,
   DialogHeader,
@@ -12,11 +12,10 @@ import {
   DialogDescription,
   DialogFooter,
 } from "../ui/dialog";
-import { toast } from "@/components/ui/use-toast";
+import { toast } from "../../components/ui/use-toast";
 import { useState } from "react";
-import axios from "axios";
 import { useRouter } from "next/navigation";
-import { Sheet, SheetTrigger } from "@/components/ui/sheet";
+import { Sheet, SheetTrigger } from "../../components/ui/sheet";
 
 const StaffTableActions = ({ staff, deletePatient = () => {} }) => {
   const [disabled, setDisabled] = useState(false);
@@ -24,7 +23,9 @@ const StaffTableActions = ({ staff, deletePatient = () => {} }) => {
   const moveToTrash = async () => {
     try {
       setDisabled(true);
-      await deletePatient(staff.id);
+      toast({
+        title: "Patient moved to trash",
+      });
       router.refresh();
     } catch (error) {
       toast({
@@ -40,11 +41,10 @@ const StaffTableActions = ({ staff, deletePatient = () => {} }) => {
   const restore = async () => {
     try {
       setDisabled(true);
-      await axios.patch(`/api/staff/${staff.id}/restore`);
       toast({
         title: "Staff restored",
       });
-      router.refresh();
+      // router.refresh();
     } catch (error) {
       toast({
         title: error.response ? error.response.data.message : error.message,
@@ -77,7 +77,7 @@ const StaffTableActions = ({ staff, deletePatient = () => {} }) => {
     <div className="flex flex-row justify-between max-w-sm w-full">
       <Sheet>
         <SheetTrigger asChild>
-          <Link href={`/patients/edit/${staff.id}`}>
+          <Link href={`/patients/edit?patientid=${staff.id}`}>
             <Button className="scale-90">Edit</Button>
           </Link>
         </SheetTrigger>

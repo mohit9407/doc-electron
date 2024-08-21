@@ -2,7 +2,7 @@
 import { v4 as uuidV4 } from "uuid";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
-import { Card, CardContent } from "@/components/ui/card";
+import { Card, CardContent } from "../../components/ui/card";
 import { yupResolver } from "@hookform/resolvers/yup";
 import {
   Form,
@@ -12,12 +12,12 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form";
+} from "../../components/ui/form";
 import { Textarea } from "../ui/textarea";
-import { Button } from "@/components/ui/button";
-import { toast } from "@/components/ui/use-toast";
+import { Button } from "../../components/ui/button";
+import { toast } from "../../components/ui/use-toast";
 
-import { patientSecFormValidationSchema } from "@/lib/schema/staff/staff-schema";
+import { patientSecFormValidationSchema } from "../../lib/schema/staff/staff-schema";
 
 const AddPatientSecForm = ({
   setFormStep,
@@ -54,7 +54,7 @@ const AddPatientSecForm = ({
   async function onSubmit(data) {
     try {
       if (!patientinfo?.id && !isNewHistory) {
-        router.refresh();
+        // router.refresh();
         form.reset();
         setpatientinfo({
           ...patientinfo,
@@ -64,7 +64,6 @@ const AddPatientSecForm = ({
         });
         setFormStep(2);
         form.reset();
-        router.refresh();
         toast({
           title: "History Added",
         });

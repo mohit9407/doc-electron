@@ -1,6 +1,6 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
+import { Button } from "../../components/ui/button";
 import {
   Dialog,
   DialogHeader,
@@ -11,7 +11,7 @@ import {
   DialogFooter,
 } from "../ui/dialog";
 import AddPatientSecForm from "../staff/add-patient-sec-form";
-import { toast } from "@/components/ui/use-toast";
+import { toast } from "../../components/ui/use-toast";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 
@@ -29,7 +29,7 @@ const HistoryTableActions = ({
       toast({
         title: "Patient history moved to trash",
       });
-      router.refresh();
+      // router.refresh();
     } catch (error) {
       toast({
         title: error.response ? error.response.data.message : error.message,

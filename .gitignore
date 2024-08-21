@@ -13,6 +13,12 @@ node_modules/
 
 # production
 /build
+/dist
+/backend-dist
+.next/
+/.next
+src/.next
+src/out
 
 # misc
 .DS_Store

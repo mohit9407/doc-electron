@@ -3,7 +3,8 @@ import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
 import { format } from "date-fns";
-import { Card, CardContent } from "@/components/ui/card";
+import { CalendarIcon } from "@radix-ui/react-icons";
+import { Card, CardContent } from "../../components/ui/card";
 import { yupResolver } from "@hookform/resolvers/yup";
 import {
   Form,
@@ -13,32 +14,27 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form";
+} from "../../components/ui/form";
 import { Textarea } from "../ui/textarea";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-import { toast } from "@/components/ui/use-toast";
-
-import { Calendar } from "@/components/ui/calendar";
-import { CalendarIcon } from "@radix-ui/react-icons";
-
+import { Input } from "../../components/ui/input";
+import { Button } from "../../components/ui/button";
+import { toast } from "../../components/ui/use-toast";
+import { Calendar } from "../../components/ui/calendar";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select";
-
+} from "../../components/ui/select";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from "@/components/ui/popover";
-
-import { staffValidationSchema } from "@/lib/schema/staff/staff-schema";
-import { maritalStatus, sexType } from "@/lib/constants/patient";
-import { cn } from "@/lib/utils";
+} from "../../components/ui/popover";
+import { staffValidationSchema } from "../../lib/schema/staff/staff-schema";
+import { maritalStatus, sexType } from "../../lib/constants/patient";
+import { cn } from "../../lib/utils";
 
 const AddStaffForm = ({
   setFormStep,
@@ -81,7 +77,7 @@ const AddStaffForm = ({
         setpatientinfo({ ...patientinfo, ...data });
         setFormStep(1);
         form.reset();
-        router.refresh();
+        // router.refresh();
       } else {
         updatePatientGeneralInfo(data);
       }

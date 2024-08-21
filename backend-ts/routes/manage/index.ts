@@ -1,0 +1,60 @@
+import { readFileSync } from "fs";
+import puppeteer from "puppeteer";
+import handlers from "handlebars";
+import path from "node:path";
+
+export function getAllPatients(): any {
+  return new Promise((resolve, reject) => {
+    try {
+      const patientRecords = JSON.parse(
+        readFileSync(path.join(__dirname, '..', '..', "patients.json") || '', "utf8") || '{}'
+      );
+      const patientInfo = patientRecords?.patientInfo?.filter(
+        (patientObj: any) => !patientObj.isDeleted
+      );
+
+      if (patientInfo?.length) {
+        return resolve({
+          data: patientInfo, invoiceNo: patientRecords?.invoiceNo,
+          status: 200
+        });
+      }
+
+      return reject({ message: "no record found", status: 404 });
+    } catch (e) {
+      console.error("ERROR IN getAllPatients", e);
+      reject(e);
+    }
+  })
+}
+
+
+export function generateInvoice(patientData: any): any {
+  return new Promise(async (resolve, reject) => {
+    try {
+      const { name } = patientData;
+      const customerName = name || "John Doe";
+      // read our invoice-template.html file using node fs module
+      const file = readFileSync(
+        "./invoice-template.html",
+        "utf8"
+      );
+      // compile the file with handlebars and inject the customerName variable
+      const template = handlers.compile(`${file}`);
+      const html = template({ customerName });
+      // simulate a chrome browser with puppeteer and navigate to a new page
+      const browser = await puppeteer.launch();
+      const page = await browser.newPage();
+      // set our compiled html template as the pages content
+      // then waitUntil the network is idle to make sure the content has been loaded
+      await page.setContent(html, { waitUntil: "networkidle0" });
+      // convert the page to pdf with the .pdf() method
+      const pdf = await page.pdf({ format: "A4" });
+      await browser.close();
+      return resolve(pdf);
+    } catch (e) {
+      console.error("ERROR IN generateInvoice", e);
+      reject(e);
+    }
+  })
+}

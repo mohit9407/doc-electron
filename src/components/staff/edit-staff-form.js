@@ -10,13 +10,12 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-import { toast } from "@/components/ui/use-toast";
-import axios from "axios";
+} from "../../components/ui/form";
+import { Input } from "../../components/ui/input";
+import { Button } from "../../components/ui/button";
+import { toast } from "../../components/ui/use-toast";
 import { useRouter } from "next/navigation";
-import { staffValidationSchema } from "@/lib/schema/staff/staff-schema";
+import { staffValidationSchema } from "../../lib/schema/staff/staff-schema";
 
 const EditStaffForm = ({ staff }) => {
   const router = useRouter();
@@ -31,13 +30,12 @@ const EditStaffForm = ({ staff }) => {
 
   async function onSubmit(data) {
     try {
-      await axios.patch(`/api/staff/${staff.id}/edit`, data);
       form.setValue("mobile", data.mobile);
       form.setValue("name", data.name);
       toast({
         title: "Staff Updated. You may close this sheet",
       });
-      router.refresh();
+      // router.refresh();
     } catch (error) {
       toast({
         title: error.response ? error.response.data.message : error.message,

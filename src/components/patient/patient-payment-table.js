@@ -15,7 +15,7 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table";
+} from "../../components/ui/table";
 import {
   Dialog,
   DialogHeader,
@@ -23,12 +23,18 @@ import {
   DialogContent,
 } from "../ui/dialog";
 
-import { Button } from "@/components/ui/button";
+import { Button } from "../../components/ui/button";
 import PaymentTableActions from "./payment-table-action";
 import AddPatientThirdForm from "../staff/add-patient-third-form";
 
 const PaymentTable = ({ data, updatePaymentHistory }) => {
   const [columnFilters, setColumnFilters] = useState([]);
+  const [isOpen, setIsOpen] = useState(false);
+
+  const updatePaymentHistoryHandler = (id, historyData) => {
+    updatePaymentHistory(id, historyData);
+    setIsOpen(false);
+  };
 
   const columns = [
     {
@@ -68,16 +74,23 @@ const PaymentTable = ({ data, updatePaymentHistory }) => {
 
   return (
     <div className="flex flex-col">
-      <Dialog>
+      <Dialog
+        open={isOpen}
+        onOpenChange={(isModalOpen) =>
+          !isModalOpen && isOpen && setIsOpen(false)
+        }
+      >
         <DialogTrigger asChild>
-          <Button className="ml-auto mb-2">Add Payment History</Button>
+          <Button onClick={() => setIsOpen(true)} className="ml-auto mb-2">
+            Add Payment History
+          </Button>
         </DialogTrigger>
         <DialogContent className="overflow-y-scroll max-h-screen">
           <DialogHeader>Add Payment History</DialogHeader>
           <AddPatientThirdForm
             isNewPayment={true}
             patientinfo={null}
-            updatePaymentHistory={updatePaymentHistory}
+            updatePaymentHistory={updatePaymentHistoryHandler}
           />
         </DialogContent>
       </Dialog>

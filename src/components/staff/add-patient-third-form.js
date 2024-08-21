@@ -3,8 +3,7 @@ import { v4 as uuidV4 } from "uuid";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import axios from "axios";
-import { Card, CardContent } from "@/components/ui/card";
+import { Card, CardContent } from "../../components/ui/card";
 import { yupResolver } from "@hookform/resolvers/yup";
 import {
   Form,
@@ -14,12 +13,12 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form";
+} from "../../components/ui/form";
 import { Textarea } from "../ui/textarea";
-import { Button } from "@/components/ui/button";
-import { toast } from "@/components/ui/use-toast";
+import { Button } from "../../components/ui/button";
+import { toast } from "../../components/ui/use-toast";
 
-import { patientThirdFormValidationSchema } from "@/lib/schema/staff/staff-schema";
+import { patientThirdFormValidationSchema } from "../../lib/schema/staff/staff-schema";
 import { Input } from "../ui/input";
 
 const AddPatientThirdForm = ({
@@ -44,11 +43,14 @@ const AddPatientThirdForm = ({
 
   const sendDataToApi = async () => {
     try {
-      const addedUser = await axios.post("/api/patients/new", patientinfo);
+      const { data: addedUser } = await global.api.sendSync(
+        "addPatient",
+        patientinfo
+      );
       if (addedUser.status === 201) {
         setIsSubmitted(false);
         setpatientinfo(null);
-        router.refresh();
+        // router.refresh();
         setFormStep(3);
         toast({
           title: "Patient Added",
@@ -60,7 +62,6 @@ const AddPatientThirdForm = ({
     } catch (error) {
       toast({
         title: error.response ? error.response.data.message : error.message,
-
         variant: "destructive",
       });
     }
@@ -92,7 +93,6 @@ const AddPatientThirdForm = ({
     } catch (error) {
       toast({
         title: error.response ? error.response.data.message : error.message,
-
         variant: "destructive",
       });
     }

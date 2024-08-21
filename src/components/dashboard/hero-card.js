@@ -1,12 +1,13 @@
-import { dashboardLinks } from "@/lib/constants/dashboard-links";
+'useClient'
+import { dashboardLinks } from "../../lib/constants/dashboard-links";
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
-import DynamicLink from "@/components/dynamic-link";
+} from "../../components/ui/card";
+import DynamicLink from "../../components/dynamic-link";
 
 const HeroCard = () => {
   return (

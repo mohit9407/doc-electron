@@ -1,4 +1,4 @@
-import { footerLinks } from "@/lib/constants/footer-links";
+import { footerLinks } from "../../lib/constants/footer-links";
 
 import {
   Tooltip,
