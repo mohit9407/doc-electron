@@ -122,9 +122,8 @@
               </td>
 
               <td>
-                Invoice #: 123<br>
-                Created: January 1, 2020<br>
-                Due: February 1, 2020
+                Invoice #: {{invoiceNo}}<br>
+                Created: {{date}}<br>
               </td>
             </tr>
           </table>
@@ -136,15 +135,9 @@
           <table>
             <tr>
               <td>
-                Rona, Inc.<br>
-                Earth<br>
-                Universe, 3rd Dimension
-              </td>
-
-              <td>
-                JackBoys Inc.<br>
-                {{customerName}}<br>
-                example@example.com
+                Name: {{customerName}}<br>
+                Mobile Number: {{mobileNumber}}<br>
+                Age: {{age}}
               </td>
             </tr>
           </table>
@@ -153,61 +146,21 @@
 
       <tr class="heading">
         <td>
-          Payment Method
+          Treatment
         </td>
 
         <td>
-          Check #
-        </td>
-      </tr>
-
-      <tr class="details">
-        <td>
-          Check
-        </td>
-
-        <td>
-          1000
-        </td>
-      </tr>
-
-      <tr class="heading">
-        <td>
-          Item
-        </td>
-
-        <td>
-          Price
+          Charges
         </td>
       </tr>
 
       <tr class="item">
         <td>
-          Real Estate
+          {{treatment}}
         </td>
 
         <td>
-          $33,000.00
-        </td>
-      </tr>
-
-      <tr class="item">
-        <td>
-          Lamborghini
-        </td>
-
-        <td>
-          $250,000.00
-        </td>
-      </tr>
-
-      <tr class="item last">
-        <td>
-          Another stuff
-        </td>
-
-        <td>
-          $10.00
+          {{amountCharges}}
         </td>
       </tr>
 
@@ -215,7 +168,7 @@
         <td></td>
 
         <td>
-          Total: $283,010.00
+          Total: {{amountCharges}}
         </td>
       </tr>
     </table>
