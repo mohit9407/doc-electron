@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   flexRender,
   getCoreRowModel,
@@ -27,7 +27,13 @@ import { Button } from "../../components/ui/button";
 import HistoryTableActions from "./history-table-action";
 import AddPatientSecForm from "../staff/add-patient-sec-form";
 
-const HistoryTable = ({ data, deleteHistoryHandler, updatePatientHistory }) => {
+const HistoryTable = ({
+  isOpenAddHistory = false,
+  setIsOpenAddHistory = () => {},
+  data,
+  deleteHistoryHandler,
+  updatePatientHistory,
+}) => {
   const [columnFilters, setColumnFilters] = useState([]);
   const [isOpen, setIsOpen] = useState(false);
 
@@ -73,13 +79,20 @@ const HistoryTable = ({ data, deleteHistoryHandler, updatePatientHistory }) => {
     },
   });
 
+  useEffect(() => {
+    if (isOpenAddHistory) setIsOpen(true);
+  }, [isOpenAddHistory]);
+
   return (
     <div className="flex flex-col">
       <Dialog
         open={isOpen}
-        onOpenChange={(isModalOpen) =>
-          !isModalOpen && isOpen && setIsOpen(false)
-        }
+        onOpenChange={(isModalOpen) => {
+          if (!isModalOpen) {
+            isOpen && setIsOpen(false);
+            isOpenAddHistory && setIsOpenAddHistory(false);
+          }
+        }}
       >
         <DialogTrigger asChild>
           <Button onClick={() => setIsOpen(true)} className="ml-auto mb-2">
