@@ -1,6 +1,6 @@
 "use client";
 import { useState, useEffect } from "react";
-import { useRouter } from 'next/router'
+import { useRouter } from "next/router";
 
 import PatientTabs from "../../../components/navbar/patient/patient-tabs";
 import AddStaffForm from "../../../components/staff/add-staff-form";
@@ -15,14 +15,19 @@ const getHistoryIndex = (id, patientInfo, info) => {
 };
 
 const Page = () => {
-  const router = useRouter()
-  const [currentTab, setCurrenttab] = useState("general-info");
+  const router = useRouter();
   const [patientInfo, setPatientInfo] = useState(null);
   const [invoiceNo, setInvoiceNo] = useState(0);
-
+  const [isOpenAddpayment, setIsOpenAddpayment] = useState(false);
   const params = router.query;
+  const [currentTab, setCurrenttab] = useState(
+    !params["isopenhistory"] ? "general-info" : "history"
+  );
+  const [isOpenAddHistory, setIsOpenAddHistory] = useState(
+    Boolean(params["isopenhistory"])
+  );
 
-  const updatepatientInfo = async (patientInfo) => {
+  const updatepatientInfo = async (patientInfo, isAddedHistoryOrPatient) => {
     const { data: updatedPatientInfo } = await global.api.sendSync(
       "putPatientData",
       patientInfo,
@@ -32,6 +37,12 @@ const Page = () => {
     );
     if (updatedPatientInfo.status === 200) {
       setPatientInfo({ ...updatedPatientInfo.data });
+      if (isAddedHistoryOrPatient === "addedHistory") {
+        setIsOpenAddHistory(false);
+        setCurrenttab("payments");
+        setIsOpenAddpayment(true);
+      } else if (isAddedHistoryOrPatient === "addedPaymentInfo")
+        setIsOpenAddpayment(false);
       toast({
         title: "Patient history updated successfully!",
       });
@@ -58,7 +69,7 @@ const Page = () => {
       updatepatientInfo(localPatientInfo);
     } else if (id === null) {
       localPatientInfo.historyInfo.push(historyData);
-      updatepatientInfo(localPatientInfo);
+      updatepatientInfo(localPatientInfo, "addedHistory");
     }
   };
 
@@ -77,7 +88,7 @@ const Page = () => {
         ...paymentData,
         invoiceNo: newInvoiceNo,
       });
-      updatepatientInfo(localPatientInfo);
+      updatepatientInfo(localPatientInfo, "addedPaymentInfo");
       updateInvoiceNo(newInvoiceNo);
     }
   };
@@ -137,6 +148,8 @@ const Page = () => {
       )}
       {currentTab === "history" && (
         <EditPatientHistory
+          isOpenAddHistory={isOpenAddHistory}
+          setIsOpenAddHistory={setIsOpenAddHistory}
           patientInfo={patientInfo}
           deleteHistoryHandler={deleteHistoryHandler}
           updatePatientHistory={updatePatientHistory}
@@ -144,6 +157,8 @@ const Page = () => {
       )}
       {currentTab === "payments" && (
         <EditPaymentHistory
+          isOpenAddpayment={isOpenAddpayment}
+          setIsOpenAddpayment={setIsOpenAddpayment}
           patientInfo={patientInfo}
           updatePaymentHistory={updatePaymentHistory}
         />
