@@ -1,9 +1,6 @@
 "use client";
-
 import Link from "next/link";
-
 import { Button } from "@/components/ui/button";
-
 import { Sheet, SheetTrigger } from "@/components/ui/sheet";
 
 const PaymentsTableActions = ({ staff }) => {
@@ -13,21 +10,21 @@ const PaymentsTableActions = ({ staff }) => {
       <Sheet>
         <SheetTrigger asChild>
           <Link href={""}>
-            <Button className="scale-90">View</Button>
+            <Button className="scale-90">V</Button>
           </Link>
         </SheetTrigger>
       </Sheet>
       <Sheet>
         <SheetTrigger asChild>
           <Link href={""}>
-            <Button className="scale-90">Print PDF</Button>
+            <Button className="scale-90">E</Button>
           </Link>
         </SheetTrigger>
       </Sheet>
       <Sheet>
         <SheetTrigger asChild>
           <Link href={""}>
-            <Button className="scale-90">Edit</Button>
+            <Button className="scale-90">PDF</Button>
           </Link>
         </SheetTrigger>
       </Sheet>

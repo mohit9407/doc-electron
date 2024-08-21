@@ -26,7 +26,13 @@ const Page = () => {
     </ClientOnly>
   ) : (
     <ClientOnly>
-      <PaymentsTable data={allPatientsList} />
+      <PaymentsTable data={allPatientsList?.map((paymentObj) => {
+    return {
+      ...paymentObj,
+      name: paymentObj?.patientInfo?.name,
+      mobileNumber: paymentObj?.patientInfo?.mobileNumber,
+    };
+  })} />
     </ClientOnly>
   );
 };
