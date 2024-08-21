@@ -51,7 +51,7 @@ const PaymentTableActions = ({
         <DialogTrigger asChild>
           <Button>Edit</Button>
         </DialogTrigger>
-        <Button onClick={generateInvoice}>Resept Download</Button>
+        <Button onClick={generateInvoice}>Receipt Download</Button>
         <DialogContent className="overflow-y-scroll max-h-screen">
           <DialogHeader>Edit Payment History</DialogHeader>
           <AddPatientThirdForm
