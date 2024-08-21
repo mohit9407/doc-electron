@@ -23,16 +23,16 @@ import PaymentsTableActions from "./payments-table-actions";
 
 const columns = [
   {
-    accessorKey: "patientInfo.name",
+    accessorKey: "name",
     header: "Name",
   },
   {
-    accessorKey: "patientInfo.mobileNumber",
+    accessorKey: "mobileNumber",
     header: "Mobile Number",
   },
   {
     accessorKey: "amountCharges",
-    header: "Amount Charges",
+    header: "Charges",
   },
   {
     accessorKey: "date",
@@ -50,17 +50,8 @@ const columns = [
 
 const PaymentsTable = ({ data }) => {
   const [columnFilters, setColumnFilters] = useState([]);
-
-  const modifiedData = data?.map((paymentObj) => {
-    return {
-      ...paymentObj,
-      name: paymentObj?.patientInfo?.name,
-      mobileNumber: paymentObj?.patientInfo?.mobileNumber,
-    };
-  });
-
   const table = useReactTable({
-    modifiedData,
+    data,
     columns,
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
@@ -90,8 +81,16 @@ const PaymentsTable = ({ data }) => {
           }
           className="max-w-sm mx-2"
         />
-      </div>
 
+        <Input
+          placeholder="Filter Date..."
+          value={table.getColumn("date")?.getFilterValue() ?? ""}
+          onChange={(event) =>
+            table.getColumn("date")?.setFilterValue(event.target.value)
+          }
+          className="max-w-sm mx-2"
+        />
+      </div>
       <div className="rounded-md border">
         <Table>
           <TableHeader>
