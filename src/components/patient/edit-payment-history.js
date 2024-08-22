@@ -1,5 +1,6 @@
 import React from "react";
 import PaymentTable from "./patient-payment-table";
+import moment from "moment";
 
 const EditPaymentHistory = ({
   isOpenAddpayment = false,
@@ -10,12 +11,9 @@ const EditPaymentHistory = ({
   const paymentWithDateTime = patientInfo?.paymentInfo
     ?.filter((paymentObj) => !paymentObj.isDeleted)
     .map((paymentObj) => {
-      const localDate = new Date(paymentObj.date);
-      const localDateStr = localDate.toLocaleDateString();
-      const localTimeStr = localDate.toLocaleTimeString();
       return {
         ...paymentObj,
-        displayDate: `${localDateStr} ${localTimeStr}`,
+        displayDate: moment(paymentObj.date).format("DD-MM-YYYY HH:mm:ss a"),
       };
     });
 

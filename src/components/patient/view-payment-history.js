@@ -7,7 +7,6 @@ import {
   FormField,
   FormItem,
   FormLabel,
-  FormMessage,
 } from "../../components/ui/form";
 
 const ViewPaymentHistory = ({ staff }) => {
@@ -62,7 +61,7 @@ const ViewPaymentHistory = ({ staff }) => {
                     <FormItem>
                       <FormLabel>Date</FormLabel>
                       <FormDescription>
-                        {new Date(staff.date).toISOString().split("T")[0]}
+                        {staff.date}
                       </FormDescription>
                     </FormItem>
                   )}
