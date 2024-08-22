@@ -1,6 +1,6 @@
 import React from "react";
 import PaymentTable from "./patient-payment-table";
-import moment from "moment";
+import { dateFormat } from "../../lib/utils";
 
 const EditPaymentHistory = ({
   isOpenAddpayment = false,
@@ -13,7 +13,7 @@ const EditPaymentHistory = ({
     .map((paymentObj) => {
       return {
         ...paymentObj,
-        displayDate: moment(paymentObj.date).format("DD-MM-YYYY HH:mm:ss a"),
+        displayDate: dateFormat(paymentObj.date) 
       };
     });
 

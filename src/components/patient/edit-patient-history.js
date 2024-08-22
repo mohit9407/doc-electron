@@ -1,6 +1,6 @@
 import React from "react";
 import HistoryTable from "./patient-history-table";
-import moment from "moment";
+import { dateFormat } from "../../lib/utils";
 
 const EditPatientHistory = ({
   isOpenAddHistory = false,
@@ -14,7 +14,7 @@ const EditPatientHistory = ({
     .map((historyObj) => {
       return {
         ...historyObj,
-        displayDate: moment(historyObj.date).format("DD-MM-YYYY HH:mm:ss a"),
+        displayDate: dateFormat(historyObj.date),
       };
     });
 
