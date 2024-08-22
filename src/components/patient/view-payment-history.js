@@ -29,7 +29,7 @@ const ViewPaymentHistory = ({ staff }) => {
                   )}
                 />
                 <FormField
-                  name="amountCharges"
+                  name="age"
                   render={() => (
                     <FormItem>
                       <FormLabel>Age</FormLabel>
