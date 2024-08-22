@@ -1,6 +1,8 @@
 "use client";
 import React, { useEffect, useState } from "react";
+import { useRouter } from "next/router";
 import { usePathname } from "next/navigation";
+import { toast } from "../../../components/ui/use-toast";
 import ClientOnly from "../../../components/client-only";
 import ErrorContainer from "../../../components/error-container";
 import StaffTable from "../../../components/staff/staff-table";
@@ -10,6 +12,8 @@ import StaffTabs from "../../../components/navbar/staff/staff-tabs";
 const Page = () => {
   const pathname = usePathname();
   const [allPatientsList, setAllPatientsList] = useState([]);
+  const router = useRouter();
+  const params = router.query;
 
   const getAllPatient = async () => {
     try {
@@ -17,7 +21,7 @@ const Page = () => {
       setAllPatientsList(
         data?.data?.data
           ?.filter((patientObj) => !patientObj.isDeleted)
-          .reverse()
+          .reverse() || []
       );
     } catch (error) {
       console.log(error);
@@ -41,7 +45,7 @@ const Page = () => {
     }
   };
 
-  const deletePatient = (patientId) => {
+  const deletePatient = async (patientId) => {
     let localAllPatientsList = [...allPatientsList];
     const idOfPatient = localAllPatientsList.findIndex(
       (patientObj) => patientObj.id === patientId
@@ -51,7 +55,10 @@ const Page = () => {
         ...localAllPatientsList[idOfPatient],
         isDeleted: true,
       };
-    return updatepatientInfo(localAllPatientsList[idOfPatient], patientId);
+    return await updatepatientInfo(
+      localAllPatientsList[idOfPatient],
+      patientId
+    );
   };
 
   useEffect(() => {

@@ -23,6 +23,7 @@ const StaffTableActions = ({ staff, deletePatient = () => {} }) => {
   const moveToTrash = async () => {
     try {
       setDisabled(true);
+      await deletePatient(staff.id);
       toast({
         title: "Patient moved to trash",
       });

@@ -12,7 +12,7 @@ const Page = () => {
   const getAllPatient = async () => {
     try {
       const data = await global.api.sendSync("getAllTrashs");
-      setAllPatientsList(data?.data?.data?.reverse());
+      setAllPatientsList(data?.data?.data?.reverse() || []);
     } catch (e) {
       console.log("error: ", e?.message);
       setAllPatientsList([]);
