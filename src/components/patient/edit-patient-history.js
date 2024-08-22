@@ -1,5 +1,6 @@
 import React from "react";
 import HistoryTable from "./patient-history-table";
+import { dateFormat } from "../../lib/utils";
 
 const EditPatientHistory = ({
   isOpenAddHistory = false,
@@ -11,12 +12,9 @@ const EditPatientHistory = ({
   const historyWithDateTime = patientInfo?.historyInfo
     ?.filter((historyObj) => !historyObj.isDeleted)
     .map((historyObj) => {
-      const localDate = new Date(historyObj.date);
-      const localDateStr = localDate.toLocaleDateString();
-      const localTimeStr = localDate.toLocaleTimeString();
       return {
         ...historyObj,
-        displayDate: `${localDateStr} ${localTimeStr}`,
+        displayDate: dateFormat(historyObj.date),
       };
     });
 

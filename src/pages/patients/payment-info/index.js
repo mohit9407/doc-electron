@@ -4,6 +4,7 @@ import ErrorContainer from "../../../components/error-container";
 import PaymentsTable from "../../../components/staff/payments-table";
 import ClientOnly from "../../../components/client-only";
 import AppBar from "../../../components/navbar/app-bar";
+import { dateFormat } from "../../../lib/utils";
 
 const Page = () => {
   const [allPatientsList, setAllPatientsList] = useState([]);
@@ -16,7 +17,7 @@ const Page = () => {
   };
 
   useEffect(() => {
-    getPaymentsOfPatient(); 
+    getPaymentsOfPatient();
   }, []);
 
   return (
@@ -36,6 +37,7 @@ const Page = () => {
                 ...paymentObj,
                 name: paymentObj?.patientInfo?.name,
                 mobileNumber: paymentObj?.patientInfo?.mobileNumber,
+                date: dateFormat(paymentObj?.patientInfo?.date),
               };
             })}
           />

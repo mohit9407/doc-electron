@@ -34,7 +34,7 @@ import {
 } from "../../components/ui/popover";
 import { staffValidationSchema } from "../../lib/schema/staff/staff-schema";
 import { maritalStatus, sexType } from "../../lib/constants/patient";
-import { cn } from "../../lib/utils";
+import { cn, dateFormat } from "../../lib/utils";
 
 const AddStaffForm = ({
   setFormStep,
@@ -115,7 +115,7 @@ const AddStaffForm = ({
                             )}
                           >
                             {field.value ? (
-                              format(field.value, "PPP")
+                              dateFormat(field.value)
                             ) : (
                               <span>Date</span>
                             )}
