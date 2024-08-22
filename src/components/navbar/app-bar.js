@@ -23,7 +23,7 @@ const AppBar = ({
       return data;
     };
 
-    const saveAsPdf = async () => {
+    const saveAsJson = async () => {
       const jsonData = await fetchJson();
       const blob = new Blob([JSON.stringify(jsonData?.data, null, 2)], {
         type: "application/json",
@@ -33,7 +33,7 @@ const AppBar = ({
       link.download = "backup.json";
       link.click();
     };
-    saveAsPdf();
+    saveAsJson();
   };
 
   return (
