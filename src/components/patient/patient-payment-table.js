@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   flexRender,
   getCoreRowModel,
@@ -27,7 +27,13 @@ import { Button } from "../../components/ui/button";
 import PaymentTableActions from "./payment-table-action";
 import AddPatientThirdForm from "../staff/add-patient-third-form";
 
-const PaymentTable = ({ patientInfo, data, updatePaymentHistory }) => {
+const PaymentTable = ({
+  patientInfo,
+  isOpenAddpayment,
+  setIsOpenAddpayment = () => {},
+  data,
+  updatePaymentHistory,
+}) => {
   const [columnFilters, setColumnFilters] = useState([]);
   const [isOpen, setIsOpen] = useState(false);
 
@@ -73,13 +79,20 @@ const PaymentTable = ({ patientInfo, data, updatePaymentHistory }) => {
     },
   });
 
+  useEffect(() => {
+    if (isOpenAddpayment && !isOpen) setIsOpen(true);
+  }, [isOpenAddpayment]);
+
   return (
     <div className="flex flex-col">
       <Dialog
         open={isOpen}
-        onOpenChange={(isModalOpen) =>
-          !isModalOpen && isOpen && setIsOpen(false)
-        }
+        onOpenChange={(isModalOpen) => {
+          if (!isModalOpen) {
+            isOpen && setIsOpen(false);
+            isOpenAddpayment && setIsOpenAddpayment(false);
+          }
+        }}
       >
         <DialogTrigger asChild>
           <Button onClick={() => setIsOpen(true)} className="ml-auto mb-2">

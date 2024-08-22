@@ -1,7 +1,12 @@
 import React from "react";
 import PaymentTable from "./patient-payment-table";
 
-const EditPaymentHistory = ({ patientInfo, updatePaymentHistory }) => {
+const EditPaymentHistory = ({
+  isOpenAddpayment = false,
+  setIsOpenAddpayment = () => {},
+  patientInfo,
+  updatePaymentHistory,
+}) => {
   const paymentWithDateTime = patientInfo?.paymentInfo
     ?.filter((paymentObj) => !paymentObj.isDeleted)
     .map((paymentObj) => {
@@ -17,6 +22,8 @@ const EditPaymentHistory = ({ patientInfo, updatePaymentHistory }) => {
   return (
     <>
       <PaymentTable
+        isOpenAddpayment={isOpenAddpayment}
+        setIsOpenAddpayment={setIsOpenAddpayment}
         patientInfo={patientInfo}
         data={paymentWithDateTime.reverse()}
         updatePaymentHistory={updatePaymentHistory}

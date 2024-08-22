@@ -2,6 +2,8 @@ import React from "react";
 import HistoryTable from "./patient-history-table";
 
 const EditPatientHistory = ({
+  isOpenAddHistory = false,
+  setIsOpenAddHistory = () => {},
   patientInfo,
   deleteHistoryHandler,
   updatePatientHistory,
@@ -21,7 +23,9 @@ const EditPatientHistory = ({
   return (
     <>
       <HistoryTable
-        data={historyWithDateTime.reverse()}
+        isOpenAddHistory={isOpenAddHistory}
+        setIsOpenAddHistory={setIsOpenAddHistory}
+        data={historyWithDateTime?.reverse()}
         deleteHistoryHandler={deleteHistoryHandler}
         updatePatientHistory={updatePatientHistory}
       />
