@@ -24,7 +24,9 @@ const StaffTableActions = ({ staff, deletePatient = () => {} }) => {
     try {
       setDisabled(true);
       await deletePatient(staff.id);
-      router.refresh();
+      toast({
+        title: "Patient moved to trash",
+      });
     } catch (error) {
       toast({
         title: error.response ? error.response.data.message : error.message,
