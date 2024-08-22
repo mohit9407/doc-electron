@@ -35,6 +35,7 @@ import {
 import { staffValidationSchema } from "../../lib/schema/staff/staff-schema";
 import { maritalStatus, sexType } from "../../lib/constants/patient";
 import { cn } from "../../lib/utils";
+import moment from "moment";
 
 const AddStaffForm = ({
   setFormStep,
@@ -115,7 +116,7 @@ const AddStaffForm = ({
                             )}
                           >
                             {field.value ? (
-                              format(field.value, "PPP")
+                              moment(field.value).format("DD-MM-YYYY HH:mm:ss a")
                             ) : (
                               <span>Date</span>
                             )}
