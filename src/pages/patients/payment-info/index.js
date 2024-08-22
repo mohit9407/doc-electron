@@ -36,6 +36,7 @@ const Page = () => {
                 ...paymentObj,
                 name: paymentObj?.patientInfo?.name,
                 mobileNumber: paymentObj?.patientInfo?.mobileNumber,
+                date: paymentObj?.patientInfo?.date
               };
             })}
           />
