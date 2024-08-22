@@ -82,6 +82,15 @@ const StaffTableActions = ({ staff, deletePatient = () => {} }) => {
           </Link>
         </SheetTrigger>
       </Sheet>
+      <Sheet>
+        <SheetTrigger asChild>
+          <Link
+            href={`/patients/edit?patientid=${staff.id}&isopenhistory=true`}
+          >
+            <Button className="scale-90">Add History</Button>
+          </Link>
+        </SheetTrigger>
+      </Sheet>
       <Dialog>
         <DialogTrigger asChild>
           <Button className="scale-90" variant="destructive">
