@@ -6,6 +6,7 @@ import { cn } from "../../lib/utils";
 import { usePathname } from "next/navigation";
 import ThemeToggle from "../../components/theme-toggle";
 import DynamicLink from "../../components/dynamic-link";
+import { Sheet, SheetTrigger } from "../../components/ui/sheet";
 
 const AppBar = ({
   title = "Dashboard",
@@ -14,6 +15,27 @@ const AppBar = ({
   isSecondary = false,
 }) => {
   const pathname = usePathname();
+
+  const backupHandler = (e) => {
+    e.preventDefault();
+    const fetchJson = async () => {
+      const { data } = await global.api.sendSync("generateBackup");
+      return data;
+    };
+
+    const saveAsJson = async () => {
+      const jsonData = await fetchJson();
+      const blob = new Blob([JSON.stringify(jsonData?.data, null, 2)], {
+        type: "application/json",
+      });
+      const link = document.createElement("a");
+      link.href = URL.createObjectURL(blob);
+      link.download = "backup.json";
+      link.click();
+    };
+    saveAsJson();
+  };
+
   return (
     <header
       className={cn(
@@ -43,6 +65,17 @@ const AppBar = ({
         )}
         {title}
       </div>
+      <Sheet>
+        <SheetTrigger asChild>
+          <Button
+            className="scale-90 mt-auto mb-auto mr-0 ml-0"
+            variant="outline"
+            onClick={backupHandler}
+          >
+            Backup
+          </Button>
+        </SheetTrigger>
+      </Sheet>
       {pathname === "/" && <ThemeToggle />}
     </header>
   );

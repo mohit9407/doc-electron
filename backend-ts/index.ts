@@ -3,7 +3,7 @@ import path, { join } from "node:path";
 import { isDev } from "./utils/env";
 import { prepareNext } from "./utils/prepareNext";
 import { addPatient, getInvoiceNo } from "./routes";
-import { getAllPatients, generateInvoice } from "./routes/manage";
+import { getAllPatients, generateInvoice, generateBackup } from "./routes/manage";
 import { getPatientInfo, putPatientData, patchPatientData } from "./routes/edit";
 import { getAllPayments } from "./routes/payments";
 import { ipcMain } from "electron";
@@ -105,6 +105,22 @@ ipcMain.on("getAllPatients", (event) => {
 
 ipcMain.on("generateInvoice", (event, patientData: any) => {
   generateInvoice(patientData)
+    .then((data: any) => {
+      event.returnValue = {
+        error: false,
+        data,
+      };
+    })
+    .catch((error: any) => {
+      event.returnValue = {
+        error: true,
+        data: error,
+      };
+    });
+});
+
+ipcMain.on("generateBackup", (event) => {
+  generateBackup()
     .then((data: any) => {
       event.returnValue = {
         error: false,

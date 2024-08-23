@@ -64,3 +64,20 @@ export function generateInvoice(patientData: any): any {
     }
   })
 }
+
+export function generateBackup(): any {
+  return new Promise((resolve, reject) => {
+    try {
+      const patientRecords = JSON.parse(
+        readFileSync(path.join(__dirname, '..', '..', "patients.json") || '', "utf8") || '{}'
+      );
+      return resolve({
+        data: patientRecords,
+        status: 200
+      });
+    } catch (e) {
+      console.error("ERROR IN getAllPatients", e);
+      reject(e);
+    }
+  })
+}
