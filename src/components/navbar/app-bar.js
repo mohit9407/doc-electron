@@ -39,7 +39,7 @@ const AppBar = ({
   return (
     <header
       className={cn(
-        "w-full flex flex-row py-2",
+        "w-full flex flex-row py-2 justify-between",
         isSecondary
           ? "bg-muted border-y border-y-muted my-2 scale-90 z-10"
           : "bg-primary rounded"
@@ -68,7 +68,7 @@ const AppBar = ({
       <Sheet>
         <SheetTrigger asChild>
           <Button
-            className="scale-90 mt-auto mb-auto mr-0 ml-0"
+            className="scale-90 mt-auto mb-auto mr-2.5 ml-0"
             variant="outline"
             onClick={backupHandler}
           >
@@ -76,7 +76,11 @@ const AppBar = ({
           </Button>
         </SheetTrigger>
       </Sheet>
-      {pathname === "/" && <ThemeToggle />}
+      {pathname === "/" && (
+        <>
+          <ThemeToggle />
+        </>
+      )}
     </header>
   );
 };
