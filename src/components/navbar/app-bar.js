@@ -7,6 +7,7 @@ import { usePathname } from "next/navigation";
 import ThemeToggle from "../../components/theme-toggle";
 import DynamicLink from "../../components/dynamic-link";
 import { Sheet, SheetTrigger } from "../../components/ui/sheet";
+import FileUpload from "../ui/FileUpload";
 
 const AppBar = ({
   title = "Dashboard",
@@ -39,7 +40,7 @@ const AppBar = ({
   return (
     <header
       className={cn(
-        "w-full flex flex-row py-2 justify-between",
+        "w-full flex flex-row py-2",
         isSecondary
           ? "bg-muted border-y border-y-muted my-2 scale-90 z-10"
           : "bg-primary rounded"
@@ -47,7 +48,7 @@ const AppBar = ({
     >
       <div
         className={cn(
-          "px-4 py-2 text-lg",
+          "px-4 py-2 text-lg w-[68%]",
           isSecondary ? "text-muted-foreground" : "text-primary-foreground ",
           pathname === "/" && "mr-auto"
         )}
@@ -74,6 +75,9 @@ const AppBar = ({
           >
             Backup
           </Button>
+        </SheetTrigger>
+        <SheetTrigger asChild>
+          <FileUpload />
         </SheetTrigger>
       </Sheet>
       {pathname === "/" && (

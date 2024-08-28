@@ -4,7 +4,7 @@ import { isDev } from "./utils/env";
 import { prepareNext } from "./utils/prepareNext";
 import { addPatient, getInvoiceNo } from "./routes";
 import { getAllPatients, generateInvoice, generateBackup } from "./routes/manage";
-import { getPatientInfo, putPatientData, patchPatientData } from "./routes/edit";
+import { getPatientInfo, putPatientData, patchPatientData, recoveryPatientInfo } from "./routes/edit";
 import { getAllPayments } from "./routes/payments";
 import { ipcMain } from "electron";
 import { getAllTrashs } from "./routes/trash";
@@ -153,6 +153,22 @@ ipcMain.on("getPatientInfo", (event, { patientid }: any) => {
 
 ipcMain.on("putPatientData", (event, patientData: any) => {
   putPatientData(patientData, { patientid: patientData?.id })
+    .then((data: any) => {
+      event.returnValue = {
+        error: false,
+        data,
+      };
+    })
+    .catch((error: any) => {
+      event.returnValue = {
+        error: true,
+        data: error,
+      };
+    });
+});
+
+ipcMain.on("recoveryPatientInfo", (event, patientData: any) => {
+  recoveryPatientInfo(patientData)
     .then((data: any) => {
       event.returnValue = {
         error: false,

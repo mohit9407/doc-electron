@@ -77,6 +77,29 @@ export function putPatientData(patientData: any, { patientid }: any): any {
   });
 }
 
+export function recoveryPatientInfo(patientData: any): any {
+  return new Promise((resolve, reject) => {
+    try {
+
+      if (patientData) {
+
+        writeFileSync(
+          path.join(__dirname, "..", "..", "patients.json") || "",
+          JSON.stringify({ ...patientData })
+        );
+
+        return resolve({
+          message: "Json getting successfully!",
+          status: 200,
+        });
+      }
+    } catch (e) {
+      console.error("ERROR IN recoveryPatientInfo", e);
+      reject(e);
+    }
+  });
+}
+
 export function patchPatientData(patientData: any): any {
   return new Promise((resolve, reject) => {
     try {
