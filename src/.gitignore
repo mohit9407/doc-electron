@@ -15,6 +15,7 @@
 
 # production
 /build
+src/.next
 
 # misc
 .DS_Store
