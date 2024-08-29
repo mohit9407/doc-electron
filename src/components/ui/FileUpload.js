@@ -25,10 +25,11 @@ export default function FileUpload() {
       });
     };
     reader.readAsText(file);
+    window.location.reload()
   };
 
   return (
-    <div className="flex items-center w-[20%]">
+    <div className="flex items-center">
       <Button
             className="scale-90 mt-auto mb-auto mr-2.5 ml-0"
             variant="outline"
