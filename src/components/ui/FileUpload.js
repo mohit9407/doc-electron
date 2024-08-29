@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { Button } from "./button";
 
 export default function FileUpload() {
   const [file, setFile] = useState(null);
@@ -20,7 +21,7 @@ export default function FileUpload() {
       const jsonData = JSON.parse(event.target.result);
 
       await global.api.sendSync("recoveryPatientInfo", {
-        patientData: jsonData,
+        ...jsonData,
       });
     };
     reader.readAsText(file);
@@ -28,7 +29,13 @@ export default function FileUpload() {
 
   return (
     <div className="flex items-center w-[20%]">
-      <input type="file" accept=".json" onChange={handleFileChange} />
+      <Button
+            className="scale-90 mt-auto mb-auto mr-2.5 ml-0"
+            variant="outline"
+          >
+        <input type="file" accept=".json" hidden id="actual-btn" onChange={handleFileChange} />
+        <label for="actual-btn">Restore</label>
+      </Button>
     </div>
   );
 }
