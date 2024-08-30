@@ -8,6 +8,8 @@ import ThemeToggle from "../../components/theme-toggle";
 import DynamicLink from "../../components/dynamic-link";
 import { Sheet, SheetTrigger } from "../../components/ui/sheet";
 import FileUpload from "../ui/FileUpload";
+import { useEffect } from "react";
+import { toast } from "../ui/use-toast";
 
 const AppBar = ({
   title = "Dashboard",
@@ -16,6 +18,15 @@ const AppBar = ({
   isSecondary = false,
 }) => {
   const pathname = usePathname();
+
+  useEffect(() => {
+    if (localStorage.getItem("isDataRestored") === 'true') {
+      toast({
+        title: "Patient data restored",
+      });
+      localStorage.setItem("isDataRestored", false);
+    }
+  }, []);
 
   const backupHandler = (e) => {
     e.preventDefault();

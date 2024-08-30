@@ -10,6 +10,8 @@ export default function FileUpload() {
 
   const handleFileChange = (event) => {
     setFile(event.target.files[0]);
+    window.location.reload();
+    localStorage.setItem('isDataRestored', true);
   };
 
   const handleFileUpload = async () => {
@@ -25,16 +27,21 @@ export default function FileUpload() {
       });
     };
     reader.readAsText(file);
-    window.location.reload()
   };
 
   return (
     <div className="flex items-center">
       <Button
-            className="scale-90 mt-auto mb-auto mr-2.5 ml-0"
-            variant="outline"
-          >
-        <input type="file" accept=".json" hidden id="actual-btn" onChange={handleFileChange} />
+        className="scale-90 mt-auto mb-auto mr-2.5 ml-0"
+        variant="outline"
+      >
+        <input
+          type="file"
+          accept=".json"
+          hidden
+          id="actual-btn"
+          onChange={handleFileChange}
+        />
         <label for="actual-btn">Restore</label>
       </Button>
     </div>
