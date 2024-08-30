@@ -4,7 +4,8 @@ import path, { join } from "node:path";
 import { isDev } from "./utils/env";
 import { prepareNext } from "./utils/prepareNext";
 import { initLogs } from "./utils/initLogs";
-import { generateBackup } from "./routes/manage";
+import { addPatient, getInvoiceNo } from "./routes";
+import { getAllPatients, generateBackup } from "./routes/manage";
 import { addUser, initDb } from "./database";
 import { ipcMain } from "electron";
 import { User } from "./database/schema";
@@ -74,6 +75,54 @@ ipcMain.on("addUser", (event, user: User) => {
 
 ipcMain.on("generateBackup", (event) => {
   generateBackup()
+    .then((data: any) => {
+      event.returnValue = {
+        error: false,
+        data,
+      };
+    })
+    .catch((error: any) => {
+      event.returnValue = {
+        error: true,
+        data: error,
+      };
+    });
+});
+
+ipcMain.on("addPatient", (event, patientData: any) => {
+  addPatient(patientData)
+    .then((data: any) => {
+      event.returnValue = {
+        error: false,
+        data,
+      };
+    })
+    .catch((error: any) => {
+      event.returnValue = {
+        error: true,
+        data: error,
+      };
+    });
+});
+
+ipcMain.on("getInvoiceNo", (event) => {
+  getInvoiceNo()
+    .then((data: any) => {
+      event.returnValue = {
+        error: false,
+        data,
+      };
+    })
+    .catch((error: any) => {
+      event.returnValue = {
+        error: true,
+        data: error,
+      };
+    });
+});
+
+ipcMain.on("getAllPatients", (event) => {
+  getAllPatients()
     .then((data: any) => {
       event.returnValue = {
         error: false,
