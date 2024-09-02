@@ -18,6 +18,7 @@ const Page = () => {
   const getAllPatient = async () => {
     try {
       const data = await global.api.sendSync("getAllPatients");
+      console.log("all patient got again: ", data);
       setAllPatientsList(
         data?.data?.data
           ?.filter((patientObj) => !patientObj.isDeleted)
@@ -29,6 +30,7 @@ const Page = () => {
   };
 
   const updatepatientInfo = async (patientInfo) => {
+    console.log("put patient data: ", patientInfo, 'and its patient id: ', params?.patientid);
     const { data: updatedPatientInfo } = await global.api.sendSync(
       "putPatientData",
       patientInfo,
@@ -36,6 +38,7 @@ const Page = () => {
         patientid: params?.patientid,
       }
     );
+    console.log("update patient info: ", updatedPatientInfo);
     if (updatedPatientInfo.status === 200) {
       toast({
         title: "Patient deleted successfully!",

@@ -6,6 +6,9 @@ import { prepareNext } from "./utils/prepareNext";
 import { initLogs } from "./utils/initLogs";
 import { getInvoiceNo } from "./routes";
 import { addPatient, getAllPatients, generateBackup } from "./routes/manage";
+import { getPatientInfo, putPatientData, patchPatientData } from "./routes/edit";
+import { getAllPayments } from "./routes/payments";
+import { getAllTrashs } from "./routes/trash";
 import { addUser, initDb } from "./database";
 import { ipcMain } from "electron";
 import { User } from "./database/schema";
@@ -124,6 +127,86 @@ ipcMain.on("getInvoiceNo", (event) => {
 
 ipcMain.on("getAllPatients", (event) => {
   getAllPatients()
+    .then((data: any) => {
+      event.returnValue = {
+        error: false,
+        data,
+      };
+    })
+    .catch((error: any) => {
+      event.returnValue = {
+        error: true,
+        data: error,
+      };
+    });
+});
+
+ipcMain.on("getPatientInfo", (event, { patientid }: any) => {
+  getPatientInfo({ patientid })
+    .then((data: any) => {
+      event.returnValue = {
+        error: false,
+        data,
+      };
+    })
+    .catch((error: any) => {
+      event.returnValue = {
+        error: true,
+        data: error,
+      };
+    });
+});
+
+ipcMain.on("putPatientData", (event, patientData: any) => {
+  putPatientData(patientData, { patientid: patientData?.id })
+    .then((data: any) => {
+      event.returnValue = {
+        error: false,
+        data,
+      };
+    })
+    .catch((error: any) => {
+      event.returnValue = {
+        error: true,
+        data: error,
+      };
+    });
+});
+
+ipcMain.on("patchPatientData", (event, patientData: any) => {
+  patchPatientData(patientData)
+    .then((data: any) => {
+      event.returnValue = {
+        error: false,
+        data,
+      };
+    })
+    .catch((error: any) => {
+      event.returnValue = {
+        error: true,
+        data: error,
+      };
+    });
+});
+
+ipcMain.on("getAllPayments", (event) => {
+  getAllPayments()
+    .then((data: any) => {
+      event.returnValue = {
+        error: false,
+        data,
+      };
+    })
+    .catch((error: any) => {
+      event.returnValue = {
+        error: true,
+        data: error,
+      };
+    });
+});
+
+ipcMain.on("getAllTrashs", (event) => {
+  getAllTrashs()
     .then((data: any) => {
       event.returnValue = {
         error: false,

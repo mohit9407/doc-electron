@@ -1,7 +1,5 @@
 "use client";
 
-import Link from "next/link";
-
 import { Button } from "../../components/ui/button";
 import {
   Dialog,
@@ -12,41 +10,24 @@ import {
   DialogDescription,
   DialogFooter,
 } from "../ui/dialog";
+import AddPatientSecForm from "../staff/add-patient-sec-form";
 import { toast } from "../../components/ui/use-toast";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { Sheet, SheetTrigger } from "../../components/ui/sheet";
 
-const StaffTableActions = ({ staff, deletePatient = () => {} }) => {
+const HistoryTableActions = ({
+  patientHistory,
+  deleteHistoryHandler,
+  updatePatientHistory,
+}) => {
   const [disabled, setDisabled] = useState(false);
   const router = useRouter();
   const moveToTrash = async () => {
     try {
       setDisabled(true);
-      debugger
-      await deletePatient(staff.id);
+      deleteHistoryHandler(patientHistory.id);
       toast({
-        title: "Patient moved to trash",
-      });
-      debugger
-      router.refresh();
-    } catch (error) {
-      debugger
-      toast({
-        title: error.response ? error.response.data.message : error.message,
-
-        variant: "destructive",
-      });
-    } finally {
-      setDisabled(false);
-    }
-  };
-
-  const restore = async () => {
-    try {
-      setDisabled(true);
-      toast({
-        title: "History restored",
+        title: "Patient history moved to trash",
       });
       // router.refresh();
     } catch (error) {
@@ -59,8 +40,10 @@ const StaffTableActions = ({ staff, deletePatient = () => {} }) => {
       setDisabled(false);
     }
   };
-  console.log("staff info data: ", staff)
-  return staff.isTrashed ? (
+
+  const restore = async () => {};
+
+  return patientHistory.isDeleted ? (
     <Dialog>
       <DialogTrigger asChild>
         <Button>Restore</Button>
@@ -69,7 +52,7 @@ const StaffTableActions = ({ staff, deletePatient = () => {} }) => {
         <DialogHeader>
           <DialogTitle>Are you sure ?</DialogTitle>
         </DialogHeader>
-        <DialogDescription>Restore {staff.name} ?</DialogDescription>
+        <DialogDescription>Restore {patientHistory.name} ?</DialogDescription>
         <DialogFooter>
           <Button disabled={disabled} onClick={restore}>
             Restore
@@ -79,22 +62,18 @@ const StaffTableActions = ({ staff, deletePatient = () => {} }) => {
     </Dialog>
   ) : (
     <div className="flex flex-row justify-between max-w-sm w-full">
-      <Sheet>
-        <SheetTrigger asChild>
-          <Link href={`/patients/edit?patientid=${staff.id}`}>
-            <Button className="scale-90">Edit</Button>
-          </Link>
-        </SheetTrigger>
-      </Sheet>
-      <Sheet>
-        <SheetTrigger asChild>
-          <Link
-            href={`/patients/edit?patientid=${staff.id}&isopenhistory=true`}
-          >
-            <Button className="scale-90">Add History</Button>
-          </Link>
-        </SheetTrigger>
-      </Sheet>
+      <Dialog>
+        <DialogTrigger asChild>
+          <Button>Edit</Button>
+        </DialogTrigger>
+        <DialogContent className="overflow-y-scroll max-h-screen">
+          <DialogHeader>Edit Patient History</DialogHeader>
+          <AddPatientSecForm
+            patientinfo={{ ...patientHistory }}
+            updatePatientHistory={updatePatientHistory}
+          />
+        </DialogContent>
+      </Dialog>
       <Dialog>
         <DialogTrigger asChild>
           <Button className="scale-90" variant="destructive">
@@ -105,7 +84,9 @@ const StaffTableActions = ({ staff, deletePatient = () => {} }) => {
           <DialogHeader>
             <DialogTitle>Are you sure?</DialogTitle>
           </DialogHeader>
-          <DialogDescription>Move {staff.name} to trash</DialogDescription>
+          <DialogDescription>
+            Move {patientHistory.chiefComplaints} to trash
+          </DialogDescription>
           <DialogFooter>
             <Button disabled={disabled} onClick={moveToTrash}>
               Move to trash
@@ -117,4 +98,4 @@ const StaffTableActions = ({ staff, deletePatient = () => {} }) => {
   );
 };
 
-export default StaffTableActions;
+export default HistoryTableActions;

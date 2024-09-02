@@ -6,7 +6,8 @@ import handlers from "handlebars";
 import path from "node:path";
 import { join } from "path";
 
-const getPath = app.isPackaged? join(app.getPath('userData'), 'patients.json') : join(__dirname, '..', '..', "patients.json");
+const dirNam = __dirname;
+const getPath = app.isPackaged? join(app.getPath('userData'), 'patients.json') : join(dirNam, '..', '..', "patients.json");
 export function addPatient(patient: any): any {
   return new Promise((resolve, reject) => {
     try {
@@ -30,8 +31,7 @@ export function addPatient(patient: any): any {
         writeFileSync(getPath || '', JSON.stringify(patientObj));
         resolve({
           message: "Patient added successfully!", data: reqData,
-          status: 201,
-          path: path.join(app.getPath('userData'), 'patients.json')
+          status: 201
         });
       } else {
         reject({
@@ -84,7 +84,7 @@ export function generateInvoice(patientData: any): any {
 
       // read our invoice-template.html file using node fs module
       const file = readFileSync(
-        path.join(__dirname, "invoice-template.html") || '',
+        path.join(dirNam, "invoice-template.html") || '',
         "utf8"
       );
       // compile the file with handlebars and inject the customerName variable
@@ -111,7 +111,7 @@ export function generateBackup(): any {
   return new Promise((resolve, reject) => {
     try {
       const patientRecords = JSON.parse(
-        readFileSync(path.join(__dirname, "..", "..", "patients.json") || '', "utf8") || '{}',
+        readFileSync(getPath || '', "utf8") || '{}',
       );
       return resolve({
         data: patientRecords,

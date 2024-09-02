@@ -1,11 +1,15 @@
 import { readFileSync } from "fs";
-import path from "node:path";
+import { app } from "electron";
+import { join } from "path";
+
+const dirNam = __dirname;
+const getPath = app.isPackaged? join(app.getPath('userData'), 'patients.json') : join(dirNam, '..', "patients.json");
 
 export function getInvoiceNo(): any {
   return new Promise((resolve, reject) => {
     try {
       const patientRecords = JSON.parse(
-        readFileSync(path.join(__dirname, '..', "patients.json") || '', "utf8") || '{}'
+        readFileSync(getPath || '', "utf8") || '{}'
       );
 
       resolve({
