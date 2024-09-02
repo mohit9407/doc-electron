@@ -47,6 +47,7 @@ const AddPatientThirdForm = ({
         "addPatient",
         patientinfo
       );
+      console.log("api resp....", addedUser);
       if (addedUser.status === 201) {
         setIsSubmitted(false);
         setpatientinfo(null);

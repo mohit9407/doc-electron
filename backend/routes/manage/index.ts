@@ -1,13 +1,55 @@
-import { readFileSync } from "fs";
+import { readFileSync, writeFileSync } from "fs";
+import { v4 as uuidV4 } from "uuid";
+import { app } from "electron";
 import puppeteer from "puppeteer";
 import handlers from "handlebars";
 import path from "node:path";
+import { join } from "path";
+
+const getPath = app.isPackaged? join(app.getPath('userData'), 'patients.json') : join(__dirname, '..', '..', "patients.json");
+export function addPatient(patient: any): any {
+  return new Promise((resolve, reject) => {
+    try {
+      if (patient) {
+        const reqData = { id: uuidV4(), ...patient };
+        const a: any = readFileSync(getPath || '', "utf8");
+        const patientRecords = JSON.parse(
+          a || '{}'
+        );
+        let patientObj: any = {};
+        if (!patientRecords || (patientRecords && !patientRecords?.patientInfo)) {
+          patientObj = {
+            patientInfo: [reqData],
+            invoiceNo: 1,
+          };
+        } else {
+          patientObj = { ...patientRecords };
+          patientObj.patientInfo.push(reqData);
+          patientObj.invoiceNo += 1;
+        }
+        writeFileSync(getPath || '', JSON.stringify(patientObj));
+        resolve({
+          message: "Patient added successfully!", data: reqData,
+          status: 201,
+          path: path.join(app.getPath('userData'), 'patients.json')
+        });
+      } else {
+        reject({
+          message: "Bad request!"
+        });
+      }
+    } catch (e) {
+      console.error("ERROR IN addPasent", e);
+      reject(e);
+    }
+  });
+}
 
 export function getAllPatients(): any {
   return new Promise((resolve, reject) => {
     try {
       const patientRecords = JSON.parse(
-        readFileSync(path.join(__dirname, '..', '..', "patients.json") || '', "utf8") || '{}'
+        readFileSync(getPath || '', "utf8") || '{}'
       );
       const patientInfo = patientRecords?.patientInfo?.filter(
         (patientObj: any) => !patientObj.isDeleted
@@ -69,7 +111,7 @@ export function generateBackup(): any {
   return new Promise((resolve, reject) => {
     try {
       const patientRecords = JSON.parse(
-        readFileSync(path.join(__dirname, '..', '..', "patients.json") || '', "utf8") || '{}'
+        readFileSync(path.join(__dirname, "..", "..", "patients.json") || '', "utf8") || '{}',
       );
       return resolve({
         data: patientRecords,

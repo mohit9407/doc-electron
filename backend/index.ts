@@ -4,8 +4,8 @@ import path, { join } from "node:path";
 import { isDev } from "./utils/env";
 import { prepareNext } from "./utils/prepareNext";
 import { initLogs } from "./utils/initLogs";
-import { addPatient, getInvoiceNo } from "./routes";
-import { getAllPatients, generateBackup } from "./routes/manage";
+import { getInvoiceNo } from "./routes";
+import { addPatient, getAllPatients, generateBackup } from "./routes/manage";
 import { addUser, initDb } from "./database";
 import { ipcMain } from "electron";
 import { User } from "./database/schema";
@@ -33,6 +33,7 @@ function createWindow(): void {
     : win.loadFile(join(__dirname, "..", "src", "out", "index.html"));
 
   isDev && win.webContents.openDevTools();
+  win.webContents.openDevTools();
   isDev && win.maximize();
 }
 
