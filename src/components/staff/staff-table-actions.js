@@ -14,24 +14,18 @@ import {
 } from "../ui/dialog";
 import { toast } from "../../components/ui/use-toast";
 import { useState } from "react";
-import { useRouter } from "next/navigation";
 import { Sheet, SheetTrigger } from "../../components/ui/sheet";
 
 const StaffTableActions = ({ staff, deletePatient = () => {} }) => {
   const [disabled, setDisabled] = useState(false);
-  const router = useRouter();
   const moveToTrash = async () => {
     try {
       setDisabled(true);
-      debugger
       await deletePatient(staff.id);
       toast({
         title: "Patient moved to trash",
       });
-      debugger
-      router.refresh();
     } catch (error) {
-      debugger
       toast({
         title: error.response ? error.response.data.message : error.message,
 

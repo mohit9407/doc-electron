@@ -1,4 +1,4 @@
-import { readFileSync, writeFileSync } from "fs";
+import { readFileSync, existsSync, writeFile, writeFileSync } from "fs";
 import { v4 as uuidV4 } from "uuid";
 import { app } from "electron";
 import puppeteer from "puppeteer";
@@ -13,9 +13,12 @@ export function addPatient(patient: any): any {
     try {
       if (patient) {
         const reqData = { id: uuidV4(), ...patient };
-        const a: any = readFileSync(getPath || '', "utf8");
+        let a: any = '{}';
+        if (existsSync(getPath)) {
+          a =  readFileSync(getPath || '', "utf8")
+        }
         const patientRecords = JSON.parse(
-          a || '{}'
+          a
         );
         let patientObj: any = {};
         if (!patientRecords || (patientRecords && !patientRecords?.patientInfo)) {
@@ -28,18 +31,22 @@ export function addPatient(patient: any): any {
           patientObj.patientInfo.push(reqData);
           patientObj.invoiceNo += 1;
         }
-        writeFileSync(getPath || '', JSON.stringify(patientObj));
+        if (!existsSync(getPath)) {
+          writeFile(getPath, JSON.stringify(patientObj), (err) => {
+            throw(err);
+          });
+        }
+        else writeFileSync(getPath || '', JSON.stringify(patientObj));
         resolve({
           message: "Patient added successfully!", data: reqData,
-          status: 201
+          status: 201,
         });
       } else {
         reject({
-          message: "Bad request!"
+          message: "Bad request!",
         });
       }
     } catch (e) {
-      console.error("ERROR IN addPasent", e);
       reject(e);
     }
   });
@@ -48,9 +55,12 @@ export function addPatient(patient: any): any {
 export function getAllPatients(): any {
   return new Promise((resolve, reject) => {
     try {
-      const patientRecords = JSON.parse(
-        readFileSync(getPath || '', "utf8") || '{}'
-      );
+      let patientRecords: any = '{}';
+      if (existsSync(getPath)) {
+        patientRecords = JSON.parse(
+          readFileSync(getPath || '', "utf8") || '{}'
+        );
+      }
       const patientInfo = patientRecords?.patientInfo?.filter(
         (patientObj: any) => !patientObj.isDeleted
       );
@@ -110,9 +120,12 @@ export function generateInvoice(patientData: any): any {
 export function generateBackup(): any {
   return new Promise((resolve, reject) => {
     try {
-      const patientRecords = JSON.parse(
-        readFileSync(getPath || '', "utf8") || '{}',
-      );
+      let patientRecords = '{}';
+      if (existsSync(getPath)) {
+        patientRecords = JSON.parse(
+          readFileSync(getPath || '', "utf8") || '{}'
+        );
+      }
       return resolve({
         data: patientRecords,
         status: 200
