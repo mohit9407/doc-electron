@@ -75,7 +75,7 @@ const Page = () => {
       )}
       {allPatientsList?.length === 0 ? (
         <ClientOnly>
-          <ErrorContainer title="No Staff" desc="No staff were found" />
+          <ErrorContainer title="No Patient" desc="No Patient were found" />
         </ClientOnly>
       ) : (
         <ClientOnly>

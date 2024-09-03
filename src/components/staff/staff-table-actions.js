@@ -43,7 +43,7 @@ const StaffTableActions = ({ staff, deletePatient = () => {} }) => {
     try {
       setDisabled(true);
       toast({
-        title: "Staff restored",
+        title: "History restored",
       });
       // router.refresh();
     } catch (error) {

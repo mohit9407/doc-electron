@@ -14,6 +14,10 @@ const getHistoryIndex = (id, patientInfo, info) => {
   return patientInfo[info].findIndex((infoObj) => infoObj.id === id);
 };
 
+const getDeleteHistoryIndex = (id, paymentInfo) => {
+  return paymentInfo?.findIndex((infoObj) => infoObj?.id === id);
+};
+
 const Page = () => {
   const router = useRouter();
   const [patientInfo, setPatientInfo] = useState(null);
@@ -93,6 +97,19 @@ const Page = () => {
     }
   };
 
+  const deletePaymentHistoryHandler = (id) => {
+    const historyIndx = getDeleteHistoryIndex(
+      id,
+      patientInfo?.paymentInfo,
+    );
+
+    if (historyIndx !== -1) {
+      let localPatientInfo = { ...patientInfo };
+      localPatientInfo.paymentInfo.splice(historyIndx, 1);
+      updatepatientInfo(localPatientInfo);
+    }
+  };
+
   const deleteHistoryHandler = (id) => {
     const historyIndx = getHistoryIndex(id, patientInfo, "historyInfo");
     if (historyIndx !== -1) {
@@ -161,6 +178,7 @@ const Page = () => {
           setIsOpenAddpayment={setIsOpenAddpayment}
           patientInfo={patientInfo}
           updatePaymentHistory={updatePaymentHistory}
+          deletePaymentHistoryHandler={deletePaymentHistoryHandler}
         />
       )}
     </>

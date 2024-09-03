@@ -13,6 +13,7 @@ const PaymentTableActions = ({
   patientInfo,
   paymentHistory,
   updatePaymentHistory,
+  deletePaymentHistoryHandler,
 }) => {
   const generateInvoice = (e) => {
     e.preventDefault();
@@ -45,12 +46,25 @@ const PaymentTableActions = ({
     saveAsPDF();
   };
 
+  const deleteHandler = (id) => {
+    deletePaymentHistoryHandler(id);
+  };
+
   return (
     <div className="flex flex-row justify-between max-w-sm w-full">
       <Dialog>
         <DialogTrigger asChild>
           <Button>Edit</Button>
         </DialogTrigger>
+
+        <Button
+          className="scale-90"
+          variant="destructive"
+          onClick={() => deleteHandler(paymentHistory.id)}
+        >
+          Delete
+        </Button>
+
         <Button onClick={generateInvoice}>Receipt Download</Button>
         <DialogContent className="overflow-y-scroll max-h-screen">
           <DialogHeader>Edit Payment History</DialogHeader>
