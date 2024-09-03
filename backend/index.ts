@@ -5,7 +5,7 @@ import { isDev } from "./utils/env";
 import { prepareNext } from "./utils/prepareNext";
 import { initLogs } from "./utils/initLogs";
 import { getInvoiceNo } from "./routes";
-import { addPatient, getAllPatients, generateBackup } from "./routes/manage";
+import { addPatient, getAllPatients, generateBackup, generateInvoice } from "./routes/manage";
 import { getPatientInfo, putPatientData, patchPatientData } from "./routes/edit";
 import { getAllPayments } from "./routes/payments";
 import { getAllTrashs } from "./routes/trash";
@@ -70,6 +70,22 @@ ipcMain.on("addUser", (event, user: User) => {
       };
     })
     .catch((error) => {
+      event.returnValue = {
+        error: true,
+        data: error,
+      };
+    });
+});
+
+ipcMain.on("generateInvoice", (event, patientData: any) => {
+  generateInvoice(patientData)
+    .then((data: any) => {
+      event.returnValue = {
+        error: false,
+        data,
+      };
+    })
+    .catch((error: any) => {
       event.returnValue = {
         error: true,
         data: error,
