@@ -3,8 +3,8 @@ import { v4 as uuidV4 } from "uuid";
 import { app } from "electron";
 import puppeteer from "puppeteer";
 import handlers from "handlebars";
-import path from "node:path";
 import { join } from "path";
+import { template as templateHtml } from "../../utils/templateHtml";
 
 const dirNam = __dirname;
 const getPath = app.isPackaged? join(app.getPath('userData'), 'patients.json') : join(dirNam, '..', '..', "patients.json");
@@ -15,7 +15,10 @@ export function addPatient(patient: any): any {
         const reqData = { id: uuidV4(), ...patient };
         let a: any = '{}';
         if (existsSync(getPath)) {
-          a =  readFileSync(getPath || '', "utf8")
+          a = readFileSync(
+            getPath || "",
+          "utf8"
+        ) || "{}"
         }
         const patientRecords = JSON.parse(
           a
@@ -36,7 +39,7 @@ export function addPatient(patient: any): any {
             throw(err);
           });
         }
-        else writeFileSync(getPath || '', JSON.stringify(patientObj));
+        else writeFileSync(getPath, JSON.stringify(patientObj));
         resolve({
           message: "Patient added successfully!", data: reqData,
           status: 201,
@@ -93,12 +96,9 @@ export function generateInvoice(patientData: any): any {
       formattedDate = formattedDate.format(localDate);
 
       // read our invoice-template.html file using node fs module
-      const file = readFileSync(
-        path.join(dirNam, "invoice-template.html") || '',
-        "utf8"
-      );
+      
       // compile the file with handlebars and inject the customerName variable
-      const template = handlers.compile(`${file}`);
+      const template = handlers.compile(templateHtml);
       const html = template({ customerName, invoiceNo, date: formattedDate, mobileNumber, age, treatment, amountCharges });
       // simulate a chrome browser with puppeteer and navigate to a new page
       const browser = await puppeteer.launch();

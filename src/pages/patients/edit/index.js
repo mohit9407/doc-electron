@@ -48,7 +48,10 @@ const Page = () => {
       } else if (isAddedHistoryOrPatient === "addedPaymentInfo")
         setIsOpenAddpayment(false);
       toast({
-        title: "Patient history updated successfully!",
+        title:
+          (currentTab === "payments"
+            ? "Payment history updated successfully!"
+            : "Patient history updated successfully!")
       });
     }
   };

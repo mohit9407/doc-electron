@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+export const template = `<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -174,5 +174,4 @@
     </table>
   </div>
 </body>
-
-</html>
+</html>`;
