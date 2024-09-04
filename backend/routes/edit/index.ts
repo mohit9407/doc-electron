@@ -1,17 +1,16 @@
 import { readFileSync, writeFileSync } from "fs";
 import { app } from "electron";
-import { join } from "path";
+import path, { join } from "path";
 
 const dirNam = __dirname;
-const getPath = app.isPackaged? join(app.getPath('userData'), 'patients.json') : join(dirNam, '..', '..', "patients.json");
+const getPath = app.isPackaged
+  ? join(app.getPath("userData"), "patients.json")
+  : join(dirNam, "..", "..", "patients.json");
 export function getPatientInfo({ patientid }: any): any {
   return new Promise((resolve, reject) => {
     try {
       const patientRecords = JSON.parse(
-        readFileSync(
-            getPath || "",
-          "utf8"
-        ) || "{}"
+        readFileSync(getPath || "", "utf8") || "{}"
       );
       const patientInfo = patientRecords?.patientInfo;
       if (patientRecords && patientInfo) {
@@ -42,10 +41,7 @@ export function putPatientData(patientData: any, { patientid }: any): any {
     try {
       const body = { ...patientData };
       const patientRecords = JSON.parse(
-        readFileSync(
-            getPath || "",
-          "utf8"
-        ) || "{}"
+        readFileSync(getPath || "", "utf8") || "{}"
       );
       const patientInfo = patientRecords?.patientInfo;
       if (patientRecords && patientInfo) {
@@ -54,10 +50,7 @@ export function putPatientData(patientData: any, { patientid }: any): any {
         );
         if (patientIndex !== -1) {
           patientRecords.patientInfo[patientIndex] = body;
-          writeFileSync(
-            getPath || "",
-            JSON.stringify({ ...patientRecords })
-          );
+          writeFileSync(getPath || "", JSON.stringify({ ...patientRecords }));
           return resolve({
             message: "Patient updated successfully!",
             data: body,
@@ -80,22 +73,37 @@ export function putPatientData(patientData: any, { patientid }: any): any {
   });
 }
 
+export function recoveryPatientInfo(patientData: any): any {
+  return new Promise((resolve, reject) => {
+    try {
+      if (patientData) {
+        writeFileSync(
+          path.join(__dirname, "..", "..", "patients.json") || "",
+          JSON.stringify({ ...patientData })
+        );
+
+        return resolve({
+          message: "Json getting successfully!",
+          status: 200,
+        });
+      }
+    } catch (e) {
+      console.error("ERROR IN recoveryPatientInfo", e);
+      reject(e);
+    }
+  });
+}
+
 export function patchPatientData(patientData: any): any {
   return new Promise((resolve, reject) => {
     try {
       const body: any = patientData;
       const patientRecords: any = JSON.parse(
-        readFileSync(
-            getPath || "",
-          "utf8"
-        ) || "{}"
+        readFileSync(getPath || "", "utf8") || "{}"
       );
       if (patientRecords) {
         patientRecords.invoiceNo = body.invoiceNo;
-        writeFileSync(
-            getPath || "",
-          JSON.stringify({ ...patientRecords })
-        );
+        writeFileSync(getPath || "", JSON.stringify({ ...patientRecords }));
         return resolve({
           message: "Invoice updated successfully!",
           invoiceNo: body.invoiceNo,

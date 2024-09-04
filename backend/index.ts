@@ -6,7 +6,7 @@ import { prepareNext } from "./utils/prepareNext";
 import { initLogs } from "./utils/initLogs";
 import { getInvoiceNo } from "./routes";
 import { addPatient, getAllPatients, generateBackup, generateInvoice } from "./routes/manage";
-import { getPatientInfo, putPatientData, patchPatientData } from "./routes/edit";
+import { getPatientInfo, putPatientData, patchPatientData, recoveryPatientInfo } from "./routes/edit";
 import { getAllPayments } from "./routes/payments";
 import { getAllTrashs } from "./routes/trash";
 import { addUser, initDb } from "./database";
@@ -175,6 +175,22 @@ ipcMain.on("getPatientInfo", (event, { patientid }: any) => {
 
 ipcMain.on("putPatientData", (event, patientData: any) => {
   putPatientData(patientData, { patientid: patientData?.id })
+    .then((data: any) => {
+      event.returnValue = {
+        error: false,
+        data,
+      };
+    })
+    .catch((error: any) => {
+      event.returnValue = {
+        error: true,
+        data: error,
+      };
+    });
+});
+
+ipcMain.on("recoveryPatientInfo", (event, patientData: any) => {
+  recoveryPatientInfo(patientData)
     .then((data: any) => {
       event.returnValue = {
         error: false,
