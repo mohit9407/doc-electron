@@ -49,9 +49,13 @@ const Page = () => {
         setIsOpenAddpayment(false);
       toast({
         title:
-          (currentTab === "payments"
-            ? "Payment history updated successfully!"
-            : "Patient history updated successfully!")
+          (currentTab === "payments" &&
+            (isAddedHistoryOrPatient === "addedPaymentInfo"
+              ? "Payment history added successfully!"
+              : "Payment history updated successfully!")) ||
+          (isAddedHistoryOrPatient === "addedHistory"
+            ? "Patient history added successfully!"
+            : "Patient history updated successfully!"),
       });
     }
   };
@@ -101,10 +105,7 @@ const Page = () => {
   };
 
   const deletePaymentHistoryHandler = (id) => {
-    const historyIndx = getDeleteHistoryIndex(
-      id,
-      patientInfo?.paymentInfo,
-    );
+    const historyIndx = getDeleteHistoryIndex(id, patientInfo?.paymentInfo);
 
     if (historyIndx !== -1) {
       let localPatientInfo = { ...patientInfo };
