@@ -53,7 +53,7 @@ const StaffTableActions = ({ staff, deletePatient = () => {} }) => {
       setDisabled(false);
     }
   };
-  console.log("staff info data: ", staff)
+  
   return staff.isTrashed ? (
     <Dialog>
       <DialogTrigger asChild>
