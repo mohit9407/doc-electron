@@ -1,4 +1,5 @@
 import { readFileSync, existsSync, writeFile, writeFileSync } from "fs";
+import { platform } from "os";
 import { v4 as uuidV4 } from "uuid";
 import { app } from "electron";
 import puppeteer from "puppeteer";
@@ -101,7 +102,12 @@ export function generateInvoice(patientData: any): any {
       const template = handlers.compile(templateHtml);
       const html = template({ customerName, invoiceNo, date: formattedDate, mobileNumber, age, treatment, amountCharges });
       // simulate a chrome browser with puppeteer and navigate to a new page
-      const browser = await puppeteer.launch();
+      let browser = await puppeteer.launch();
+      if (platform() === 'darwin') {
+        browser = await puppeteer.launch({
+          executablePath: '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome',
+        })
+      }
       const page = await browser.newPage();
       // set our compiled html template as the pages content
       // then waitUntil the network is idle to make sure the content has been loaded
