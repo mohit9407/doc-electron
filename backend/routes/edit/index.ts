@@ -1,6 +1,6 @@
 import { readFileSync, writeFileSync } from "fs";
 import { app } from "electron";
-import path, { join } from "path";
+import { join } from "path";
 
 const dirNam = __dirname;
 const getPath = app.isPackaged
@@ -78,7 +78,7 @@ export function recoveryPatientInfo(patientData: any): any {
     try {
       if (patientData) {
         writeFileSync(
-          path.join(__dirname, "..", "..", "patients.json") || "",
+          getPath || "",
           JSON.stringify({ ...patientData })
         );
 

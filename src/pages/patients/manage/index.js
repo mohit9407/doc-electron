@@ -28,7 +28,7 @@ const Page = () => {
       console.log(error);
     }
   };
-
+  
   const updatepatientInfo = async (patientInfo) => {
     console.log("put patient data: ", patientInfo, 'and its patient id: ', params?.patientid);
     const { data: updatedPatientInfo } = await global.api.sendSync(
@@ -64,15 +64,19 @@ const Page = () => {
     );
   };
 
+  const getDetails = () => {
+    getAllPatient()
+  }  
+
   useEffect(() => {
     getAllPatient();
-  }, []);
+  }, []);  
 
   return (
     <>
       {!pathname.includes("/patients/edit") && (
         <ClientOnly>
-          <AppBar isBack backHref="/" title="Manage Patients" />
+          <AppBar isBack backHref="/" title="Manage Patients" details={getDetails} />
           <StaffTabs />
         </ClientOnly>
       )}

@@ -1,17 +1,16 @@
 import { useEffect, useState } from "react";
 import { Button } from "./button";
 
-export default function FileUpload() {
+export default function FileUpload({ details = () => {} }) {
   const [file, setFile] = useState(null);
 
   useEffect(() => {
     handleFileUpload();
   }, [file]);
 
-  const handleFileChange = (event) => {
+  const handleFileChange = async (event) => {
     setFile(event.target.files[0]);
-    window.location.reload();
-    localStorage.setItem('isDataRestored', true);
+    localStorage.setItem("isDataRestored", true);
   };
 
   const handleFileUpload = async () => {
@@ -22,9 +21,13 @@ export default function FileUpload() {
     reader.onload = async (event) => {
       const jsonData = JSON.parse(event.target.result);
 
-      await global.api.sendSync("recoveryPatientInfo", {
+      const patientList = await global.api.sendSync("recoveryPatientInfo", {
         ...jsonData,
       });
+
+      if (patientList.data.status === 200) {
+        details();
+      }
     };
     reader.readAsText(file);
   };

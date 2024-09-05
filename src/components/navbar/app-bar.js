@@ -16,11 +16,12 @@ const AppBar = ({
   isBack = false,
   backHref = "/",
   isSecondary = false,
+  details = () => {},
 }) => {
   const pathname = usePathname();
 
   useEffect(() => {
-    if (localStorage.getItem("isDataRestored") === 'true') {
+    if (localStorage.getItem("isDataRestored") === "true") {
       toast({
         title: "Patient data restored",
       });
@@ -88,7 +89,7 @@ const AppBar = ({
           </Button>
         </SheetTrigger>
         <SheetTrigger asChild>
-          <FileUpload />
+          <FileUpload details={details}/>
         </SheetTrigger>
       </Sheet>
       {pathname === "/" && (
