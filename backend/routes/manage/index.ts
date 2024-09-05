@@ -101,13 +101,14 @@ export function generateInvoice(patientData: any): any {
       // compile the file with handlebars and inject the customerName variable
       const template = handlers.compile(templateHtml);
       const html = template({ customerName, invoiceNo, date: formattedDate, mobileNumber, age, treatment, amountCharges });
-      // simulate a chrome browser with puppeteer and navigate to a new page
-      let browser = await puppeteer.launch();
+      let launchObj;
       if (platform() === 'darwin') {
-        browser = await puppeteer.launch({
+        launchObj = {
           executablePath: '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome',
-        })
+        };
       }
+      // simulate a chrome browser with puppeteer and navigate to a new page
+      let browser = await puppeteer.launch(launchObj);
       const page = await browser.newPage();
       // set our compiled html template as the pages content
       // then waitUntil the network is idle to make sure the content has been loaded
