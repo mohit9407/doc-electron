@@ -20,9 +20,9 @@ const EditPaymentHistory = ({
   return (
     <>
       <PaymentTable
-        patientInfo={patientInfo}
         isOpenAddpayment={isOpenAddpayment}
         setIsOpenAddpayment={setIsOpenAddpayment}
+        patientInfo={patientInfo}
         data={paymentWithDateTime.reverse()}
         updatePaymentHistory={updatePaymentHistory}
       />

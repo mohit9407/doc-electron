@@ -28,6 +28,7 @@ import PaymentTableActions from "./payment-table-action";
 import AddPatientThirdForm from "../staff/add-patient-third-form";
 
 const PaymentTable = ({
+  patientInfo,
   isOpenAddpayment,
   setIsOpenAddpayment = () => {},
   data,
