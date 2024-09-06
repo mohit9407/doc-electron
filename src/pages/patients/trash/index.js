@@ -12,6 +12,7 @@ const Page = () => {
   const getAllPatient = async () => {
     try {
       const data = await global.api.sendSync("getAllTrashs");
+      debugger
       setAllPatientsList(data?.data?.data?.reverse() || []);
     } catch (e) {
       console.log("error: ", e?.message);
@@ -31,7 +32,7 @@ const Page = () => {
       </ClientOnly>
       {allPatientsList?.length === 0 ? (
         <ClientOnly>
-          <ErrorContainer title="No Staff" desc="No staff were found" />
+          <ErrorContainer title="No Patient" desc="No Patient were found" />
         </ClientOnly>
       ) : (
         <ClientOnly>

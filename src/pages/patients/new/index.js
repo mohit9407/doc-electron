@@ -1,6 +1,6 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import { usePathname } from 'next/navigation'
+import { usePathname } from "next/navigation";
 import { ArrowLeftIcon } from "@radix-ui/react-icons";
 import { Root, Indicator } from "@radix-ui/react-progress";
 import ClientOnly from "../../../components/client-only";
@@ -44,9 +44,16 @@ const Page = () => {
         </ClientOnly>
       )}
       <ClientOnly>
-        <Root className={"ProgressRoot"} value={progress}>
+        <Root
+          className={
+            "relative overflow-hidden bg-white rounded-[99999px] w-full h-[15px] mt-[12px] mx-auto mb-[20px] transform translate-z-0 z-0"
+          }
+          value={progress}
+        >
           <Indicator
-            className={"ProgressIndicator"}
+            className={
+              "size-full bg-primary transition-transform duration-[660ms] ease-[cubic-bezier(0.65, 0, 0.35, 1)]"
+            }
             style={{ transform: `translateX(-${100 - progress}%)` }}
           />
         </Root>
