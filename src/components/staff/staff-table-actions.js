@@ -14,12 +14,10 @@ import {
 } from "../ui/dialog";
 import { toast } from "../../components/ui/use-toast";
 import { useState } from "react";
-import { useRouter } from "next/navigation";
 import { Sheet, SheetTrigger } from "../../components/ui/sheet";
 
 const StaffTableActions = ({ staff, deletePatient = () => {} }) => {
   const [disabled, setDisabled] = useState(false);
-  const router = useRouter();
   const moveToTrash = async () => {
     try {
       setDisabled(true);
@@ -42,7 +40,7 @@ const StaffTableActions = ({ staff, deletePatient = () => {} }) => {
     try {
       setDisabled(true);
       toast({
-        title: "Staff restored",
+        title: "History restored",
       });
       // router.refresh();
     } catch (error) {
@@ -55,7 +53,7 @@ const StaffTableActions = ({ staff, deletePatient = () => {} }) => {
       setDisabled(false);
     }
   };
-
+  
   return staff.isTrashed ? (
     <Dialog>
       <DialogTrigger asChild>

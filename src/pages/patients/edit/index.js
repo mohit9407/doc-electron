@@ -14,6 +14,10 @@ const getHistoryIndex = (id, patientInfo, info) => {
   return patientInfo[info].findIndex((infoObj) => infoObj.id === id);
 };
 
+const getDeleteHistoryIndex = (id, paymentInfo) => {
+  return paymentInfo?.findIndex((infoObj) => infoObj?.id === id);
+};
+
 const Page = () => {
   const router = useRouter();
   const [patientInfo, setPatientInfo] = useState(null);
@@ -44,7 +48,14 @@ const Page = () => {
       } else if (isAddedHistoryOrPatient === "addedPaymentInfo")
         setIsOpenAddpayment(false);
       toast({
-        title: "Patient history updated successfully!",
+        title:
+          (currentTab === "payments" &&
+            (isAddedHistoryOrPatient === "addedPaymentInfo"
+              ? "Payment history added successfully!"
+              : "Payment history updated successfully!")) ||
+          (isAddedHistoryOrPatient === "addedHistory"
+            ? "Patient history added successfully!"
+            : "Patient history updated successfully!"),
       });
     }
   };
@@ -90,6 +101,16 @@ const Page = () => {
       });
       updatepatientInfo(localPatientInfo, "addedPaymentInfo");
       updateInvoiceNo(newInvoiceNo);
+    }
+  };
+
+  const deletePaymentHistoryHandler = (id) => {
+    const historyIndx = getDeleteHistoryIndex(id, patientInfo?.paymentInfo);
+
+    if (historyIndx !== -1) {
+      let localPatientInfo = { ...patientInfo };
+      localPatientInfo.paymentInfo.splice(historyIndx, 1);
+      updatepatientInfo(localPatientInfo);
     }
   };
 
@@ -161,6 +182,7 @@ const Page = () => {
           setIsOpenAddpayment={setIsOpenAddpayment}
           patientInfo={patientInfo}
           updatePaymentHistory={updatePaymentHistory}
+          deletePaymentHistoryHandler={deletePaymentHistoryHandler}
         />
       )}
     </>

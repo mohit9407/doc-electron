@@ -2,7 +2,7 @@
 import Link from "next/link";
 import { Button } from "../../components/ui/button";
 import { Sheet, SheetTrigger } from "../ui/sheet";
-import { EyeOpenIcon } from "@radix-ui/react-icons";
+import { DownloadIcon, EyeOpenIcon } from "@radix-ui/react-icons";
 import {
   Dialog,
   DialogContent,
@@ -12,12 +12,11 @@ import {
 import ViewPaymentHistory from "../patient/view-payment-history";
 
 const PaymentsTableActions = ({ staff }) => {
-
-  function Tooltip({ message, children }) {
+  function Tooltip({ message, className, children }) {
     return (
       <div class="group relative">
         {children}
-        <span class="absolute z-[999] scale-0 transition-all rounded bg-gray-800 p-2 text-xs text-white group-hover:scale-100 left-[52px]">
+        <span class={`absolute z-[999] scale-0 transition-all rounded bg-gray-800 p-2 text-xs text-white group-hover:scale-100 ${className}`} >
           {message}
         </span>
       </div>
@@ -31,7 +30,7 @@ const PaymentsTableActions = ({ staff }) => {
             <div className="flex flex-row justify-between max-w-sm w-full">
               <Dialog>
                 <DialogTrigger>
-                  <Tooltip message={"View Details"}>
+                  <Tooltip message={"View Details"} className="left-[52px]">
                     <Button>
                       <EyeOpenIcon />
                     </Button>
@@ -51,7 +50,12 @@ const PaymentsTableActions = ({ staff }) => {
       <Sheet>
         <SheetTrigger asChild>
           <Link href={""}>
-            <Button className="scale-90 text-[10px]">Receipt Download</Button>
+            <Tooltip message={"Download Receipt"} className="right-[32px] bottom-[10px]">
+              <Button className="scale-100 text-[12px]">
+                Receipt
+                <DownloadIcon />
+              </Button>
+            </Tooltip>
           </Link>
         </SheetTrigger>
       </Sheet>

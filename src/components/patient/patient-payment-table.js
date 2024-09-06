@@ -33,6 +33,7 @@ const PaymentTable = ({
   setIsOpenAddpayment = () => {},
   data,
   updatePaymentHistory,
+  deletePaymentHistoryHandler,
 }) => {
   const [columnFilters, setColumnFilters] = useState([]);
   const [isOpen, setIsOpen] = useState(false);
@@ -61,6 +62,7 @@ const PaymentTable = ({
             patientInfo={patientInfo}
             paymentHistory={paymentHistory}
             updatePaymentHistory={updatePaymentHistory}
+            deletePaymentHistoryHandler={deletePaymentHistoryHandler}
           />
         );
       },

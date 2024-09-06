@@ -7,14 +7,27 @@ import { usePathname } from "next/navigation";
 import ThemeToggle from "../../components/theme-toggle";
 import DynamicLink from "../../components/dynamic-link";
 import { Sheet, SheetTrigger } from "../../components/ui/sheet";
+import FileUpload from "../ui/FileUpload";
+import { useEffect } from "react";
+import { toast } from "../ui/use-toast";
 
 const AppBar = ({
   title = "Dashboard",
   isBack = false,
   backHref = "/",
   isSecondary = false,
+  details = () => {},
 }) => {
   const pathname = usePathname();
+
+  useEffect(() => {
+    if (localStorage.getItem("isDataRestored") === "true") {
+      toast({
+        title: "Patient data restored",
+      });
+      localStorage.setItem("isDataRestored", false);
+    }
+  }, []);
 
   const backupHandler = (e) => {
     e.preventDefault();
@@ -39,7 +52,7 @@ const AppBar = ({
   return (
     <header
       className={cn(
-        "w-full flex flex-row py-2 justify-between",
+        "w-full flex flex-row py-2",
         isSecondary
           ? "bg-muted border-y border-y-muted my-2 scale-90 z-10"
           : "bg-primary rounded"
@@ -47,7 +60,7 @@ const AppBar = ({
     >
       <div
         className={cn(
-          "px-4 py-2 text-lg",
+          "px-4 py-2 text-lg w-[68%]",
           isSecondary ? "text-muted-foreground" : "text-primary-foreground ",
           pathname === "/" && "mr-auto"
         )}
@@ -74,6 +87,9 @@ const AppBar = ({
           >
             Backup
           </Button>
+        </SheetTrigger>
+        <SheetTrigger asChild>
+          <FileUpload details={details}/>
         </SheetTrigger>
       </Sheet>
       {pathname === "/" && (

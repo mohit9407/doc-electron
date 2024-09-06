@@ -33,7 +33,7 @@ const EditStaffForm = ({ staff }) => {
       form.setValue("mobile", data.mobile);
       form.setValue("name", data.name);
       toast({
-        title: "Staff Updated. You may close this sheet",
+        title: "History Updated. You may close this sheet",
       });
       // router.refresh();
     } catch (error) {
@@ -62,7 +62,7 @@ const EditStaffForm = ({ staff }) => {
                   {...field}
                 />
               </FormControl>
-              <FormDescription>Staff&apos;s Mobile Number </FormDescription>
+              <FormDescription>Patient&apos;s Mobile Number </FormDescription>
               <FormMessage />
             </FormItem>
           )}
@@ -81,7 +81,7 @@ const EditStaffForm = ({ staff }) => {
                   {...field}
                 />
               </FormControl>
-              <FormDescription>Name of the Staff</FormDescription>
+              <FormDescription>Name of the Patient</FormDescription>
               <FormMessage />
             </FormItem>
           )}
@@ -91,7 +91,7 @@ const EditStaffForm = ({ staff }) => {
           className="w-full my-2"
           type="submit"
         >
-          Edit Staff
+          Edit Patient
         </Button>
       </form>
     </Form>

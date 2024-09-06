@@ -33,6 +33,7 @@ const HistoryTable = ({
   data,
   deleteHistoryHandler,
   updatePatientHistory,
+  deletePaymentHistoryHandler
 }) => {
   const [columnFilters, setColumnFilters] = useState([]);
   const [isOpen, setIsOpen] = useState(false);
@@ -61,6 +62,7 @@ const HistoryTable = ({
             patientHistory={patient}
             deleteHistoryHandler={deleteHistoryHandler}
             updatePatientHistory={updatePatientHistory}
+            deletePaymentHistoryHandler={deletePaymentHistoryHandler}
           />
         );
       },
