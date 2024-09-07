@@ -8,6 +8,8 @@ import {
   DialogContent,
 } from "../ui/dialog";
 import AddPatientThirdForm from "../staff/add-patient-third-form";
+import { DownloadIcon, EyeOpenIcon } from "@radix-ui/react-icons";
+import ViewPaymentHistory from "./view-payment-history";
 
 const PaymentTableActions = ({
   patientInfo,
@@ -50,8 +52,37 @@ const PaymentTableActions = ({
     deletePaymentHistoryHandler(id);
   };
 
+  function Tooltip({ message, className, children }) {
+    return (
+      <div class="group relative">
+        {children}
+        <span
+          class={`absolute z-[999] scale-0 transition-all rounded bg-gray-800 p-2 text-xs text-white group-hover:scale-100 ${className}`}
+        >
+          {message}
+        </span>
+      </div>
+    );
+  }
+
+  
+
   return (
     <div className="flex flex-row justify-between max-w-sm w-full">
+      <Dialog>
+        <DialogTrigger>
+          <Tooltip message={"View Details"}>
+            <Button className="mr-1">
+              <EyeOpenIcon />
+            </Button>
+          </Tooltip>
+        </DialogTrigger>
+        <DialogContent className="overflow-y-scroll max-h-screen">
+          <DialogHeader>View Payment History</DialogHeader>
+
+          <ViewPaymentHistory staff={paymentHistory} />
+        </DialogContent>
+      </Dialog>
       <Dialog>
         <DialogTrigger asChild>
           <Button>Edit</Button>
@@ -65,7 +96,9 @@ const PaymentTableActions = ({
           Delete
         </Button>
 
-        <Button onClick={generateInvoice}>Receipt Download</Button>
+        <Button onClick={generateInvoice}>
+          Receipt <DownloadIcon />
+        </Button>
         <DialogContent className="overflow-y-scroll max-h-screen">
           <DialogHeader>Edit Payment History</DialogHeader>
           <AddPatientThirdForm

@@ -10,13 +10,52 @@ import {
   DialogTrigger,
 } from "../ui/dialog";
 import ViewPaymentHistory from "../patient/view-payment-history";
+import moment from "moment";
 
 const PaymentsTableActions = ({ staff }) => {
+  const isoDate = moment(staff.date, "DD-MM-YYYY HH:mm:ss").toISOString();
+  const patientData = {
+    ...staff.patientInfo,
+    paymentHistory: { ...staff, date: isoDate },
+  };
+
+  const generateInvoice = (e) => {
+    e.preventDefault();
+    // send a post request with the name to our API endpoint for generate PDF
+    const fetchData = async () => {
+      // const { data } = await axios({
+      //   method: "post",
+      //   url: "/api/patients/manage",
+      //   data: { ...patientInfo },
+      //   responseType: "blob",
+      // });
+      const { data } = await global.api.sendSync("generateInvoice", {
+        ...patientData,
+      });
+      // convert the response into an array Buffer
+      return data;
+    };
+
+    // convert the buffer into an object URL
+    const saveAsPDF = async () => {
+      const buffer = await fetchData();
+      const blob = new Blob([buffer]);
+      const link = document.createElement("a");
+      link.href = URL.createObjectURL(blob);
+      link.download = "invoice.pdf";
+      link.click();
+    };
+
+    saveAsPDF();
+  };
+
   function Tooltip({ message, className, children }) {
     return (
       <div class="group relative">
         {children}
-        <span class={`absolute z-[999] scale-0 transition-all rounded bg-gray-800 p-2 text-xs text-white group-hover:scale-100 ${className}`} >
+        <span
+          class={`absolute z-[999] scale-0 transition-all rounded bg-gray-800 p-2 text-xs text-white group-hover:scale-100 ${className}`}
+        >
           {message}
         </span>
       </div>
@@ -50,8 +89,14 @@ const PaymentsTableActions = ({ staff }) => {
       <Sheet>
         <SheetTrigger asChild>
           <Link href={""}>
-            <Tooltip message={"Download Receipt"} className="right-[32px] bottom-[10px]">
-              <Button className="scale-100 text-[12px]">
+            <Tooltip
+              message={"Download Receipt"}
+              className="right-[32px] bottom-[10px]"
+            >
+              <Button
+                className="scale-100 text-[12px]"
+                onClick={generateInvoice}
+              >
                 Receipt
                 <DownloadIcon />
               </Button>
