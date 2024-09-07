@@ -60,7 +60,13 @@ const PaymentTable = ({
         return (
           <PaymentTableActions
             patientInfo={patientInfo}
-            paymentHistory={paymentHistory}
+            paymentHistory={{
+              ...paymentHistory,
+              name: patientInfo.name,
+              mobileNumber: patientInfo.mobileNumber,
+              date: patientInfo.date,
+              patientInfo: { age: patientInfo.age },
+            }}
             updatePaymentHistory={updatePaymentHistory}
             deletePaymentHistoryHandler={deletePaymentHistoryHandler}
           />
