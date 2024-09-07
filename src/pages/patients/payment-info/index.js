@@ -40,7 +40,7 @@ const Page = () => {
         </ClientOnly>
       ) : (
         <ClientOnly>
-          <ErrorContainer title="No Patient" desc="No patient were found" />
+          <ErrorContainer title="No Payment" desc="No payment were found" />
         </ClientOnly>
       )}
     </>
