@@ -61,7 +61,7 @@ const ViewPaymentHistory = ({ staff }) => {
                     <FormItem>
                       <FormLabel>Date</FormLabel>
                       <FormDescription>
-                        {staff.date}
+                        {staff.displayDate || staff.date }
                       </FormDescription>
                     </FormItem>
                   )}
