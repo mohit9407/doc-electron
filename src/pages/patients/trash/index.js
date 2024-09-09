@@ -26,7 +26,7 @@ const Page = () => {
   return (
     <>
       <ClientOnly>
-        <AppBar isBack backHref="/" title="Manage Patients" />
+        <AppBar isBack backHref="/patients/dashboard" title="Manage Patients" />
         <StaffTabs />
       </ClientOnly>
       {allPatientsList?.length === 0 ? (

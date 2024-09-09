@@ -76,7 +76,7 @@ const Page = () => {
     <>
       {!pathname.includes("/patients/edit") && (
         <ClientOnly>
-          <AppBar isBack backHref="/" title="Manage Patients" details={getDetails} />
+          <AppBar isBack backHref="/patients/dashboard" title="Manage Patients" details={getDetails} />
           <StaffTabs />
         </ClientOnly>
       )}
