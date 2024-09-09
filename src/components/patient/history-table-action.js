@@ -29,7 +29,6 @@ const HistoryTableActions = ({
       toast({
         title: "Patient history moved to trash",
       });
-      // router.refresh();
     } catch (error) {
       toast({
         title: error.response ? error.response.data.message : error.message,

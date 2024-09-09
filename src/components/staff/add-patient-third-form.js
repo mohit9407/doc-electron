@@ -50,7 +50,6 @@ const AddPatientThirdForm = ({
       if (addedUser.status === 201) {
         setIsSubmitted(false);
         setpatientinfo(null);
-        // router.refresh();
         setFormStep(3);
         toast({
           title: "Patient Added",

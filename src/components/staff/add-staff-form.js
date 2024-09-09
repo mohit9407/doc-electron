@@ -77,7 +77,6 @@ const AddStaffForm = ({
         setpatientinfo({ ...patientinfo, ...data });
         setFormStep(1);
         form.reset();
-        // router.refresh();
       } else {
         updatePatientGeneralInfo(data);
       }

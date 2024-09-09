@@ -81,18 +81,10 @@ const PaymentsTableActions = ({ staff }) => {
       <Sheet>
         <SheetTrigger asChild>
           <Link href={""}>
-          <Tooltip
-              message={"Download Receipt"}
-              className="right-[32px] bottom-[10px]"
-            >
-              <Button
-                className="scale-100 text-[12px]"
-                onClick={generateInvoice}
-              >
-                Receipt
-                <DownloadIcon />
-              </Button>
-            </Tooltip>
+            <Button className="scale-100 text-[12px]" onClick={generateInvoice}>
+              Receipt
+              <DownloadIcon />
+            </Button>
           </Link>
         </SheetTrigger>
       </Sheet>

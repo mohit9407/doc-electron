@@ -10,6 +10,7 @@ import {
 import AddPatientThirdForm from "../staff/add-patient-third-form";
 import { DownloadIcon, EyeOpenIcon } from "@radix-ui/react-icons";
 import ViewPaymentHistory from "./view-payment-history";
+import moment from "moment";
 
 const PaymentTableActions = ({
   patientInfo,
@@ -17,19 +18,19 @@ const PaymentTableActions = ({
   updatePaymentHistory,
   deletePaymentHistoryHandler,
 }) => {
+  const isoDate = moment(paymentHistory.date, "DD-MM-YYYY HH:mm:ss").toISOString();
+  const patientData = {
+    ...patientInfo,
+    paymentHistory: { ...paymentHistory, date: isoDate },
+  };
   const generateInvoice = (e) => {
     e.preventDefault();
     // send a post request with the name to our API endpoint for generate PDF
     const fetchData = async () => {
-      // const { data } = await axios({
-      //   method: "post",
-      //   url: "/api/patients/manage",
-      //   data: { ...patientInfo },
-      //   responseType: "blob",
-      // });
+     
       const { data } = await global.api.sendSync("generateInvoice", {
-        ...patientInfo,
-        paymentHistory,
+        ...patientData,
+       
       });
       // convert the response into an array Buffer
       return data;

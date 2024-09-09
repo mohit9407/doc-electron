@@ -42,7 +42,6 @@ const StaffTableActions = ({ staff, deletePatient = () => {} }) => {
       toast({
         title: "History restored",
       });
-      // router.refresh();
     } catch (error) {
       toast({
         title: error.response ? error.response.data.message : error.message,
