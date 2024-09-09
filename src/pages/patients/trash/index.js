@@ -12,7 +12,6 @@ const Page = () => {
   const getAllPatient = async () => {
     try {
       const data = await global.api.sendSync("getAllTrashs");
-      debugger
       setAllPatientsList(data?.data?.data?.reverse() || []);
     } catch (e) {
       console.log("error: ", e?.message);

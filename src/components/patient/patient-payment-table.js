@@ -26,6 +26,7 @@ import {
 import { Button } from "../../components/ui/button";
 import PaymentTableActions from "./payment-table-action";
 import AddPatientThirdForm from "../staff/add-patient-third-form";
+import { dateFormat } from "../../lib/utils";
 
 const PaymentTable = ({
   patientInfo,
@@ -64,7 +65,7 @@ const PaymentTable = ({
               ...paymentHistory,
               name: patientInfo.name,
               mobileNumber: patientInfo.mobileNumber,
-              date: patientInfo.date,
+              date: dateFormat(patientInfo.date),
               patientInfo: { age: patientInfo.age },
             }}
             updatePaymentHistory={updatePaymentHistory}
