@@ -71,13 +71,28 @@ const AddStaffForm = ({
     setFormSelectVal((prevValue) => ({ ...prevValue, [field]: value }));
   };
 
+  const getPatientsMNumber = async (mNo) => {
+    try {
+      const { data: patientsMNo } = await global.api.sendSync(
+        "getPatientsMNo",
+        mNo
+      );
+      console.log("patientMno exist: ", patientsMNo);
+    } catch (error) {
+      toast({
+        title: error.message,
+        variant: "destructive",
+      });
+    }
+  };
+
   async function onSubmit(data) {
     try {
+      getPatientsMNumber(patientinfo?.mobileNumber);
       if (!patientinfo?.id) {
         setpatientinfo({ ...patientinfo, ...data });
         setFormStep(1);
         form.reset();
-        // router.refresh();
       } else {
         updatePatientGeneralInfo(data);
       }
@@ -162,21 +177,24 @@ const AddStaffForm = ({
               <FormField
                 control={form.control}
                 name="mobileNumber"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Mobile No.</FormLabel>
-                    <FormControl>
-                      <Input
-                        type="number"
-                        disabled={form.formState.isSubmitting}
-                        placeholder="Mobile No."
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormDescription>Patient Mobile Number</FormDescription>
-                    <FormMessage />
-                  </FormItem>
-                )}
+                render={({ field }) => {
+                  console.log("all fields: ", field);
+                  return (
+                    <FormItem>
+                      <FormLabel>Mobile No.</FormLabel>
+                      <FormControl>
+                        <Input
+                          type="number"
+                          disabled={form.formState.isSubmitting}
+                          placeholder="Mobile No."
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormDescription>Patient Mobile Number</FormDescription>
+                      <FormMessage />
+                    </FormItem>
+                  );
+                }}
               />
 
               <FormField

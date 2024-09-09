@@ -5,7 +5,7 @@ import { isDev } from "./utils/env";
 import { prepareNext } from "./utils/prepareNext";
 import { initLogs } from "./utils/initLogs";
 import { getInvoiceNo } from "./routes";
-import { addPatient, getAllPatients, generateBackup, generateInvoice } from "./routes/manage";
+import { addPatient, getAllPatients, generateBackup, generateInvoice, getPatientsMNo } from "./routes/manage";
 import { getPatientInfo, putPatientData, patchPatientData, recoveryPatientInfo } from "./routes/edit";
 import { getAllPayments } from "./routes/payments";
 import { getAllTrashs } from "./routes/trash";
@@ -251,6 +251,22 @@ ipcMain.on("getAllTrashs", (event) => {
         data: error,
       };
     });
+});
+
+ipcMain.on("getPatientsMNo", (event, mNo: any) => {
+  getPatientsMNo(mNo)
+  .then((data: any) => {
+    event.returnValue = {
+      error: false,
+      data
+    };
+  })
+  .catch((error: any) => {
+    event.returnValue = {
+      error: true,
+      data: error
+    };
+  });
 });
 
 
