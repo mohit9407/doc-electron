@@ -12,7 +12,6 @@ const Page = () => {
   const getAllPatient = async () => {
     try {
       const data = await global.api.sendSync("getAllTrashs");
-      debugger
       setAllPatientsList(data?.data?.data?.reverse() || []);
     } catch (e) {
       console.log("error: ", e?.message);
@@ -27,7 +26,7 @@ const Page = () => {
   return (
     <>
       <ClientOnly>
-        <AppBar isBack backHref="/" title="Manage Patients" />
+        <AppBar isBack backHref="/patients/dashboard" title="Manage Patients" />
         <StaffTabs />
       </ClientOnly>
       {allPatientsList?.length === 0 ? (

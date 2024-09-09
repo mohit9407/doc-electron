@@ -1,15 +1,11 @@
 import ClientOnly from "../components/client-only.js";
-import HeroCard from "../components/dashboard/hero-card";
-import AppBar from "../components/navbar/app-bar";
+import AuthenticateView from "../components/patient/authenticate-view"
 
 const Page = () => {
   return (
-    <>
       <ClientOnly>
-        <AppBar />
-        <HeroCard />
+        <AuthenticateView />
       </ClientOnly>
-    </>
   );
 };
 

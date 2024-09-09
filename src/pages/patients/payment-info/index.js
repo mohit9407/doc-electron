@@ -23,13 +23,9 @@ const Page = () => {
   return (
     <>
       <ClientOnly>
-        <AppBar isBack backHref="/" title="Payment Information" />
+        <AppBar isBack backHref="/patients/dashboard" title="Payment Information" />
       </ClientOnly>
-      {allPatientsList?.length === 0 ? (
-        <ClientOnly>
-          <ErrorContainer title="No Patient" desc="No patient were found" />
-        </ClientOnly>
-      ) : (
+      {allPatientsList?.length > 0 ? (
         <ClientOnly>
           <PaymentsTable
             data={allPatientsList?.map((paymentObj) => {
@@ -41,6 +37,10 @@ const Page = () => {
               };
             })}
           />
+        </ClientOnly>
+      ) : (
+        <ClientOnly>
+          <ErrorContainer title="No Payment" desc="No payment were found" />
         </ClientOnly>
       )}
     </>
