@@ -88,7 +88,7 @@ const AddStaffForm = ({
 
   async function onSubmit(data) {
     try {
-      getPatientsMNumber(patientinfo?.mobileNumber);
+      getPatientsMNumber(data?.mobileNumber);
       if (!patientinfo?.id) {
         setpatientinfo({ ...patientinfo, ...data });
         setFormStep(1);

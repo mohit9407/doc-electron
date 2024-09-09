@@ -153,9 +153,10 @@ export function getPatientsMNo(mNo: any): any {
           readFileSync(getPath || '', "utf8") || '{}'
         );
       }
-      const patientInfo = patientRecords?.patientInfo?.filter(
+      console.log("given mno: ", mNo, "all patient records: ", patientRecords);
+      const patientInfo = patientRecords?.patientInfo?.find(
         (patientObj: any) => patientObj.mobileNumber === mNo
-      );
+      ) || null;
 
       if (patientInfo?.length) {
         return resolve({
