@@ -71,13 +71,13 @@ const AddStaffForm = ({
     setFormSelectVal((prevValue) => ({ ...prevValue, [field]: value }));
   };
 
-  const getPatientsMNumber = async (mNo) => {
+  const getPatientsMNumber = async (mNo, patientId = null) => {
     try {
       const { data: patientsMNo } = await global.api.sendSync(
         "getPatientsMNo",
-        mNo
+        {mNo, patientId}
       );
-      console.log("patientMno exist: ", patientsMNo);
+      return patientsMNo;
     } catch (error) {
       toast({
         title: error.message,
@@ -88,18 +88,19 @@ const AddStaffForm = ({
 
   async function onSubmit(data) {
     try {
-      getPatientsMNumber(data?.mobileNumber);
-      if (!patientinfo?.id) {
+      const getExistPatient = await getPatientsMNumber(data?.mobileNumber, patientinfo?.id);
+      if (!patientinfo?.id && !getExistPatient?.data) {
         setpatientinfo({ ...patientinfo, ...data });
         setFormStep(1);
         form.reset();
-      } else {
+      } else if (patientinfo?.id && !getExistPatient?.data) {
         updatePatientGeneralInfo(data);
+      } else {
+        form.setError("mobileNumber", { type: "manual", message: "This mobile number is already exist" });
       }
     } catch (error) {
       toast({
         title: error.response ? error.response.data.message : error.message,
-
         variant: "destructive",
       });
     }

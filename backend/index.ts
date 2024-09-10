@@ -253,8 +253,8 @@ ipcMain.on("getAllTrashs", (event) => {
     });
 });
 
-ipcMain.on("getPatientsMNo", (event, mNo: any) => {
-  getPatientsMNo(mNo)
+ipcMain.on("getPatientsMNo", (event, contactInfo: any) => {
+  getPatientsMNo(contactInfo)
   .then((data: any) => {
     event.returnValue = {
       error: false,

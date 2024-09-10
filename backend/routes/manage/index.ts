@@ -144,7 +144,7 @@ export function generateBackup(): any {
   })
 }
 
-export function getPatientsMNo(mNo: any): any {
+export function getPatientsMNo(contactInfo: any): any {
   return new Promise((resolve, reject) => {
     try {
       let patientRecords: any = '{}';
@@ -153,12 +153,19 @@ export function getPatientsMNo(mNo: any): any {
           readFileSync(getPath || '', "utf8") || '{}'
         );
       }
-      console.log("given mno: ", mNo, "all patient records: ", patientRecords);
-      const patientInfo = patientRecords?.patientInfo?.find(
-        (patientObj: any) => patientObj.mobileNumber === mNo
-      ) || null;
+      const patientInfo = patientRecords?.patientInfo?.filter(
+        (patientObj: any) => {
+          if(contactInfo.patientId) {
+            if (patientObj.id !== contactInfo.patientId && patientObj.mobileNumber === contactInfo.mNo) {
+              return patientObj;
+            }
+          }
+          else if(patientObj.mobileNumber === contactInfo.mNo) {
+            return patientObj;
+          }
+        }) || [];
 
-      if (patientInfo?.length) {
+      if (patientInfo.length > 0) {
         return resolve({
           data: patientInfo,
           status: 200
