@@ -46,6 +46,7 @@ const AddStaffForm = ({
     maritalStatus: "",
     gender: "",
   });
+  const [ mNo, setMno] = useState('');
 
   const router = useRouter();
   const resolver = yupResolver(staffValidationSchema);
@@ -55,6 +56,7 @@ const AddStaffForm = ({
       date: patientinfo?.date ?? new Date(),
       gender: patientinfo?.gender ?? "",
       maritalStatus: patientinfo?.maritalStatus ?? "",
+      mobileNumber: patientinfo?.mobileNumber?? "",
     },
     values: patientinfo,
   });
@@ -64,6 +66,7 @@ const AddStaffForm = ({
         maritalStatus: patientinfo.maritalStatus,
         gender: patientinfo.gender,
       });
+      setMno(patientinfo.mobileNumber)
     }
   }, [patientinfo]);
 
@@ -86,18 +89,36 @@ const AddStaffForm = ({
     }
   };
 
+  const setAndVerifymNo = async(e) => {
+    try {
+      if (e?.target?.value.length === 10) {
+        const getExistPatient = await getPatientsMNumber(e?.target?.value, patientinfo?.id);
+        if (getExistPatient?.data) {
+          form.setError("mobileNumber", { type: "manual", message: "This mobile number is already exist" });
+        }
+        else form.clearErrors("mobileNumber");
+      }
+      if (e?.target?.value.length > 10 || (e?.target?.value.length !== 0 && e?.target?.value.length < 10)) {
+        form.setError("mobileNumber", { type: "manual", message: "Must be 10 digits" });
+      }
+    } catch(e) {
+      console.log("error: ", e.message);
+    }
+  };
+
   async function onSubmit(data) {
     try {
-      const getExistPatient = await getPatientsMNumber(data?.mobileNumber, patientinfo?.id);
-      if (!patientinfo?.id && !getExistPatient?.data) {
-        setpatientinfo({ ...patientinfo, ...data });
-        setFormStep(1);
-        form.reset();
-      } else if (patientinfo?.id && !getExistPatient?.data) {
-        updatePatientGeneralInfo(data);
-      } else {
-        form.setError("mobileNumber", { type: "manual", message: "This mobile number is already exist" });
+      const getExistPatient = await getPatientsMNumber(data.mobileNumber, patientinfo?.id);
+      if (!getExistPatient?.data) {
+        if (!patientinfo?.id) {
+          setpatientinfo({ ...patientinfo, ...data });
+          setFormStep(1);
+          form.reset();
+        } else {
+          updatePatientGeneralInfo(data);
+        }
       }
+      else form.setError("mobileNumber", { type: "manual", message: "This mobile number is already exist" });
     } catch (error) {
       toast({
         title: error.response ? error.response.data.message : error.message,
@@ -179,7 +200,7 @@ const AddStaffForm = ({
                 control={form.control}
                 name="mobileNumber"
                 render={({ field }) => {
-                  console.log("all fields: ", field);
+                  const { onChange, ...restAttr } = field;
                   return (
                     <FormItem>
                       <FormLabel>Mobile No.</FormLabel>
@@ -188,7 +209,13 @@ const AddStaffForm = ({
                           type="number"
                           disabled={form.formState.isSubmitting}
                           placeholder="Mobile No."
-                          {...field}
+                          onChange={(e) => {
+                            setMno(e.target.value);
+                            setAndVerifymNo(e);
+                            field.onChange(e.target.value);
+                          }}
+                          {...restAttr}
+                          value={mNo || field.value}
                         />
                       </FormControl>
                       <FormDescription>Patient Mobile Number</FormDescription>
