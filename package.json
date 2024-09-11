@@ -11,13 +11,13 @@
     "url": "https://github.com/saulotarsobc"
   },
   "scripts": {
-    "dev": "npm run build:backend && electron . --dev",
+    "dev": "yarn build:backend && electron . --dev",
     "prebuild": "rimraf build && rimraf dist",
     "build": "yarn build:frontend && yarn build:backend",
     "build:frontend": "next build src",
     "build:backend": "tsc -p backend",
     "postinstall": "electron-builder install-app-deps",
-    "dist": "npm run build && electron-builder"
+    "dist": "yarn build && electron-builder"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.9.0",
