@@ -30,7 +30,7 @@ const StaffTable = ({ data, deletePatient }) => {
     return {
       ...val,
       lastVisitedDate: dateFormat(
-        val.historyInfo[val.historyInfo.length - 1].date
+        val.historyInfo[val.historyInfo?.length - 1]?.date
       ),
     };
   });

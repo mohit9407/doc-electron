@@ -1,6 +1,6 @@
 {
-  "name": "sc-next-electron",
-  "version": "6.0.0",
+  "name": "medapp",
+  "version": "1.0.1",
   "description": "Electronjs with Nextjs",
   "private": false,
   "license": "MIT",
