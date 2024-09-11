@@ -1,7 +1,7 @@
-productName: SC - Next Electron
-appId: br.com.electron.next
+productName: Med - App
+appId: med.app.com
 
-icon: public/icon.png
+icon: public/mIcon.png
 
 extraMetadata:
   main: dist/index.js
@@ -25,18 +25,18 @@ win:
   target:
   - nsis
   asar:
-  icon: ./public/icon.png
+  icon: ./public/mIcon.png
   publisherName: Saulo INC
   artifactName: ${productName}-Setup-${version}.${ext}
 
 # Mac
 mac:
   target: dmg
-  icon: ./public/icon.png
+  icon: ./public/mIcon.png
 
 # Linux
 linux:
   target:
   - AppImage
   - deb
-  icon: ./public/icon.png
+  icon: ./public/mIcon.png

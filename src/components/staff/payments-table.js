@@ -89,7 +89,7 @@ const PaymentsTable = ({ data }) => {
         />
 
         <Input
-          placeholder="Filter by Date, Month or Year..."
+          placeholder="Filter DD-MM-YYYY"
           value={table.getColumn("date")?.getFilterValue() ?? ""}
           onChange={(event) =>
             table.getColumn("date")?.setFilterValue(event.target.value)
