@@ -11,7 +11,6 @@ import {
 } from "../ui/dialog";
 import ViewPaymentHistory from "../patient/view-payment-history";
 import moment from "moment";
-import { Tooltip } from "../../lib/utils";
 
 const PaymentsTableActions = ({ staff }) => {
   const isoDate = moment(staff.date, "DD-MM-YYYY HH:mm:ss").toISOString();
@@ -41,6 +40,19 @@ const PaymentsTableActions = ({ staff }) => {
 
     saveAsPDF();
   };
+
+  function Tooltip({ message, className, children }) {
+    return (
+      <div class="group relative">
+        {children}
+        <span
+          class={`absolute z-[999] scale-0 transition-all rounded bg-gray-800 p-2 text-xs text-white group-hover:scale-100 whitespace-nowrap ${className}`}
+        >
+          {message}
+        </span>
+      </div>
+    );
+  }
 
   return (
     <div className="flex flex-row justify-between max-w-sm w-full">

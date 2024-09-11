@@ -16,7 +16,6 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Sheet, SheetTrigger } from "../ui/sheet";
 import ViewPatientHistory from "./view-patient-hisrory";
-import { Tooltip } from "../../lib/utils";
 
 const HistoryTableActions = ({
   patientHistory,
@@ -44,6 +43,19 @@ const HistoryTableActions = ({
   };
 
   const restore = async () => {};
+
+  function Tooltip({ message, className, children }) {
+    return (
+      <div class="group relative">
+        {children}
+        <span
+          class={`absolute z-[999] scale-0 transition-all rounded bg-gray-800 p-2 text-xs text-white group-hover:scale-100 whitespace-nowrap ${className}`}
+        >
+          {message}
+        </span>
+      </div>
+    );
+  }
 
   return patientHistory.isDeleted ? (
     <Dialog>
