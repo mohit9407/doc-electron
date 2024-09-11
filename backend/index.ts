@@ -9,9 +9,7 @@ import { addPatient, getAllPatients, generateBackup, generateInvoice, getPatient
 import { getPatientInfo, putPatientData, patchPatientData, recoveryPatientInfo } from "./routes/edit";
 import { getAllPayments } from "./routes/payments";
 import { getAllTrashs } from "./routes/trash";
-import { addUser, initDb } from "./database";
 import { ipcMain } from "electron";
-import { User } from "./database/schema";
 
 /**
  * Creates a new BrowserWindow with the specified dimensions and web preferences.
@@ -44,7 +42,6 @@ app.whenReady().then(async () => {
   await prepareNext("./src", 4444);
 
   await initLogs();
-  initDb();
 
   createWindow();
   app.on("activate", () => {
@@ -61,21 +58,6 @@ app.on("window-all-closed", () => {
 });
 
 /* ++++++++++ code ++++++++++ */
-ipcMain.on("addUser", (event, user: User) => {
-  addUser(user)
-    .then((data) => {
-      event.returnValue = {
-        error: false,
-        data,
-      };
-    })
-    .catch((error) => {
-      event.returnValue = {
-        error: true,
-        data: error,
-      };
-    });
-});
 
 ipcMain.on("generateInvoice", (event, patientData: any) => {
   generateInvoice(patientData)

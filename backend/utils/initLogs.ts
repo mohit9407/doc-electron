@@ -1,7 +1,6 @@
 import { exec } from "node:child_process";
 import Logger from "electron-log";
 import { join } from "node:path";
-import databasePath from "./databasePath";
 
 /**
  * Initializes the logs by executing a command to list the files in the specified directory.
@@ -25,6 +24,4 @@ export async function initLogs(): Promise<void> {
   });
 
   Logger.info("DIRNAME: ", directoryPath);
-
-  Logger.info("DATABASE: ", databasePath);
 }
