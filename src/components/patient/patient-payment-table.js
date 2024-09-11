@@ -74,7 +74,7 @@ const PaymentTable = ({
               ...paymentHistory,
               name: patientInfo.name,
               mobileNumber: patientInfo.mobileNumber,
-              date: dateFormat(patientInfo.date),
+              date: paymentHistory.date,
               patientInfo: { age: patientInfo.age },
             }}
             updatePaymentHistory={updatePaymentHistory}

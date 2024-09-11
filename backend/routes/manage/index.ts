@@ -143,3 +143,39 @@ export function generateBackup(): any {
     }
   })
 }
+
+export function getPatientsMNo(contactInfo: any): any {
+  return new Promise((resolve, reject) => {
+    try {
+      let patientRecords: any = '{}';
+      if (existsSync(getPath)) {
+        patientRecords = JSON.parse(
+          readFileSync(getPath || '', "utf8") || '{}'
+        );
+      }
+      const patientInfo = patientRecords?.patientInfo?.filter(
+        (patientObj: any) => {
+          if(contactInfo.patientId) {
+            if (patientObj.id !== contactInfo.patientId && patientObj.mobileNumber === contactInfo.mNo) {
+              return patientObj;
+            }
+          }
+          else if(patientObj.mobileNumber === contactInfo.mNo) {
+            return patientObj;
+          }
+        }) || [];
+
+      if (patientInfo.length > 0) {
+        return resolve({
+          data: patientInfo,
+          status: 200
+        });
+      }
+
+      return reject({ message: "no record found", status: 404 });
+    } catch (e) {
+      console.error("ERROR IN getAllPatients", e);
+      reject(e);
+    }
+  })
+}
