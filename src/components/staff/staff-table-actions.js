@@ -42,7 +42,6 @@ const StaffTableActions = ({ staff, deletePatient = () => {} }) => {
       toast({
         title: "History restored",
       });
-      // router.refresh();
     } catch (error) {
       toast({
         title: error.response ? error.response.data.message : error.message,
@@ -76,7 +75,7 @@ const StaffTableActions = ({ staff, deletePatient = () => {} }) => {
       <Sheet>
         <SheetTrigger asChild>
           <Link href={`/patients/edit?patientid=${staff.id}`}>
-            <Button className="scale-90">Edit</Button>
+            <Button className="scale-90">View Patient</Button>
           </Link>
         </SheetTrigger>
       </Sheet>

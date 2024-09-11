@@ -13,7 +13,7 @@ const PatientTabs = ({ currentTab, setActiveTab }) => {
         aria-disabled={currentTab === "general-info"}
         onClick={() => setActiveTab("general-info")}
       >
-        General Info
+        Edit Patient
       </div>
       <div
         className={cn(

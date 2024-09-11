@@ -54,6 +54,15 @@ const PaymentTable = ({
       header: "Date & Time",
     },
     {
+      accessorKey: "treatment",
+      header: "Treatment",
+      cell: ({ getValue }) => (
+        <span className="overflow-hidden text-ellipsis whitespace-nowrap w-full inline-block">
+          {getValue()}
+        </span>
+      ),
+    },
+    {
       id: "actions",
       header: "Actions",
       cell: ({ row }) => {

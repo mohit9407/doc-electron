@@ -58,7 +58,7 @@ const Page = () => {
           />
         </Root>
         {formStep > 0 && (
-          <div className={cn("py-2 text-lg", "text-muted-foreground")}>
+          <div className={cn("py-2 text-lg", "text-muted-foreground inline-block")}>
             <Button
               variant={"default"}
               size="icon"

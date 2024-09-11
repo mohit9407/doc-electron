@@ -25,6 +25,11 @@ const columns = [
   {
     accessorKey: "name",
     header: "Name",
+    cell: ({ getValue }) => (
+      <span className="overflow-hidden text-ellipsis whitespace-nowrap w-full inline-block">
+        {getValue()}
+      </span>
+    ),
   },
   {
     accessorKey: "mobileNumber",
@@ -84,7 +89,7 @@ const PaymentsTable = ({ data }) => {
         />
 
         <Input
-          placeholder="Filter Date..."
+          placeholder="Filter by Date, Month or Year..."
           value={table.getColumn("date")?.getFilterValue() ?? ""}
           onChange={(event) =>
             table.getColumn("date")?.setFilterValue(event.target.value)

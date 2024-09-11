@@ -14,6 +14,9 @@ import AddPatientSecForm from "../staff/add-patient-sec-form";
 import { toast } from "../../components/ui/use-toast";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { Sheet, SheetTrigger } from "../ui/sheet";
+import ViewPatientHistory from "./view-patient-hisrory";
+import { Tooltip } from "../../lib/utils";
 
 const HistoryTableActions = ({
   patientHistory,
@@ -29,7 +32,6 @@ const HistoryTableActions = ({
       toast({
         title: "Patient history moved to trash",
       });
-      // router.refresh();
     } catch (error) {
       toast({
         title: error.response ? error.response.data.message : error.message,
@@ -62,6 +64,25 @@ const HistoryTableActions = ({
     </Dialog>
   ) : (
     <div className="flex flex-row justify-between max-w-sm w-full">
+      <Sheet>
+        <SheetTrigger asChild>
+          <div className="flex flex-row justify-between max-w-sm">
+            <Dialog>
+              <DialogTrigger>
+                <Tooltip message={"View Details"} className={"top-10 left-0"}>
+                  <Button>View</Button>
+                </Tooltip>
+              </DialogTrigger>
+              <DialogContent className="overflow-y-scroll max-h-screen">
+                <DialogHeader>View Patient History</DialogHeader>
+
+                <ViewPatientHistory staff={patientHistory} />
+              </DialogContent>
+            </Dialog>
+          </div>
+        </SheetTrigger>
+      </Sheet>
+
       <Dialog>
         <DialogTrigger asChild>
           <Button>Edit</Button>

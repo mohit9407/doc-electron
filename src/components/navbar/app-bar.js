@@ -81,7 +81,7 @@ const AppBar = ({
       <Sheet>
         <SheetTrigger asChild>
           <Button
-            className="scale-90 mt-auto mb-auto mr-2.5 ml-0"
+            className="scale-90 mt-auto mb-auto mr-2.5 ml-auto"
             variant="outline"
             onClick={backupHandler}
           >
