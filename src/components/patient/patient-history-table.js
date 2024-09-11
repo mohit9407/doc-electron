@@ -47,6 +47,11 @@ const HistoryTable = ({
     {
       accessorKey: "chiefComplaints",
       header: "Chief Complaints",
+      cell: ({ getValue }) => (
+        <span className="overflow-hidden text-ellipsis whitespace-nowrap w-full inline-block">
+          {getValue()}
+        </span>
+      ),
     },
     {
       accessorKey: "displayDate",

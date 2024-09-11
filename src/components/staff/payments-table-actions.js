@@ -46,7 +46,7 @@ const PaymentsTableActions = ({ staff }) => {
       <div class="group relative">
         {children}
         <span
-          class={`absolute z-[999] scale-0 transition-all rounded bg-gray-800 p-2 text-xs text-white group-hover:scale-100 ${className}`}
+          class={`absolute z-[999] scale-0 transition-all rounded bg-gray-800 p-2 text-xs text-white group-hover:scale-100 whitespace-nowrap ${className}`}
         >
           {message}
         </span>
@@ -61,7 +61,7 @@ const PaymentsTableActions = ({ staff }) => {
             <div className="flex flex-row justify-between max-w-sm w-full">
               <Dialog>
                 <DialogTrigger>
-                  <Tooltip message={"View Details"} className="left-[52px]">
+                  <Tooltip message={"View Details"} className={"top-10 left-0"}>
                     <Button>
                       <EyeOpenIcon />
                     </Button>

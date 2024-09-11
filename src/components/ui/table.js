@@ -3,7 +3,7 @@ import { forwardRef } from "react";
 import { cn } from "../../lib/utils";
 
 const Table = forwardRef(({ className, ...props }, ref) => (
-  <div className="w-full overflow-auto">
+  <div className="w-full">
     <table
       ref={ref}
       className={cn("w-full caption-bottom text-sm", className)}
@@ -64,7 +64,7 @@ const TableCell = forwardRef(({ className, ...props }, ref) => (
   <td
     ref={ref}
     className={cn(
-      "p-2 align-middle [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px] text-ellipsis overflow-hidden whitespace-nowrap max-w-[100px]",
+      "p-2 align-middle [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px] max-w-[120px]",
       className
     )}
     {...props}

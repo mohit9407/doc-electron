@@ -158,7 +158,7 @@ const Page = () => {
   return (
     <>
       <ClientOnly>
-        <AppBar isBack backHref="/patients/manage" title="Edit Patient" />
+        <AppBar isBack backHref="/patients/manage" title="Patient Info" />
       </ClientOnly>
       <PatientTabs currentTab={currentTab} setActiveTab={setCurrenttab} />
       {currentTab === "general-info" && (

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
 import {
   flexRender,
@@ -21,19 +21,38 @@ import {
 import { Button } from "../../components/ui/button";
 import { Input } from "../../components/ui/input";
 import StaffTableActions from "./staff-table-actions";
+import { dateFormat } from "../../lib/utils";
 
 const StaffTable = ({ data, deletePatient }) => {
   const [columnFilters, setColumnFilters] = useState([]);
-  const pathName = usePathname();
 
+  const modifiedData = data?.map((val) => {
+    return {
+      ...val,
+      lastVisitedDate: dateFormat(
+        val.historyInfo[val.historyInfo.length - 1].date
+      ),
+    };
+  });
+
+  const pathName = usePathname();
   const columns = [
     {
       accessorKey: "name",
       header: "Name",
+      cell: ({ getValue }) => (
+        <span className="overflow-hidden text-ellipsis whitespace-nowrap w-full inline-block">
+          {getValue()}
+        </span>
+      ),
     },
     {
       accessorKey: "mobileNumber",
       header: "Mobile Number",
+    },
+    {
+      accessorKey: "lastVisitedDate",
+      header: "Last Visited Date",
     },
   ];
 
@@ -43,6 +62,7 @@ const StaffTable = ({ data, deletePatient }) => {
       header: "Actions",
       cell: ({ row }) => {
         const staff = row.original;
+
         return (
           <StaffTableActions staff={staff} deletePatient={deletePatient} />
         );
@@ -50,7 +70,7 @@ const StaffTable = ({ data, deletePatient }) => {
     });
 
   const table = useReactTable({
-    data,
+    data: modifiedData,
     columns,
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel(),

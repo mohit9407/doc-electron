@@ -6,6 +6,9 @@ import {
   DialogHeader,
   DialogTrigger,
   DialogContent,
+  DialogTitle,
+  DialogDescription,
+  DialogFooter,
 } from "../ui/dialog";
 import AddPatientThirdForm from "../staff/add-patient-third-form";
 import { DownloadIcon, EyeOpenIcon } from "@radix-ui/react-icons";
@@ -18,7 +21,10 @@ const PaymentTableActions = ({
   updatePaymentHistory,
   deletePaymentHistoryHandler,
 }) => {
-  const isoDate = moment(paymentHistory.date, "DD-MM-YYYY HH:mm:ss").toISOString();
+  const isoDate = moment(
+    paymentHistory.date,
+    "DD-MM-YYYY HH:mm:ss"
+  ).toISOString();
   const patientData = {
     ...patientInfo,
     paymentHistory: { ...paymentHistory, date: isoDate },
@@ -27,10 +33,8 @@ const PaymentTableActions = ({
     e.preventDefault();
     // send a post request with the name to our API endpoint for generate PDF
     const fetchData = async () => {
-     
       const { data } = await global.api.sendSync("generateInvoice", {
         ...patientData,
-       
       });
       // convert the response into an array Buffer
       return data;
@@ -58,7 +62,7 @@ const PaymentTableActions = ({
       <div class="group relative">
         {children}
         <span
-          class={`absolute z-[999] scale-0 transition-all rounded bg-gray-800 p-2 text-xs text-white group-hover:scale-100 ${className}`}
+          class={`absolute z-[999] scale-0 transition-all rounded bg-gray-800 p-2 text-xs text-white group-hover:scale-100 whitespace-nowrap ${className}`}
         >
           {message}
         </span>
@@ -70,7 +74,7 @@ const PaymentTableActions = ({
     <div className="flex flex-row justify-between max-w-sm w-full">
       <Dialog>
         <DialogTrigger>
-          <Tooltip message={"View Details"}>
+          <Tooltip message={"View Details"} className={"top-10 left-0"}>
             <Button className="mr-1">
               <EyeOpenIcon />
             </Button>
@@ -87,13 +91,27 @@ const PaymentTableActions = ({
           <Button>Edit</Button>
         </DialogTrigger>
 
-        <Button
-          className="scale-90"
-          variant="destructive"
-          onClick={() => deleteHandler(paymentHistory.id)}
-        >
-          Delete
-        </Button>
+        <Dialog>
+          <DialogTrigger asChild>
+            <Button className="scale-90" variant="destructive">
+              Delete
+            </Button>
+          </DialogTrigger>
+          <DialogContent>
+            <DialogHeader>
+              <DialogTitle>Are you sure ?</DialogTitle>
+            </DialogHeader>
+            <DialogDescription>
+              Delete {paymentHistory.amountCharges} ?
+            </DialogDescription>
+            <DialogFooter>
+              <Button onClick={() => deleteHandler(paymentHistory.id)}>
+                Delete
+              </Button>
+            </DialogFooter>
+          </DialogContent>
+        </Dialog>
+
         <Button onClick={generateInvoice}>
           Receipt <DownloadIcon />
         </Button>
