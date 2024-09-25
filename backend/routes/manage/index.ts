@@ -4,7 +4,9 @@ import { v4 as uuidV4 } from "uuid";
 import { app } from "electron";
 import puppeteer from "puppeteer";
 import handlers from "handlebars";
+import jwt from "jsonwebtoken";
 import { join } from "path";
+import { machineIdSync } from "node-machine-id";
 import { template as templateHtml } from "../../utils/templateHtml";
 
 const dirNam = __dirname;
@@ -133,8 +135,10 @@ export function generateBackup(): any {
           readFileSync(getPath || '', "utf8") || '{}'
         );
       }
+      const machineIdAddr = machineIdSync();
+
       return resolve({
-        data: patientRecords,
+        data: jwt.sign({ data: patientRecords}, machineIdAddr),
         status: 200
       });
     } catch (e) {

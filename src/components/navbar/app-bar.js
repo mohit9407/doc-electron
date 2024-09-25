@@ -32,18 +32,18 @@ const AppBar = ({
   const backupHandler = (e) => {
     e.preventDefault();
     const fetchJson = async () => {
-      const { data } = await global.api.sendSync("generateBackup");
-      return data;
+      const { data: data } = await global.api.sendSync("generateBackup");
+      return data?.data;
     };
 
     const saveAsJson = async () => {
-      const jsonData = await fetchJson();
-      const blob = new Blob([JSON.stringify(jsonData?.data, null, 2)], {
-        type: "application/json",
+      const textData = await fetchJson();
+      const blob = new Blob([textData], {
+        type: "text/plain",
       });
       const link = document.createElement("a");
       link.href = URL.createObjectURL(blob);
-      link.download = "backup.json";
+      link.download = "backup.txt";
       link.click();
     };
     saveAsJson();

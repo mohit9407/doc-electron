@@ -1,6 +1,8 @@
 import { readFileSync, writeFileSync } from "fs";
+import jwt from "jsonwebtoken";
 import { app } from "electron";
 import { join } from "path";
+import { machineIdSync } from "node-machine-id";
 
 const dirNam = __dirname;
 const getPath = app.isPackaged
@@ -73,14 +75,18 @@ export function putPatientData(patientData: any, { patientid }: any): any {
   });
 }
 
-export function recoveryPatientInfo(patientData: any): any {
+export function recoveryPatientInfo(rowPatientData: any): any {
   return new Promise((resolve, reject) => {
     try {
-      if (patientData) {
-        writeFileSync(
-          getPath || "",
-          JSON.stringify({ ...patientData })
-        );
+      if (rowPatientData) {
+        const macAddr = machineIdSync();
+        const patientData: any = jwt.verify(rowPatientData, macAddr);
+        if (patientData?.data) {
+          writeFileSync(
+            getPath || "",
+            JSON.stringify(patientData?.data)
+          );
+        }
 
         return resolve({
           message: "Json getting successfully!",

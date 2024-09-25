@@ -19,12 +19,11 @@ export default function FileUpload({ details = () => {} }) {
     const reader = new FileReader();
 
     reader.onload = async (event) => {
-      const jsonData = JSON.parse(event.target.result);
+      const textData = event.target.result;
 
-      const patientList = await global.api.sendSync("recoveryPatientInfo", {
-        ...jsonData,
-      });
-
+      const patientList = await global.api.sendSync("recoveryPatientInfo",
+        textData
+      );
       if (patientList.data.status === 200) {
         details();
       }
@@ -40,7 +39,7 @@ export default function FileUpload({ details = () => {} }) {
       >
         <input
           type="file"
-          accept=".json"
+          accept=".txt"
           hidden
           id="actual-btn"
           onChange={handleFileChange}
