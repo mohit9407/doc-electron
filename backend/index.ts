@@ -33,8 +33,8 @@ function createWindow(): void {
     ? win.loadURL("http://localhost:4444/")
     : win.loadFile(join(__dirname, "..", "src", "out", "index.html"));
 
-  isDev && win.webContents.openDevTools();
-  win.webContents.openDevTools();
+  // isDev && win.webContents.openDevTools();
+  // win.webContents.openDevTools();
   isDev && win.maximize();
 }
 
