@@ -47,10 +47,6 @@ const AuthenticateView = () => {
       <div className="max-w-[400px] m-auto pt-[1%] w-full">
         <Card className="mt-4">
           <CardContent className="p-4">
-            <h3 className="font-bold">Authenticate</h3>
-            <p className="pb-[10px]">
-              Kindly Authenticate yourself before continuing
-            </p>
             <Form {...form}>
               <form onSubmit={form.handleSubmit(onSubmit)}>
                 <div className="flex flex-col gap-[14px]">
