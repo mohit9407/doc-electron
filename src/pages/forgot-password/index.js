@@ -53,10 +53,14 @@ const ForgotPassword = () => {
                 <Button className="w-full my-2" type="submit">
                   Send Reset Link
                 </Button>
-
-                <p className="text-center">
-                  <Link href="/reset-password">Reset Password?</Link>
-                </p>
+                <div className="flex justify-between">
+                  <p className="text-center">
+                    <Link href="/reset-password">Reset Password?</Link>
+                  </p>
+                  <p className="text-center">
+                    <Link href="/">Login?</Link>
+                  </p>
+                </div>
               </form>
             </Form>
           </CardContent>

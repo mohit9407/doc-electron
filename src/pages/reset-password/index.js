@@ -1,4 +1,5 @@
 // pages/reset-password.js
+import Link from "next/link";
 import { Button } from "../../components/ui/button";
 import { Card, CardContent } from "../../components/ui/card";
 import {
@@ -96,6 +97,9 @@ const ResetPassword = () => {
                 <Button className="w-full my-2" type="submit">
                   Reset
                 </Button>
+                <p className="text-center">
+                    <Link href="/">Login?</Link>
+                  </p>
               </form>
             </Form>
           </CardContent>
