@@ -48,7 +48,14 @@ export function getAuthFile(): any {
                     throw(err);
                 });
             }
-            else writeFileSync(getPath, JSON.stringify(authCred));
+            else {
+              const authData = readFileSync(
+                getPath || "",
+              "utf8"
+            ) || "{}";
+              const isDataExist  = Object.keys(JSON.parse(authData)).length > 0;
+              if (!isDataExist) writeFileSync(getPath, JSON.stringify(authCred));
+            }
             return resolve({
                 message: "auth added!",
                 status: 201,
