@@ -17,6 +17,7 @@ import { Button } from "../ui/button";
 import { ilegibleLoginData } from "../../lib/constants/patient";
 import { useState } from "react";
 import { toast } from "../ui/use-toast";
+import Link from "next/link";
 
 const AuthenticateView = () => {
   const hiddenLink = useRef(null);
@@ -25,17 +26,17 @@ const AuthenticateView = () => {
 
   const onSubmit = async (data) => {
     try {
-        if (
-          data.email === ilegibleLoginData.email &&
-          data.password === ilegibleLoginData.password
-        ) {
-            hiddenLink.current?.click();
-        } else {
-          toast({
-            title: "you are not authorized for login !",
-          });
-          setCheckAuthorized(true);
-        }
+      if (
+        data.email === ilegibleLoginData.email &&
+        data.password === ilegibleLoginData.password
+      ) {
+        hiddenLink.current?.click();
+      } else {
+        toast({
+          title: "you are not authorized for login !",
+        });
+        setCheckAuthorized(true);
+      }
     } catch (error) {
       // Handle login error
       console.error("Error during login:", error);
@@ -84,30 +85,29 @@ const AuthenticateView = () => {
                             {...field}
                           />
                         </FormControl>
-                        <FormDescription>Password</FormDescription> 
+                        <FormDescription>Password</FormDescription>
                         <FormMessage />
                       </FormItem>
                     )}
                   />
                 </div>
-                <Button
-                  className="w-full my-2"
-                  type="submit"
-                >
+                <Button className="w-full my-2" type="submit">
                   Authenticate
                 </Button>
+
+                <p className="text-center">
+                  <Link href="/forgot-password">Forgot Password?</Link>
+                </p>
+                
               </form>
             </Form>
           </CardContent>
         </Card>
-        <DynamicLink href={"/patients/dashboard"} style={{display: "none"}}>
-            <Button
-              ref={hiddenLink}
-              size="icon"
-            >
-              Redirect on dashboard
-            </Button>
-          </DynamicLink>
+        <DynamicLink href={"/patients/dashboard"} style={{ display: "none" }}>
+          <Button ref={hiddenLink} size="icon">
+            Redirect on dashboard
+          </Button>
+        </DynamicLink>
       </div>
       {checkAuthorized && (
         <div className="max-w-[400px] m-auto pt-[1%] w-full">
