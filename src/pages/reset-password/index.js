@@ -1,7 +1,11 @@
 // pages/reset-password.js
+import { useForm } from "react-hook-form";
 import Link from "next/link";
-import { Button } from "../../components/ui/button";
-import { Card, CardContent } from "../../components/ui/card";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { resetPswdValidationSchema } from "../../lib/schema/staff/staff-schema";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
 import {
   Form,
   FormControl,
@@ -9,23 +13,38 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "../../components/ui/form";
-import { Input } from "@/components/ui/input";
-import { useState } from "react";
-import { useForm } from "react-hook-form";
+} from "@/components/ui/form";
+import { toast } from "@/components/ui/use-toast";
 
 const ResetPassword = () => {
-  const [newPassword, setNewPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
-  const [message, setMessage] = useState("");
-  const form = useForm({});
+  const resolver = yupResolver(resetPswdValidationSchema);
+  const form = useForm({
+    resolver,
+  });
 
-  const onSubmit = async (event) => {
-    if (newPassword !== confirmPassword) {
-      setMessage("New Password and Confirm Password do not match");
-      return;
+  const onSubmit = async (data) => {
+    const { oldPassword, newPassword } = data;
+    try {
+      const {
+        data: { status },
+      } = await global.api.sendSync("getAndUpdateUserPswd", {
+        oldPassword,
+        newPassword,
+      });
+
+      if (status === 204) {
+        toast({
+          title: "Password updated successfully!",
+        });
+      } else {
+        toast({
+          title: "you are not authorized for change password!",
+        });
+      }
+    } catch (error) {
+      // Handle login error
+      console.error("Error during login:", error);
     }
-    setMessage("Password has been reset successfully");
   };
 
   return (
@@ -98,8 +117,8 @@ const ResetPassword = () => {
                   Reset
                 </Button>
                 <p className="text-center">
-                    <Link href="/">Login?</Link>
-                  </p>
+                  <Link href="/">Login?</Link>
+                </p>
               </form>
             </Form>
           </CardContent>

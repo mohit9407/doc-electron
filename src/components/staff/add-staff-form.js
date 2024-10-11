@@ -46,9 +46,8 @@ const AddStaffForm = ({
     maritalStatus: "",
     gender: "",
   });
-  const [ mNo, setMno] = useState('');
+  const [mNo, setMno] = useState("");
 
-  const router = useRouter();
   const resolver = yupResolver(staffValidationSchema);
   const form = useForm({
     resolver,
@@ -56,7 +55,7 @@ const AddStaffForm = ({
       date: patientinfo?.date ?? new Date(),
       gender: patientinfo?.gender ?? "",
       maritalStatus: patientinfo?.maritalStatus ?? "",
-      mobileNumber: patientinfo?.mobileNumber?? "",
+      mobileNumber: patientinfo?.mobileNumber ?? "",
     },
     values: patientinfo,
   });
@@ -66,7 +65,7 @@ const AddStaffForm = ({
         maritalStatus: patientinfo.maritalStatus,
         gender: patientinfo.gender,
       });
-      setMno(patientinfo.mobileNumber)
+      setMno(patientinfo.mobileNumber);
     }
   }, [patientinfo]);
 
@@ -78,7 +77,7 @@ const AddStaffForm = ({
     try {
       const { data: patientsMNo } = await global.api.sendSync(
         "getPatientsMNo",
-        {mNo, patientId}
+        { mNo, patientId }
       );
       return patientsMNo;
     } catch (error) {
@@ -89,26 +88,40 @@ const AddStaffForm = ({
     }
   };
 
-  const setAndVerifymNo = async(e) => {
+  const setAndVerifymNo = async (e) => {
     try {
       if (e?.target?.value.length === 10) {
-        const getExistPatient = await getPatientsMNumber(e?.target?.value, patientinfo?.id);
+        const getExistPatient = await getPatientsMNumber(
+          e?.target?.value,
+          patientinfo?.id
+        );
         if (getExistPatient?.data) {
-          form.setError("mobileNumber", { type: "manual", message: "This mobile number is already exist" });
-        }
-        else form.clearErrors("mobileNumber");
+          form.setError("mobileNumber", {
+            type: "manual",
+            message: "This mobile number is already exist",
+          });
+        } else form.clearErrors("mobileNumber");
       }
-      if (e?.target?.value.length > 10 || (e?.target?.value.length !== 0 && e?.target?.value.length < 10)) {
-        form.setError("mobileNumber", { type: "manual", message: "Must be 10 digits" });
+      if (
+        e?.target?.value.length > 10 ||
+        (e?.target?.value.length !== 0 && e?.target?.value.length < 10)
+      ) {
+        form.setError("mobileNumber", {
+          type: "manual",
+          message: "Must be 10 digits",
+        });
       }
-    } catch(e) {
+    } catch (e) {
       console.log("error: ", e.message);
     }
   };
 
   async function onSubmit(data) {
     try {
-      const getExistPatient = await getPatientsMNumber(data.mobileNumber, patientinfo?.id);
+      const getExistPatient = await getPatientsMNumber(
+        data.mobileNumber,
+        patientinfo?.id
+      );
       if (!getExistPatient?.data) {
         if (!patientinfo?.id) {
           setpatientinfo({ ...patientinfo, ...data });
@@ -117,8 +130,11 @@ const AddStaffForm = ({
         } else {
           updatePatientGeneralInfo(data);
         }
-      }
-      else form.setError("mobileNumber", { type: "manual", message: "This mobile number is already exist" });
+      } else
+        form.setError("mobileNumber", {
+          type: "manual",
+          message: "This mobile number is already exist",
+        });
     } catch (error) {
       toast({
         title: error.response ? error.response.data.message : error.message,
