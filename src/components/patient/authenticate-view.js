@@ -1,5 +1,5 @@
 "use client";
-import { useRef } from "react";
+import { useRef, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { Card, CardContent } from "../../components/ui/card";
 import DynamicLink from "../../components/dynamic-link";
@@ -14,7 +14,6 @@ import {
 } from "../../components/ui/form";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
-import { ilegibleLoginData } from "../../lib/constants/patient";
 import { useState } from "react";
 import { toast } from "../ui/use-toast";
 import Link from "next/link";
@@ -26,10 +25,11 @@ const AuthenticateView = () => {
 
   const onSubmit = async (data) => {
     try {
-      if (
-        data.email === ilegibleLoginData.email &&
-        data.password === ilegibleLoginData.password
-      ) {
+      const {
+        data: { status },
+      } = await global.api.sendSync("authUser", data);
+
+      if (status === 200) {
         hiddenLink.current?.click();
       } else {
         toast({
@@ -42,6 +42,17 @@ const AuthenticateView = () => {
       console.error("Error during login:", error);
     }
   };
+
+  useEffect(() => {
+    try {
+      const createAuthFileIfNot = async () => {
+        await global.api.sendSync("getAuthFile");
+      };
+      createAuthFileIfNot();
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  }, []);
 
   return (
     <>
@@ -98,7 +109,6 @@ const AuthenticateView = () => {
                 <p className="text-center">
                   <Link href="/forgot-password">Forgot Password?</Link>
                 </p>
-                
               </form>
             </Form>
           </CardContent>

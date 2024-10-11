@@ -68,3 +68,29 @@ export const patientThirdFormValidationSchema = yup.object({
     .required("Amount Charges is required"),
   treatment: yup.string().trim().max(200, "Maximum 200 Characters"),
 });
+
+export const resetPswdValidationSchema = yup.object({
+  oldPassword: yup
+    .string()
+    .required("Old Password is required")
+    .min(8, "Minimum 8 characters is required")
+    .max(25, "Maximum 25 characters is required"),
+  newPassword: yup
+    .string()
+    .required("New Password is required")
+    .min(8, "Minimum 8 characters is required")
+    .max(25, "Maximum 25 characters is required")
+    .notOneOf(
+      [yup.ref("oldPassword"), null],
+      "New Password must not match with Old Password"
+    ),
+  confirmPassword: yup
+    .string()
+    .required("Confirm Password is required")
+    .min(8, "Minimum 8 characters is required")
+    .max(25, "Maximum 25 characters is required")
+    .oneOf(
+      [yup.ref("newPassword"), null],
+      "Confirm Password does't match with New Password"
+    ),
+});
