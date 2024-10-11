@@ -26,6 +26,7 @@ import {
 import { Button } from "../../components/ui/button";
 import HistoryTableActions from "./history-table-action";
 import AddPatientSecForm from "../staff/add-patient-sec-form";
+import { Input } from "../ui/input";
 
 const HistoryTable = ({
   isOpenAddHistory = false,
@@ -33,7 +34,7 @@ const HistoryTable = ({
   data,
   deleteHistoryHandler,
   updatePatientHistory,
-  deletePaymentHistoryHandler
+  deletePaymentHistoryHandler,
 }) => {
   const [columnFilters, setColumnFilters] = useState([]);
   const [isOpen, setIsOpen] = useState(false);
@@ -90,31 +91,51 @@ const HistoryTable = ({
     if (isOpenAddHistory) setIsOpen(true);
   }, [isOpenAddHistory]);
 
+  const resetFilter = () => {
+    table.getColumn("chiefComplaints")?.setFilterValue("");
+  };
+
   return (
     <div className="flex flex-col">
-      <Dialog
-        open={isOpen}
-        onOpenChange={(isModalOpen) => {
-          if (!isModalOpen) {
-            isOpen && setIsOpen(false);
-            isOpenAddHistory && setIsOpenAddHistory(false);
-          }
-        }}
-      >
-        <DialogTrigger asChild>
-          <Button onClick={() => setIsOpen(true)} className="ml-auto mb-2">
-            Add Patient History
-          </Button>
-        </DialogTrigger>
-        <DialogContent className="overflow-y-scroll max-h-screen">
-          <DialogHeader>Add Patient History</DialogHeader>
-          <AddPatientSecForm
-            isNewHistory={true}
-            patientinfo={null}
-            updatePatientHistory={updatePatientHistoryHandler}
+      <div className="flex items-center">
+        <div className="flex row gap-[60px] py-4">
+          <Input
+            placeholder="Filter Chief Complaints..."
+            value={table.getColumn("chiefComplaints")?.getFilterValue() ?? ""}
+            onChange={(event) => {
+              table
+                .getColumn("chiefComplaints")
+                ?.setFilterValue(event.target.value);
+            }}
+            className="max-w-sm mx-2 bg-[transparent]"
           />
-        </DialogContent>
-      </Dialog>
+          <Button onClick={resetFilter}>Reset</Button>
+        </div>
+
+        <Dialog
+          open={isOpen}
+          onOpenChange={(isModalOpen) => {
+            if (!isModalOpen) {
+              isOpen && setIsOpen(false);
+              isOpenAddHistory && setIsOpenAddHistory(false);
+            }
+          }}
+        >
+          <DialogTrigger asChild>
+            <Button onClick={() => setIsOpen(true)} className="ml-auto mb-2">
+              Add Patient History
+            </Button>
+          </DialogTrigger>
+          <DialogContent className="overflow-y-scroll max-h-screen">
+            <DialogHeader>Add Patient History</DialogHeader>
+            <AddPatientSecForm
+              isNewHistory={true}
+              patientinfo={null}
+              updatePatientHistory={updatePatientHistoryHandler}
+            />
+          </DialogContent>
+        </Dialog>
+      </div>
       <div className="rounded-md border">
         <Table>
           <TableHeader>

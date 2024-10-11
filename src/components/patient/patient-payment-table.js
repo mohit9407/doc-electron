@@ -27,6 +27,7 @@ import { Button } from "../../components/ui/button";
 import PaymentTableActions from "./payment-table-action";
 import AddPatientThirdForm from "../staff/add-patient-third-form";
 import { dateFormat } from "../../lib/utils";
+import { Input } from "../ui/input";
 
 const PaymentTable = ({
   patientInfo,
@@ -61,6 +62,10 @@ const PaymentTable = ({
           {getValue()}
         </span>
       ),
+    },
+    {
+      accessorKey: "payment",
+      header: "Payment",
     },
     {
       id: "actions",
@@ -101,31 +106,51 @@ const PaymentTable = ({
     if (isOpenAddpayment && !isOpen) setIsOpen(true);
   }, [isOpenAddpayment]);
 
+  const resetFilter = () => {
+    table.getColumn("payment")?.setFilterValue("");
+  };
+
   return (
     <div className="flex flex-col">
-      <Dialog
-        open={isOpen}
-        onOpenChange={(isModalOpen) => {
-          if (!isModalOpen) {
-            isOpen && setIsOpen(false);
-            isOpenAddpayment && setIsOpenAddpayment(false);
-          }
-        }}
-      >
-        <DialogTrigger asChild>
-          <Button onClick={() => setIsOpen(true)} className="ml-auto mb-2">
-            Add Payment History
-          </Button>
-        </DialogTrigger>
-        <DialogContent className="overflow-y-scroll max-h-screen">
-          <DialogHeader>Add Payment History</DialogHeader>
-          <AddPatientThirdForm
-            isNewPayment={true}
-            patientinfo={null}
-            updatePaymentHistory={updatePaymentHistoryHandler}
-          />
-        </DialogContent>
-      </Dialog>
+      <div className="flex items-center">
+        <div className="flex row gap-[60px] py-4">
+          <select
+            value={table.getColumn("payment")?.getFilterValue() ?? ""}
+            onChange={(event) =>
+              table.getColumn("payment")?.setFilterValue(event.target.value)
+            }
+            className="max-w-sm mx-2 bg-[transparent] border border-solid border-[#ebe3e3] rounded-[8px]"
+          >
+            <option value="">Filter Payments...</option>
+            <option value="pending">Pending</option>
+            <option value="completed">Completed</option>
+          </select>
+          <Button onClick={resetFilter}>Reset</Button>
+        </div>
+        <Dialog
+          open={isOpen}
+          onOpenChange={(isModalOpen) => {
+            if (!isModalOpen) {
+              isOpen && setIsOpen(false);
+              isOpenAddpayment && setIsOpenAddpayment(false);
+            }
+          }}
+        >
+          <DialogTrigger asChild>
+            <Button onClick={() => setIsOpen(true)} className="ml-auto mb-2">
+              Add Payment History
+            </Button>
+          </DialogTrigger>
+          <DialogContent className="overflow-y-scroll max-h-screen">
+            <DialogHeader>Add Payment History</DialogHeader>
+            <AddPatientThirdForm
+              isNewPayment={true}
+              patientinfo={null}
+              updatePaymentHistory={updatePaymentHistoryHandler}
+            />
+          </DialogContent>
+        </Dialog>
+      </div>
       <div className="rounded-md border">
         <Table>
           <TableHeader>
