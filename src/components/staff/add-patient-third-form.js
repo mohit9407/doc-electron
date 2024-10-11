@@ -165,7 +165,6 @@ const AddPatientThirdForm = ({
                   name="payment"
                   value={selectedOption}
                   render={({ field }) => {
-                    console.log("field???", field);
                     return (
                       <FormItem>
                         <FormControl>
