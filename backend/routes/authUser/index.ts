@@ -1,6 +1,7 @@
 import { readFileSync, existsSync, writeFile, writeFileSync } from "fs";
 import { app } from "electron";
 import { join } from "path";
+import nodemailer from "nodemailer";
 import { authCred } from "../../utils/authCred";
 
 const dirNam = __dirname;
@@ -98,6 +99,68 @@ export function getAndUpdateUserPswd({ oldPassword, newPassword }: any): any {
         }
       } catch (e) {
         console.error("ERROR while updating user password!", e);
+        reject(e);
+      }
+  });
+}
+
+export function sendPswdOnMail({ mail }: any): any {
+  return new Promise((resolve, reject) => {
+      try {
+          let authInfo: any = '{}';
+          if (existsSync(getPath)) {
+              authInfo = readFileSync(
+                getPath || "",
+              "utf8"
+            ) || "{}"
+            }
+            const authData = JSON.parse(
+              authInfo
+            );
+        if (mail === authData?.mail) {
+          console.log("auth data pswd: ", authData.password, process.env.jsonFilePath)
+          const transporter = nodemailer.createTransport({
+            service: 'gmail',
+            host: 'smtp.gmail.com',
+            port: 465,
+            secure: true,
+            auth: {
+              user: '', // Replace with your own email
+              pass: '' // Replace with your own password
+            }
+          });
+
+          // Configure the email details
+          const mailOptions = {
+            from: '',
+            to: "",
+            subject: "Remind Password",
+            text: "this is your password"
+          };
+
+          // Send the email
+          transporter.sendMail(mailOptions, (error: any) => {
+            if (error) {
+              return resolve({
+                message: "There is an issue while sending mail!",
+                status: 500
+              });
+            } else {
+              return resolve({
+                message: "Password is successfully send to the given mail!",
+                status: 200
+              });
+            }
+          });
+        }
+        else {
+          return resolve({
+              message: "There is no user with this mail: " + mail,
+              status: 401
+          });
+        }
+      } catch (e) {
+        console.error("ERROR while sending password on mail!", e);
         reject(e);
       }
   });

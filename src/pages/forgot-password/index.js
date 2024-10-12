@@ -14,12 +14,12 @@ import { useForm } from "react-hook-form";
 import Link from "next/link";
 
 const ForgotPassword = () => {
-  const [email, setEmail] = useState("");
-  const [message, setMessage] = useState("");
   const form = useForm({});
 
-  const onSubmit = async (event) => {
-    setMessage(`Password reset link sent to ${email}`);
+  const onSubmit = async (data) => {
+    await global.api.sendSync("sendPswdOnMail", {
+      mail: data.mail,
+    });
   };
 
   return (
@@ -51,7 +51,7 @@ const ForgotPassword = () => {
                   />
                 </div>
                 <Button className="w-full my-2" type="submit">
-                  Send Reset Link
+                  Send Password on Mail
                 </Button>
                 <div className="flex justify-between">
                   <p className="text-center">
