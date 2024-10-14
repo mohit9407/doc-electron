@@ -1,3 +1,6 @@
+import React, { useRef } from "react";
+import { useForm } from "react-hook-form";
+import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "../../components/ui/card";
 import {
@@ -10,13 +13,14 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { toast } from "@/components/ui/use-toast";
-import { useForm } from "react-hook-form";
-import Link from "next/link";
+import DynamicLink from "@/components/dynamic-link";
 
 const ForgotPassword = () => {
+  const loginLink = useRef(null);
   const form = useForm({});
 
   const onSubmit = async (data) => {
+    loginLink.current?.click();
     const { data: respData } = await global.api.sendSync("sendPswdOnMail", {
       mail: data.email,
     });
@@ -49,7 +53,7 @@ const ForgotPassword = () => {
                         <FormControl>
                           <Input
                             type="email"
-                            placeholder="enter your Email"
+                            placeholder="Enter your Email"
                             required
                             {...field}
                           />
@@ -74,6 +78,11 @@ const ForgotPassword = () => {
             </Form>
           </CardContent>
         </Card>
+        <DynamicLink href={"/"} style={{ display: "none" }}>
+          <Button ref={loginLink} size="icon">
+            Redirect on login
+          </Button>
+        </DynamicLink>
       </div>
     </>
   );
