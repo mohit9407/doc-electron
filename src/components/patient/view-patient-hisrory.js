@@ -38,6 +38,57 @@ const ViewPatientHistory = ({ staff }) => {
                     </FormItem>
                   )}
                 />
+
+                <div className="flex flex-wrap gap-[22%]">
+                  <FormField
+                    name="temperature"
+                    render={() => (
+                      <FormItem>
+                        <FormLabel>Temperature</FormLabel>
+                        <FormDescription>{staff.temperature}</FormDescription>
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    name="bloodpressure"
+                    render={() => (
+                      <FormItem>
+                        <FormLabel>Blood Pressure</FormLabel>
+                        <FormDescription>{staff.bloodpressure}</FormDescription>
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    name="spo2"
+                    render={() => (
+                      <FormItem>
+                        <FormLabel>SPO2</FormLabel>
+                        <FormDescription>{staff.spo2}</FormDescription>
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    name="pulseRate"
+                    render={() => (
+                      <FormItem>
+                        <FormLabel>Pulse Rate</FormLabel>
+                        <FormDescription>{staff.pulseRate}</FormDescription>
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    name="respiratoryRate"
+                    render={() => (
+                      <FormItem>
+                        <FormLabel>Respiratory Rate</FormLabel>
+                        <FormDescription>
+                          {staff.respiratoryRate}
+                        </FormDescription>
+                      </FormItem>
+                    )}
+                  />
+                </div>
+
                 <FormField
                   name="mobileNumber"
                   render={() => (

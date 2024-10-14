@@ -18,6 +18,7 @@ import { Button } from "../../components/ui/button";
 import { toast } from "../../components/ui/use-toast";
 
 import { patientSecFormValidationSchema } from "../../lib/schema/staff/staff-schema";
+import { Input } from "../ui/input";
 
 const AddPatientSecForm = ({
   setFormStep,
@@ -35,8 +36,13 @@ const AddPatientSecForm = ({
       ? {
           chiefComplaints: patientinfo?.historyInfo[0].chiefComplaints ?? "",
           allergicHistory: patientinfo?.historyInfo[0].allergicHistory ?? "",
-          pastTreatmentReceived:
-            patientinfo?.historyInfo[0].pastTreatmentReceived ?? "",
+          temperature: patientinfo?.historyInfo[0].temperature ?? "",
+          bloodpressure: patientinfo?.historyInfo[0].bloodpressure ?? "",
+          spo2: patientinfo?.historyInfo[0].spo2 ?? "",
+          pulseRate: patientinfo?.historyInfo[0].pulseRate ?? "",
+          respiratoryRate: patientinfo?.historyInfo[0].respiratoryRate ?? "",
+          pastTreatmentReceived: patientinfo?.historyInfo[0].
+          patientinfo?.historyInfo[0].pastTreatmentReceived ?? "",
           examinationFindings:
             patientinfo?.historyInfo[0].examinationFindings ?? "",
           investigationAdvice:
@@ -45,6 +51,11 @@ const AddPatientSecForm = ({
       : {
           chiefComplaints: patientinfo?.chiefComplaints ?? "",
           allergicHistory: patientinfo?.allergicHistory ?? "",
+          temperature: patientinfo?.temperature ?? "",
+          bloodpressure: patientinfo?.bloodpressure ?? "",
+          spo2: patientinfo?.spo2 ?? "",
+          pulseRate: patientinfo?.pulseRate ?? "",
+          respiratoryRate: patientinfo?.respiratoryRate ?? "",
           pastTreatmentReceived: patientinfo?.pastTreatmentReceived ?? "",
           examinationFindings: patientinfo?.examinationFindings ?? "",
           investigationAdvice: patientinfo?.investigationAdvice ?? "",
@@ -107,9 +118,7 @@ const AddPatientSecForm = ({
                         {...field}
                       />
                     </FormControl>
-                    <FormDescription>
-                      Chief Complaints of patient
-                    </FormDescription>
+                   
                     <FormMessage />
                   </FormItem>
                 )}
@@ -129,13 +138,111 @@ const AddPatientSecForm = ({
                         {...field}
                       />
                     </FormControl>
-                    <FormDescription>
-                      Allergic History of patient
-                    </FormDescription>
+                   
                     <FormMessage />
                   </FormItem>
                 )}
               />
+
+              <FormLabel>Examination</FormLabel>
+              <div className="flex justify-between flex-wrap">
+                <FormField
+                  name="temperature"
+                  control={form.control}
+                  defaultValue=""
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>TEMPERATURE</FormLabel>
+                      <FormControl>
+                        <Input
+                          type="text"
+                          disabled={form.formState.isSubmitting}
+                          placeholder="Temperature.."
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  name="bloodpressure"
+                  control={form.control}
+                  defaultValue=""
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>BLOOD PRESSURE</FormLabel>
+                      <FormControl>
+                        <Input
+                          type="text"
+                          disabled={form.formState.isSubmitting}
+                          placeholder="Blood Pressure.."
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  name="spo2"
+                  control={form.control}
+                  defaultValue=""
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>SPO2</FormLabel>
+                      <FormControl>
+                        <Input
+                          type="text"
+                          disabled={form.formState.isSubmitting}
+                          placeholder="SPO2 of Patient.."
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  name="pulseRate"
+                  control={form.control}
+                  defaultValue=""
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>PULSE RATE</FormLabel>
+                      <FormControl>
+                        <Input
+                          type="text"
+                          disabled={form.formState.isSubmitting}
+                          placeholder="Pulse Rate of Patient.."
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  name="respiratoryRate"
+                  control={form.control}
+                  defaultValue=""
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>RESPIRATORY RATE</FormLabel>
+                      <FormControl>
+                        <Input
+                          type="text"
+                          disabled={form.formState.isSubmitting}
+                          placeholder="Respiratory Rate.."
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
+
               <FormField
                 control={form.control}
                 name="pastTreatmentReceived"
@@ -151,7 +258,6 @@ const AddPatientSecForm = ({
                         {...field}
                       />
                     </FormControl>
-                    <FormDescription>Past Treatment Received</FormDescription>
                     <FormMessage />
                   </FormItem>
                 )}
@@ -172,7 +278,6 @@ const AddPatientSecForm = ({
                         {...field}
                       />
                     </FormControl>
-                    <FormDescription>Examination Findings</FormDescription>
                     <FormMessage />
                   </FormItem>
                 )}
@@ -193,7 +298,6 @@ const AddPatientSecForm = ({
                         {...field}
                       />
                     </FormControl>
-                    <FormDescription>Investigation Advice</FormDescription>
                     <FormMessage />
                   </FormItem>
                 )}
