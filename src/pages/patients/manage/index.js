@@ -8,12 +8,22 @@ import ErrorContainer from "../../../components/error-container";
 import StaffTable from "../../../components/staff/staff-table";
 import AppBar from "../../../components/navbar/app-bar";
 import StaffTabs from "../../../components/navbar/staff/staff-tabs";
+import { dateFormat } from "../../../lib/utils";
 
 const Page = () => {
   const pathname = usePathname();
   const [allPatientsList, setAllPatientsList] = useState([]);
   const router = useRouter();
   const params = router.query;
+
+  const modifiedData = allPatientsList?.map((val) => {
+    return {
+      ...val,
+      lastVisitedDate: dateFormat(
+        val.historyInfo[val.historyInfo?.length - 1]?.date
+      ),
+    };
+  });
 
   const getAllPatient = async () => {
     try {
@@ -86,7 +96,7 @@ const Page = () => {
         </ClientOnly>
       ) : (
         <ClientOnly>
-          <StaffTable data={allPatientsList} deletePatient={deletePatient} />
+          <StaffTable data={modifiedData} deletePatient={deletePatient} />
         </ClientOnly>
       )}
     </>

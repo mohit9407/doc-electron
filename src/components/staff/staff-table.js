@@ -26,15 +26,6 @@ import { dateFormat } from "../../lib/utils";
 const StaffTable = ({ data, deletePatient }) => {
   const [columnFilters, setColumnFilters] = useState([]);
 
-  const modifiedData = data?.map((val) => {
-    return {
-      ...val,
-      lastVisitedDate: dateFormat(
-        val.historyInfo[val.historyInfo?.length - 1]?.date
-      ),
-    };
-  });
-
   const pathName = usePathname();
   const columns = [
     {
@@ -70,7 +61,7 @@ const StaffTable = ({ data, deletePatient }) => {
     });
 
   const table = useReactTable({
-    data: modifiedData,
+    data: data,
     columns,
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
