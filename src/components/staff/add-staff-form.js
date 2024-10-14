@@ -363,7 +363,7 @@ const AddStaffForm = ({
                       />
                     </FormControl>
                     <FormDescription>
-                      Menstrual history of patient
+                    Obstetric history of patient
                     </FormDescription>
                     <FormMessage />
                   </FormItem>
