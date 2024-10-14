@@ -169,7 +169,7 @@ const AddPatientThirdForm = ({
                       <FormItem>
                         <FormControl>
                           <>
-                            <label>
+                            <label className="mr-[2px]">
                               <input
                                 name="payment-field"
                                 type="radio"
@@ -178,7 +178,7 @@ const AddPatientThirdForm = ({
                                 checked={selectedOption === "pending"}
                                 onChange={handleOptionChange}
                               />
-                              Pending
+                              {' '}Pending
                             </label>
                             <label className="ml-[10px]">
                               <input
@@ -189,7 +189,7 @@ const AddPatientThirdForm = ({
                                 checked={selectedOption === "completed"}
                                 onChange={handleOptionChange}
                               />
-                              Completed
+                              {' '}Completed
                             </label>
                           </>
                         </FormControl>
