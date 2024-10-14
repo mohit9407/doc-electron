@@ -1,6 +1,5 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "../../components/ui/card";
-import { useState } from "react";
 import {
   Form,
   FormControl,
@@ -10,16 +9,26 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { toast } from "@/components/ui/use-toast";
 import { useForm } from "react-hook-form";
 import Link from "next/link";
 
 const ForgotPassword = () => {
-  const [email, setEmail] = useState("");
-  const [message, setMessage] = useState("");
   const form = useForm({});
 
-  const onSubmit = async (event) => {
-    setMessage(`Password reset link sent to ${email}`);
+  const onSubmit = async (data) => {
+    const { data: respData } = await global.api.sendSync("sendPswdOnMail", {
+      mail: data.email,
+    });
+    if (respData.status === 200) {
+      toast({
+        title: "Password is successfully send on mail!",
+      });
+    } else {
+      toast({
+        title: "There is an issue while sending password on mail",
+      });
+    }
   };
 
   return (
@@ -51,7 +60,7 @@ const ForgotPassword = () => {
                   />
                 </div>
                 <Button className="w-full my-2" type="submit">
-                  Send Reset Link
+                  Send Password on Mail
                 </Button>
                 <div className="flex justify-between">
                   <p className="text-center">

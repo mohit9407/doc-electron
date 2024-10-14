@@ -1,4 +1,4 @@
 export const authCred = {
-    email: "test@testone.com",
+    email: "mohittailordeveloper@gmail.com",
     password: "testpswdone"
 };

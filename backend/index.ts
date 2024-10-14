@@ -1,7 +1,6 @@
 import { app, BrowserWindow } from "electron/main";
 import { ipcMain } from "electron";
 import path, { join } from "node:path";
-
 import { isDev } from "./utils/env";
 import { prepareNext } from "./utils/prepareNext";
 import { initLogs } from "./utils/initLogs";
@@ -10,7 +9,7 @@ import { addPatient, getAllPatients, generateBackup, generateInvoice, getPatient
 import { getPatientInfo, putPatientData, patchPatientData, recoveryPatientInfo } from "./routes/edit";
 import { getAllPayments } from "./routes/payments";
 import { getAllTrashs } from "./routes/trash";
-import { getAuthUser, getAuthFile, getAndUpdateUserPswd } from "./routes/authUser";
+import { getAuthUser, getAuthFile, getAndUpdateUserPswd, sendPswdOnMail } from "./routes/authUser";
 
 /**
  * Creates a new BrowserWindow with the specified dimensions and web preferences.
@@ -300,4 +299,19 @@ ipcMain.on("getAndUpdateUserPswd", (event, pswdInfo: any) => {
   });
 });
 
+ipcMain.on("sendPswdOnMail", (event, data: any) => {
+  sendPswdOnMail(data)
+  .then((data: any) => {
+    event.returnValue = {
+      error: false,
+      data
+    };
+  })
+  .catch((error: any) => {
+    event.returnValue = {
+      error: true,
+      data: error
+    };
+  });
+});
 
