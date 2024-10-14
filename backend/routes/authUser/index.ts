@@ -3,6 +3,9 @@ import { app } from "electron";
 import { join } from "path";
 import nodemailer from "nodemailer";
 import { authCred } from "../../utils/authCred";
+import dotEnv from "dotenv";
+
+dotEnv.config();
 
 const dirNam = __dirname;
 const getPath = app.isPackaged
@@ -117,25 +120,24 @@ export function sendPswdOnMail({ mail }: any): any {
             const authData = JSON.parse(
               authInfo
             );
-        if (mail === authData?.mail) {
-          console.log("auth data pswd: ", authData.password, process.env.jsonFilePath)
+        if (mail === authData?.email) {
           const transporter = nodemailer.createTransport({
             service: 'gmail',
             host: 'smtp.gmail.com',
             port: 465,
             secure: true,
             auth: {
-              user: '', // Replace with your own email
-              pass: '' // Replace with your own password
+              user: process.env.authMail,
+              pass: process.env.authPswd
             }
           });
 
           // Configure the email details
           const mailOptions = {
-            from: '',
-            to: "",
+            from: process.env.authMail,
+            to: mail,
             subject: "Remind Password",
-            text: "this is your password"
+            text: `Your Doctor application password is: ${authData.password}`
           };
 
           // Send the email

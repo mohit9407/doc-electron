@@ -1,6 +1,5 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "../../components/ui/card";
-import { useState } from "react";
 import {
   Form,
   FormControl,
@@ -10,6 +9,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { toast } from "@/components/ui/use-toast";
 import { useForm } from "react-hook-form";
 import Link from "next/link";
 
@@ -17,9 +17,18 @@ const ForgotPassword = () => {
   const form = useForm({});
 
   const onSubmit = async (data) => {
-    await global.api.sendSync("sendPswdOnMail", {
-      mail: data.mail,
+    const { data: respData } = await global.api.sendSync("sendPswdOnMail", {
+      mail: data.email,
     });
+    if (respData.status === 200) {
+      toast({
+        title: "Password is successfully send on mail!",
+      });
+    } else {
+      toast({
+        title: "There is an issue while sending password on mail",
+      });
+    }
   };
 
   return (
