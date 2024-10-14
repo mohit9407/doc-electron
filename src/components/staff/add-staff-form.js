@@ -346,6 +346,30 @@ const AddStaffForm = ({
                   </FormItem>
                 )}
               />
+
+              <FormField
+                control={form.control}
+                name="ObstetricHistory"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Obstetric History</FormLabel>
+                    <FormControl>
+                      <Textarea
+                        className="resize-none"
+                        placeholder="Obstetric history of patient"
+                        type="text"
+                        disabled={form.formState.isSubmitting}
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormDescription>
+                      Menstrual history of patient
+                    </FormDescription>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
               <FormField
                 control={form.control}
                 name="menstrualHistory"
