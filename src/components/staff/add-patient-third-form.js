@@ -31,6 +31,8 @@ const AddPatientThirdForm = ({
   invoiceNo,
 }) => {
   const [isSubmited, setIsSubmitted] = useState(false);
+  const [selectedOption, setSelectedOption] = useState("completed");
+
   const router = useRouter();
   const resolver = yupResolver(patientThirdFormValidationSchema);
   const form = useForm({
@@ -74,7 +76,7 @@ const AddPatientThirdForm = ({
         setpatientinfo({
           ...patientinfo,
           isDeleted: false,
-          paymentInfo: [{ ...data, ...commonKeyval, invoiceNo: newInvoice }],
+          paymentInfo: [{ ...data, ...commonKeyval, invoiceNo: newInvoice, payment: selectedOption }],
         });
         setIsSubmitted(true);
         setInvoiceNo(newInvoice);
@@ -86,6 +88,7 @@ const AddPatientThirdForm = ({
         updatePaymentHistory(!isNewPayment ? patientinfo.id : null, {
           ...data,
           date: new Date(),
+          payment: selectedOption,
           ...newPaymentReqObj,
         });
       }
@@ -101,6 +104,11 @@ const AddPatientThirdForm = ({
       sendDataToApi();
     }
   }, [patientinfo, isSubmited]);
+
+  const handleOptionChange = (event) => {
+    setSelectedOption(event.target.value);
+  };
+  
 
   return (
     <>
@@ -149,6 +157,48 @@ const AddPatientThirdForm = ({
                   </FormItem>
                 )}
               />
+
+              <div className="mt-[10px] mb-[10px] flex gap-[10px]">
+                <h2 className="font-semibold">Payment:</h2>
+                <FormField
+                  control={form.control}
+                  name="payment"
+                  value={selectedOption}
+                  render={({ field }) => {
+                    return (
+                      <FormItem>
+                        <FormControl>
+                          <>
+                            <label>
+                              <input
+                                name="payment-field"
+                                type="radio"
+                                value="pending"
+                                id="yes-radio"
+                                checked={selectedOption === "pending"}
+                                onChange={handleOptionChange}
+                              />
+                              Pending
+                            </label>
+                            <label className="ml-[10px]">
+                              <input
+                              name="payment-field"
+                                type="radio"
+                                value="completed"
+                                id="no-radio"
+                                checked={selectedOption === "completed"}
+                                onChange={handleOptionChange}
+                              />
+                              Completed
+                            </label>
+                          </>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    );
+                  }}
+                />
+              </div>
 
               <Button
                 disabled={form.formState.isSubmitting}

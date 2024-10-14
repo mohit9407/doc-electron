@@ -1,6 +1,6 @@
 import { app, BrowserWindow } from "electron/main";
+import { ipcMain } from "electron";
 import path, { join } from "node:path";
-
 import { isDev } from "./utils/env";
 import { prepareNext } from "./utils/prepareNext";
 import { initLogs } from "./utils/initLogs";
@@ -9,7 +9,7 @@ import { addPatient, getAllPatients, generateBackup, generateInvoice, getPatient
 import { getPatientInfo, putPatientData, patchPatientData, recoveryPatientInfo } from "./routes/edit";
 import { getAllPayments } from "./routes/payments";
 import { getAllTrashs } from "./routes/trash";
-import { ipcMain } from "electron";
+import { getAuthUser, getAuthFile, getAndUpdateUserPswd, sendPswdOnMail } from "./routes/authUser";
 
 /**
  * Creates a new BrowserWindow with the specified dimensions and web preferences.
@@ -251,4 +251,67 @@ ipcMain.on("getPatientsMNo", (event, contactInfo: any) => {
   });
 });
 
+ipcMain.on("authUser", (event, userInfo: any) => {
+  getAuthUser(userInfo)
+  .then((data: any) => {
+    event.returnValue = {
+      error: false,
+      data
+    };
+  })
+  .catch((error: any) => {
+    event.returnValue = {
+      error: true,
+      data: error
+    };
+  });
+});
+
+ipcMain.on("getAuthFile", (event) => {
+  getAuthFile()
+  .then((data: any) => {
+    event.returnValue = {
+      error: false,
+      data
+    };
+  })
+  .catch((error: any) => {
+    event.returnValue = {
+      error: true,
+      data: error
+    };
+  });
+});
+
+ipcMain.on("getAndUpdateUserPswd", (event, pswdInfo: any) => {
+  getAndUpdateUserPswd(pswdInfo)
+  .then((data: any) => {
+    event.returnValue = {
+      error: false,
+      data
+    };
+  })
+  .catch((error: any) => {
+    event.returnValue = {
+      error: true,
+      data: error
+    };
+  });
+});
+
+ipcMain.on("sendPswdOnMail", (event, data: any) => {
+  sendPswdOnMail(data)
+  .then((data: any) => {
+    event.returnValue = {
+      error: false,
+      data
+    };
+  })
+  .catch((error: any) => {
+    event.returnValue = {
+      error: true,
+      data: error
+    };
+  });
+});
 
