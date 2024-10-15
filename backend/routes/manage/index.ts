@@ -88,9 +88,9 @@ export function getAllPatients(): any {
 export function generateInvoice(patientData: any): any {
   return new Promise(async (resolve, reject) => {
     try {
-      const { name, mobileNumber, age, paymentHistory: { invoiceNo, date, treatment, amountCharges } } = patientData;
+      const { name, mobileNumber, age, gender, paymentHistory: { invoiceNo, displayDate, treatment, amountCharges } } = patientData;
       const customerName = name || "John Doe";
-      const localDate = new Date(date);
+      const localDate = new Date(displayDate);
 
       // Format the date using toLocaleDateString
       let formattedDate:any = Intl.DateTimeFormat('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
@@ -100,7 +100,7 @@ export function generateInvoice(patientData: any): any {
       
       // compile the file with handlebars and inject the customerName variable
       const template = handlers.compile(templateHtml);
-      const html = template({ customerName, invoiceNo, date: formattedDate, mobileNumber, age, treatment, amountCharges });
+      const html = template({ customerName, gender, invoiceNo, date: formattedDate, mobileNumber, age, treatment, amountCharges });
       let launchObj;
       if (platform() === 'darwin') {
         launchObj = {
