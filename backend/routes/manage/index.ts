@@ -5,6 +5,8 @@ import { app } from "electron";
 import puppeteer from "puppeteer";
 import handlers from "handlebars";
 import { join } from "path";
+import moment from "moment";
+import { toWords } from "number-to-words";
 import { template as templateHtml } from "../../utils/templateHtml";
 
 const dirNam = __dirname;
@@ -88,19 +90,20 @@ export function getAllPatients(): any {
 export function generateInvoice(patientData: any): any {
   return new Promise(async (resolve, reject) => {
     try {
-      const { name, mobileNumber, age, gender, paymentHistory: { invoiceNo, displayDate, treatment, amountCharges } } = patientData;
+      const { name, mobileNumber, age, gender, paymentHistory: { invoiceNo, date, treatment, amountCharges } } = patientData;
       const customerName = name || "John Doe";
-      const localDate = new Date(displayDate);
+      const localDate = new Date(date);
 
       // Format the date using toLocaleDateString
       let formattedDate:any = Intl.DateTimeFormat('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
       formattedDate = formattedDate.format(localDate);
 
       // read our invoice-template.html file using node fs module
+      const amountInWord = toWords(amountCharges);
       
       // compile the file with handlebars and inject the customerName variable
       const template = handlers.compile(templateHtml);
-      const html = template({ customerName, gender, invoiceNo, date: formattedDate, mobileNumber, age, treatment, amountCharges });
+      const html = template({ customerName, gender, invoiceNo, currentDate: moment().format("DD/MM/YYYY"), date: moment(date).format("DD/MM/YYYY"), mobileNumber, age, treatment, amountCharges, amountInWord });
       let launchObj;
       if (platform() === 'darwin') {
         launchObj = {

@@ -109,7 +109,7 @@ export const template = `<!DOCTYPE html>
       text-align: right;
     }
     .footer-container {
-      position: static;
+      position: fixed;
       bottom: 0;
       width: 600px;
       max-width: 800px;
@@ -145,6 +145,16 @@ export const template = `<!DOCTYPE html>
     }
     .logo-img {
       margin-top: 3px;
+    }
+    .for-clinic-section {
+      color: black;
+      text-transform: uppercase;
+      font-size: 14px;
+      font-weight: 600;
+      padding: 10px;
+      display: flex;
+      justify-content: end;
+      text-align: left;
     }
     @media only screen and (max-width: 600px) {
       .invoice-box table tr.top table td {
@@ -248,7 +258,13 @@ export const template = `<!DOCTYPE html>
       </table>
     </div>
     <div class="total-amount-txt">
-      <span>six thousand four hundred only</span>
+      <span>{{amountInWord}}</span>
+    </div>
+    <div class="for-clinic-section">
+      <div>
+        <div>For</div>
+        <div>Rachit Clinic</div>
+      </div>
     </div>
     <div class="footer-container">
       <div class="footer-content">Address: Shop No:4,5,Plot No:83, Ashapuri 3, Bamaroli road, Surat</div>
