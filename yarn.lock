@@ -830,6 +830,11 @@
   dependencies:
     "@types/node" "*"
 
+"@types/number-to-words@^1.2.3":
+  version "1.2.3"
+  resolved "https://registry.yarnpkg.com/@types/number-to-words/-/number-to-words-1.2.3.tgz#8011d16242a3e7b193a0622041be98445548338d"
+  integrity sha512-ruSA/QZ6JQofoEEN2zKmN9oihZmrCBgcw0zEzN0UA9Mw0pU5remTddZmrbHjsa99qz12Uxl82x+XkVpHu87oXw==
+
 "@types/plist@^3.0.1":
   version "3.0.5"
   resolved "https://registry.yarnpkg.com/@types/plist/-/plist-3.0.5.tgz#9a0c49c0f9886c8c8696a7904dd703f6284036e0"
@@ -3684,6 +3689,11 @@ normalize-url@^6.0.1:
   version "6.1.0"
   resolved "https://registry.yarnpkg.com/normalize-url/-/normalize-url-6.1.0.tgz#40d0885b535deffe3f3147bec877d05fe4c5668a"
   integrity sha512-DlL+XwOy3NxAQ8xuC0okPgK46iuVNAK01YN7RueYBqqFeGsBjV9XmCAzAdgt+667bCl5kPh9EqKKDwnaPG1I7A==
+
+number-to-words@^1.2.4:
+  version "1.2.4"
+  resolved "https://registry.yarnpkg.com/number-to-words/-/number-to-words-1.2.4.tgz#e0f124de9628f8d86c4eeb89bac6c07699264501"
+  integrity sha512-/fYevVkXRcyBiZDg6yzZbm0RuaD6i0qRfn8yr+6D0KgBMOndFPxuW10qCHpzs50nN8qKuv78k8MuotZhcVX6Pw==
 
 object-assign@^4.0.1, object-assign@^4.1.1:
   version "4.1.1"

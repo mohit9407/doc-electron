@@ -5,6 +5,8 @@ import { app } from "electron";
 import puppeteer from "puppeteer";
 import handlers from "handlebars";
 import { join } from "path";
+import moment from "moment";
+import { toWords } from "number-to-words";
 import { template as templateHtml } from "../../utils/templateHtml";
 
 const dirNam = __dirname;
@@ -88,19 +90,16 @@ export function getAllPatients(): any {
 export function generateInvoice(patientData: any): any {
   return new Promise(async (resolve, reject) => {
     try {
-      const { name, mobileNumber, age, paymentHistory: { invoiceNo, date, treatment, amountCharges } } = patientData;
+      const { name, mobileNumber, age, gender, paymentHistory } = patientData;
       const customerName = name || "John Doe";
-      const localDate = new Date(date);
 
-      // Format the date using toLocaleDateString
-      let formattedDate:any = Intl.DateTimeFormat('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
-      formattedDate = formattedDate.format(localDate);
-
-      // read our invoice-template.html file using node fs module
+      const totalAmount = paymentHistory?.reduce((initVal: any, newVal: any) => initVal + Number(newVal.amountCharges),0);
+      const amountInWord = toWords(totalAmount);
       
-      // compile the file with handlebars and inject the customerName variable
       const template = handlers.compile(templateHtml);
-      const html = template({ customerName, invoiceNo, date: formattedDate, mobileNumber, age, treatment, amountCharges });
+      
+      const multipleData = paymentHistory.map(({date, treatment, amountCharges }: any) => ({ date: moment(date).format("DD/MM/YYYY"), treatment, amountCharges }))
+      const html = template({ customerName, gender, invoiceNo: paymentHistory[0].invoiceNo, currentDate: moment().format("DD/MM/YYYY"), mobileNumber, age, multipleData, totalAmount, amountInWord });
       let launchObj;
       if (platform() === 'darwin') {
         launchObj = {

@@ -7,14 +7,14 @@ const EditPaymentHistory = ({
   setIsOpenAddpayment = () => {},
   patientInfo,
   updatePaymentHistory,
-  deletePaymentHistoryHandler
+  deletePaymentHistoryHandler,
 }) => {
   const paymentWithDateTime = patientInfo?.paymentInfo
     ?.filter((paymentObj) => !paymentObj.isDeleted)
     .map((paymentObj) => {
       return {
         ...paymentObj,
-        displayDate: dateFormat(paymentObj.date) 
+        displayDate: dateFormat(paymentObj.date),
       };
     });
 

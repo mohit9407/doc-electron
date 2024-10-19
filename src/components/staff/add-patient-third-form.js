@@ -76,7 +76,14 @@ const AddPatientThirdForm = ({
         setpatientinfo({
           ...patientinfo,
           isDeleted: false,
-          paymentInfo: [{ ...data, ...commonKeyval, invoiceNo: newInvoice, payment: selectedOption }],
+          paymentInfo: [
+            {
+              ...data,
+              ...commonKeyval,
+              invoiceNo: newInvoice,
+              payment: selectedOption,
+            },
+          ],
         });
         setIsSubmitted(true);
         setInvoiceNo(newInvoice);
@@ -182,7 +189,7 @@ const AddPatientThirdForm = ({
                             </label>
                             <label className="ml-[10px]">
                               <input
-                              name="payment-field"
+                                name="payment-field"
                                 type="radio"
                                 value="completed"
                                 id="no-radio"
