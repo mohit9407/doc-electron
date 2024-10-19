@@ -13,7 +13,6 @@ import {
 import AddPatientThirdForm from "../staff/add-patient-third-form";
 import { DownloadIcon, EyeOpenIcon } from "@radix-ui/react-icons";
 import ViewPaymentHistory from "./view-payment-history";
-import moment from "moment";
 
 const PaymentTableActions = ({
   patientInfo,
@@ -21,13 +20,9 @@ const PaymentTableActions = ({
   updatePaymentHistory,
   deletePaymentHistoryHandler,
 }) => {
-  const isoDate = moment(
-    paymentHistory.date,
-    "DD-MM-YYYY HH:mm:ss"
-  ).toISOString();
   const patientData = {
     ...patientInfo,
-    paymentHistory: { ...paymentHistory, date: isoDate },
+    paymentHistory: [{ ...paymentHistory, date: paymentHistory.date }],
   };
   const generateInvoice = (e) => {
     e.preventDefault();

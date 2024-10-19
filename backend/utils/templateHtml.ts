@@ -149,6 +149,7 @@ export const template = `<!DOCTYPE html>
     .for-clinic-section {
       color: black;
       text-transform: uppercase;
+      margin-top: 30px;
       font-size: 14px;
       font-weight: 600;
       padding: 10px;
@@ -156,6 +157,12 @@ export const template = `<!DOCTYPE html>
       justify-content: end;
       text-align: left;
     }
+    .payment-record {
+      page-break-inside: avoid;
+    }
+    /* .payment-record:nth-child(8n) {
+      page-break-after: always;
+    } */
     @media only screen and (max-width: 600px) {
       .invoice-box table tr.top table td {
         width: 100%;
@@ -246,14 +253,16 @@ export const template = `<!DOCTYPE html>
             <th>Description of medical services & treatment</th>
             <th>Charges</th>
         </tr>
-        <tr>
-            <td>{{date}}</td>
-            <td>{{treatment}}</td>
-            <td class="right-align">{{amountCharges}}/-</td>
-        </tr>
+        {{#each multipleData}}
+          <tr class="payment-record">
+              <td>{{date}}</td>
+              <td>{{treatment}}</td>
+              <td class="right-align">{{amountCharges}}/-</td>
+          </tr>
+        {{/each}}
         <tr>
           <th class="right-align" colspan="2">total</th>
-          <th class="right-align">{{amountCharges}}/-</th>
+          <th class="right-align">{{totalAmount}}/-</th>
         </tr>
       </table>
     </div>
