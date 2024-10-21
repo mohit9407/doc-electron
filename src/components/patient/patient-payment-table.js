@@ -82,7 +82,7 @@ const PaymentTable = ({
   const columns = [
     {
       id: "selectRow",
-      header: "Select for Receipt",
+      header: "",
       cell: ({ row }) => (
         <input
           type="checkbox"
@@ -225,7 +225,14 @@ const PaymentTable = ({
               <TableRow key={headerGroup.id}>
                 {headerGroup.headers.map((header) => {
                   return (
-                    <TableHead key={header.id}>
+                    <TableHead
+                      className={`${
+                        header.id === "payment" || header.id === "treatment"
+                          ? "w-[20px]"
+                          : "w-10"
+                      }`}
+                      key={header.id}
+                    >
                       {header.isPlaceholder
                         ? null
                         : flexRender(
@@ -242,14 +249,24 @@ const PaymentTable = ({
             {table.getRowModel().rows?.length ? (
               table.getRowModel().rows.map((row) => (
                 <TableRow key={row.id}>
-                  {row.getVisibleCells().map((cell) => (
-                    <TableCell key={cell.id}>
-                      {flexRender(
-                        cell.column.columnDef.cell,
-                        cell.getContext()
-                      )}
-                    </TableCell>
-                  ))}
+                  {row.getVisibleCells().map((cell) => {
+                    return (
+                      <TableCell
+                        className={
+                          cell.column.id === "payment" ||
+                          cell.column.id === "treatment"
+                            ? "max-w-[20px]"
+                            : "max-w-[134px]"
+                        }
+                        key={cell.id}
+                      >
+                        {flexRender(
+                          cell.column.columnDef.cell,
+                          cell.getContext()
+                        )}
+                      </TableCell>
+                    );
+                  })}
                 </TableRow>
               ))
             ) : (
