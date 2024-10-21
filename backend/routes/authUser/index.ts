@@ -127,14 +127,14 @@ export function sendPswdOnMail({ mail }: any): any {
             port: 465,
             secure: true,
             auth: {
-              user: process.env.authMail,
-              pass: process.env.authPswd
+              user: "mohittailordeveloper@gmail.com",
+              pass: "urkd eakd fioc zvbn"
             }
           });
 
           // Configure the email details
           const mailOptions = {
-            from: process.env.authMail,
+            from: "mohittailordeveloper@gmail.com",
             to: mail,
             subject: "Remind Password",
             text: `Your Doctor application password is: ${authData.password}`
