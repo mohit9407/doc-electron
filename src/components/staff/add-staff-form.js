@@ -90,26 +90,28 @@ const AddStaffForm = ({
 
   const setAndVerifymNo = async (e) => {
     try {
-      if (e?.target?.value.length === 10) {
-        const getExistPatient = await getPatientsMNumber(
-          e?.target?.value,
-          patientinfo?.id
-        );
-        if (getExistPatient?.data) {
-          form.setError("mobileNumber", {
-            type: "manual",
-            message: "This mobile number is already exist",
-          });
-        } else form.clearErrors("mobileNumber");
-      }
+      // if (e?.target?.value.length === 10) {
+      //   const getExistPatient = await getPatientsMNumber(
+      //     e?.target?.value,
+      //     patientinfo?.id
+      //   );
+      //   if (getExistPatient?.data) {
+      //     form.setError("mobileNumber", {
+      //       type: "manual",
+      //       message: "This mobile number is already exist",
+      //     });
+      //   } else form.clearErrors("mobileNumber");
+      // }
       if (
         e?.target?.value.length > 10 ||
         (e?.target?.value.length !== 0 && e?.target?.value.length < 10)
       ) {
-        form.setError("mobileNumber", {
-          type: "manual",
-          message: "Must be 10 digits",
-        });
+        if (e?.target?.value.trim().length) {
+          form.setError("mobileNumber", {
+            type: "manual",
+            message: "Must be 10 digits",
+          });
+        }
       }
     } catch (e) {
       console.log("error: ", e.message);
@@ -227,7 +229,7 @@ const AddStaffForm = ({
                           placeholder="Mobile No."
                           onChange={(e) => {
                             setMno(e.target.value);
-                            setAndVerifymNo(e);
+                            // setAndVerifymNo(e);
                             field.onChange(e.target.value);
                           }}
                           {...restAttr}

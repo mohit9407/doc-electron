@@ -11,7 +11,9 @@ export const staffValidationSchema = yup.object({
 
   mobileNumber: yup
     .string()
-    .length(10, "Must be 10 digits")
+    .trim()
+    .min(10, "Must be 10 digits")
+    .max(10, "Must be 10 digits")
     .transform((_value) => (isNaN(_value) ? undefined : _value))
     .typeError("Mobile number should be all digits"),
 
