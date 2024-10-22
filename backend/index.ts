@@ -235,21 +235,21 @@ ipcMain.on("getAllTrashs", (event) => {
     });
 });
 
-ipcMain.on("getPatientsMNo", (event, contactInfo: any) => {
-  getPatientsMNo(contactInfo)
-  .then((data: any) => {
-    event.returnValue = {
-      error: false,
-      data
-    };
-  })
-  .catch((error: any) => {
-    event.returnValue = {
-      error: true,
-      data: error
-    };
-  });
-});
+// ipcMain.on("getPatientsMNo", (event, contactInfo: any) => {
+//   getPatientsMNo(contactInfo)
+//   .then((data: any) => {
+//     event.returnValue = {
+//       error: false,
+//       data
+//     };
+//   })
+//   .catch((error: any) => {
+//     event.returnValue = {
+//       error: true,
+//       data: error
+//     };
+//   });
+// });
 
 ipcMain.on("authUser", (event, userInfo: any) => {
   getAuthUser(userInfo)

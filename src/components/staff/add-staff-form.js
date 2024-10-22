@@ -73,40 +73,34 @@ const AddStaffForm = ({
     setFormSelectVal((prevValue) => ({ ...prevValue, [field]: value }));
   };
 
-  const getPatientsMNumber = async (mNo, patientId = null) => {
-    try {
-      const { data: patientsMNo } = await global.api.sendSync(
-        "getPatientsMNo",
-        { mNo, patientId }
-      );
-      return patientsMNo;
-    } catch (error) {
-      toast({
-        title: error.message,
-        variant: "destructive",
-      });
-    }
-  };
+  // const getPatientsMNumber = async (mNo, patientId = null) => {
+  //   try {
+  //     const { data: patientsMNo } = await global.api.sendSync(
+  //       "getPatientsMNo",
+  //       { mNo, patientId }
+  //     );
+  //     return patientsMNo;
+  //   } catch (error) {
+  //     toast({
+  //       title: error.message,
+  //       variant: "destructive",
+  //     });
+  //   }
+  // };
 
   async function onSubmit(data) {
     try {
-      const getExistPatient = await getPatientsMNumber(
-        data.mobileNumber,
-        patientinfo?.id
-      );
-      if (!getExistPatient?.data) {
-        if (!patientinfo?.id) {
-          setpatientinfo({ ...patientinfo, ...data });
-          setFormStep(1);
-          form.reset();
-        } else {
-          updatePatientGeneralInfo(data);
-        }
-      } else
-        form.setError("mobileNumber", {
-          type: "manual",
-          message: "This mobile number is already exist",
-        });
+      // const getExistPatient = await getPatientsMNumber(
+      //   data.mobileNumber,
+      //   patientinfo?.id
+      // );
+      if (!patientinfo?.id) {
+        setpatientinfo({ ...patientinfo, ...data });
+        setFormStep(1);
+        form.reset();
+      } else {
+        updatePatientGeneralInfo(data);
+      }
     } catch (error) {
       toast({
         title: error.response ? error.response.data.message : error.message,
