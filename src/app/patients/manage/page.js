@@ -1,23 +1,32 @@
+"use client";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
 import ClientOnly from "@/components/client-only";
 import ErrorContainer from "@/components/error-container";
 import StaffTable from "@/components/staff/staff-table";
-import { getStaffs } from "@/lib/actions/get-staffs";
 
-export const metadata = {
-  title: "Manage Staffs",
-};
+const Page = () => {
+  const [allPatientsList, setAllPatientsList] = useState([]);
 
-const Page = async () => {
-  const staff = await getStaffs();
-  if (staff.length === 0)
-    return (
-      <ClientOnly>
-        <ErrorContainer title="No Staff" desc="No staff were found" />
-      </ClientOnly>
+  const getAllPatient = async () => {
+    setAllPatientsList(
+      (await axios.get("/api/patients/manage"))?.data?.data
+        ?.filter((patientObj) => !patientObj.isDeleted)
+        .reverse()
     );
-  return (
+  };
+
+  useEffect(() => {
+    getAllPatient();
+  }, []);
+
+  return allPatientsList?.length === 0 ? (
     <ClientOnly>
-      <StaffTable data={staff} />
+      <ErrorContainer title="No Staff" desc="No staff were found" />
+    </ClientOnly>
+  ) : (
+    <ClientOnly>
+      <StaffTable data={allPatientsList} />
     </ClientOnly>
   );
 };

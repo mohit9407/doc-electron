@@ -1,19 +1,31 @@
 "use client";
 import React, { useState, useEffect } from "react";
+import axios from "axios";
 import { ArrowLeftIcon } from "@radix-ui/react-icons";
 import { Root, Indicator } from "@radix-ui/react-progress";
 import ClientOnly from "@/components/client-only";
 import AddStaffForm from "@/components/staff/add-staff-form";
 import AddPatientSecForm from "@/components/staff/add-patient-sec-form";
+import AddPatientThirdForm from "@/components/staff/add-patient-third-form";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import "./page.css";
 
-const totalForm = 4;
+const totalForm = 3;
 
 const Page = () => {
   const [formStep, setFormStep] = useState(0);
   const [progress, setProgress] = useState(0);
+  const [patientinfo, setpatientinfo] = useState(null);
+  const [invoiceNo, setInvoiceNo] = useState(0);
+
+  const getInvoiceNo = async () => {
+    setInvoiceNo((await axios.get("/api/patients/new"))?.data?.invoiceNo ?? 0);
+  };
+
+  useEffect(() => {
+    getInvoiceNo();
+  }, []);
 
   useEffect(() => {
     const progress = 100 / totalForm;
@@ -40,8 +52,29 @@ const Page = () => {
           </Button>
         </div>
       )}
-      {formStep === 0 && <AddStaffForm setFormStep={setFormStep} />}
-      {formStep === 1 && <AddPatientSecForm setFormStep={setFormStep} />}
+      {formStep === 0 && (
+        <AddStaffForm
+          setpatientinfo={setpatientinfo}
+          patientinfo={patientinfo}
+          setFormStep={setFormStep}
+        />
+      )}
+      {formStep === 1 && (
+        <AddPatientSecForm
+          setpatientinfo={setpatientinfo}
+          patientinfo={patientinfo}
+          setFormStep={setFormStep}
+        />
+      )}
+      {formStep === 2 && (
+        <AddPatientThirdForm
+          setpatientinfo={setpatientinfo}
+          patientinfo={patientinfo}
+          setFormStep={setFormStep}
+          setInvoiceNo={setInvoiceNo}
+          invoiceNo={invoiceNo}
+        />
+      )}
     </ClientOnly>
   );
 };
